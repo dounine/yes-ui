@@ -1,0 +1,361 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="css/context-tabs.css">
+</head>
+<body ng-app="BlankApp" ng-cloak>
+<div ng-controller="AppCtrl" layout="column" ng-cloak>
+
+    <!--头部-->
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <md-button ng-click="toggleLeft()" class="md-raised">
+                Toggle Sidenav
+            </md-button>
+            <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" aria-label="Toggle Menu">
+            </button>
+            <h1 layout-align-gt-sm="center">
+                Yes Test And RESTApi
+            </h1>
+        </div>
+    </md-toolbar>
+
+
+    <!--左边导航-->
+    <section layout="row" flex>
+
+        <md-sidenav class="md-sidenav-left" md-component-id="left"
+                    md-disable-backdrop md-whiteframe="4">
+
+
+            <!-- 搜索 -->
+            <div ng-controller="AppCtrl" layout="column" ng-cloak>
+
+                <md-content layout-padding>
+                    <form name="projectForm">
+
+                        <md-input-container class="md-block">
+                            <label>关键字</label>
+                            <input md-maxlength="30" required md-no-asterisk name="description"
+                                   ng-model="project.description">
+                            <!--<div ng-messages="projectForm.description.$error">-->
+                            <!--<div ng-message="required">搜索字符不能为空</div>-->
+                            <!--<div ng-message="md-maxlength">最大30个字符</div>-->
+                            <!--</div>-->
+                        </md-input-container>
+                    </form>
+                </md-content>
+            </div>
+
+
+            <!-- tab分组 -->
+            <div ng-cloak>
+                <md-content>
+                    <md-tabs md-dynamic-height md-border-bottom>
+                        <md-tab label="历史记录">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">历史记录</h1>
+
+
+                            </md-content>
+                        </md-tab>
+                        <md-tab label="请求列表">
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2">请求列表</h1>
+                                <p>Lorem ipsum dolor sit</p>
+                            </md-content>
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </div>
+
+
+            <!--<md-toolbar class="md-theme-indigo">-->
+            <!--<h1 class="md-toolbar-tools">Disabled Backdrop</h1>-->
+            <!--</md-toolbar>-->
+
+            <md-content layout-margin>
+                <p>
+                    This sidenav is not showing any backdrop, where users can click on it, to close the sidenav.
+                </p>
+                <md-button ng-click="toggleLeft()" class="md-accent">
+                    Close this Sidenav
+                </md-button>
+            </md-content>
+
+        </md-sidenav>
+
+        <md-content flex layout-padding>
+
+            <div layout-align="center">
+
+                <div ng-controller="ContextTabsCtl" class="sample" layout="column" ng-cloak>
+                    <md-content class="md-padding">
+                        <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom md-autoselect>
+                            <md-tab ng-repeat="tab in tabs"
+                                    ng-disabled="tab.disabled"
+                                    label="{{tab.title}}">
+                                <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+
+                                    <div flex layout="row">
+                                        <!--下拉-->
+                                        <div layout-align="space-between left" flex="6">
+                                            <md-select ng-model="armor" placeholder="GET" class="md-no-underline"
+                                                       md-no-asterisk="false">
+                                                <md-option value="GET">GET</md-option>
+                                                <md-option value="POST">POST</md-option>
+                                            </md-select>
+                                        </div>
+                                        <md-input-container flex="80">
+                                            <label>请求地扯</label>
+                                            <input ng-model="user.title">
+                                        </md-input-container>
+                                        <section flex="12" layout="row" layout-sm="column" layout-align="center center"
+                                                 layout-wrap>
+                                            <md-button class="md-raised md-primary">发送</md-button>
+                                            <!--<div class="label">Raised</div>-->
+                                        </section>
+                                    </div>
+
+                                    <md-tabs md-dynamic-height md-border-bottom>
+                                        <md-tab label="请求头">
+                                            <md-content class="md-padding">
+                                                <div layout-gt-sm="row">
+                                                    <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                    <md-input-container flex="30" >
+                                                        <label>name</label>
+                                                        <input ng-model="user.firstName">
+                                                    </md-input-container>
+                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                    <md-input-container  flex="30" >
+                                                        <label>value</label>
+                                                        <input ng-model="theMax">
+                                                    </md-input-container>
+                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                    <md-input-container  flex="30">
+                                                        <label>description</label>
+                                                        <input ng-model="theMax">
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout-gt-sm="row">
+                                                    <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                    <md-input-container flex="30" >
+                                                        <label>name</label>
+                                                        <input ng-model="user.firstName">
+                                                    </md-input-container>
+                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                    <md-input-container  flex="30" >
+                                                        <label>value</label>
+                                                        <input ng-model="theMax">
+                                                    </md-input-container>
+                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                    <md-input-container  flex="30">
+                                                        <label>description</label>
+                                                        <input ng-model="theMax">
+                                                    </md-input-container>
+                                                </div>
+                                            </md-content>
+                                        </md-tab>
+                                        <md-tab label="数据">
+                                            <md-content class="md-padding">
+                                                <h1 class="md-display-2">Tab Two</h1>
+                                                <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
+                                                    tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
+                                                    quis rhoncus
+                                            </md-content>
+                                        </md-tab>
+                                    </md-tabs>
+
+                                    <md-button class="md-primary md-raised" ng-click="removeTab( tab )"
+                                               ng-disabled="tabs.length <= 1">Remove Tab
+                                    </md-button>
+                                </div>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+
+                    <md-content layout-padding>
+                        <md-tabs md-dynamic-height md-border-bottom>
+                            <md-tab label="响应">
+                                <md-content class="md-padding">
+                                    <div layout-gt-sm="row">
+                                        <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                        </md-checkbox>
+
+                                        <md-input-container flex="30" >
+                                            <label>name</label>
+                                            <input ng-model="user.firstName">
+                                        </md-input-container>
+                                        <!--<div flex="5" hide-xs hide-sm>-->
+                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <md-input-container  flex="30" >
+                                            <label>value</label>
+                                            <input ng-model="theMax">
+                                        </md-input-container>
+                                        <!--<div flex="5" hide-xs hide-sm>-->
+                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <md-input-container  flex="30">
+                                            <label>description</label>
+                                            <input ng-model="theMax">
+                                        </md-input-container>
+                                    </div>
+                                    <div layout-gt-sm="row">
+                                        <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                        </md-checkbox>
+
+                                        <md-input-container flex="30" >
+                                            <label>name</label>
+                                            <input ng-model="user.firstName">
+                                        </md-input-container>
+                                        <!--<div flex="5" hide-xs hide-sm>-->
+                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <md-input-container  flex="30" >
+                                            <label>value</label>
+                                            <input ng-model="theMax">
+                                        </md-input-container>
+                                        <!--<div flex="5" hide-xs hide-sm>-->
+                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <md-input-container  flex="30">
+                                            <label>description</label>
+                                            <input ng-model="theMax">
+                                        </md-input-container>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Cookies( 2 )">
+                                <md-content class="md-padding">
+                                    <h1 class="md-display-2">Tab Two</h1>
+                                    <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
+                                        tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
+                                        quis rhoncus
+                                    </p>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Headers( 4 )">
+                                <md-content class="md-padding">
+                                    <h1 class="md-display-3">Tab Two</h1>
+                                    <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
+                                        tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
+                                        quis rhoncus
+                                    </p>
+                                </md-content>
+                            </md-tab>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+
+                    <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
+                          style="padding-top: 0;">
+                        <div layout="row" layout-sm="column">
+
+
+                            <div flex style="position: relative;">
+                                <h2 class="md-subhead"
+                                    style="position: absolute; bottom: 0; left: 0; margin: 0; font-weight: 500; text-transform: uppercase; line-height: 35px; white-space: nowrap;">
+                                    Add a new Tab:</h2>
+                            </div>
+                            <md-input-container>
+                                <label for="label">Label</label>
+                                <input type="text" id="label" ng-model="tTitle">
+                            </md-input-container>
+                            <md-input-container>
+                                <label for="content">Content</label>
+                                <input type="text" id="content" ng-model="tContent">
+                            </md-input-container>
+                            <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
+                                       type="submit" style="margin-right: 0;">Add Tab
+                            </md-button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </md-content>
+
+    </section>
+</div>
+
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+<!--<script src="js/context-tabs.js"></script>-->
+
+<!-- Angular Material Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<script type="text/javascript">
+
+    //    angular.module('BlankApp', ['ngMaterial']);
+
+    angular
+        .module('BlankApp', ['ngMaterial'])
+        .controller('AppCtrl', function ($scope, $timeout, $mdSidenav) {
+            $scope.toggleLeft = buildToggler('left');
+            $scope.toggleRight = buildToggler('right');
+
+            function buildToggler(componentId) {
+                return function () {
+                    $mdSidenav(componentId).toggle();
+                };
+            }
+        }).controller('ContextTabsCtl', ContextTabsCtl);
+
+    function ContextTabsCtl($scope, $log) {
+        var tabs = [
+                {title: '查询用户列表', content: "one"},
+                {
+                    title: '更新',
+                    content: '<div layout="row" layout-align="space-between center"><span>What armor do you wear?</span><md-select ng-model="armor" placeholder="Armor" class="md-no-underline" required md-no-asterisk="false"><md-option value="cloth">Cloth</md-option><md-option value="leather">Leather</md-option></md-select></div>'
+                },
+                {
+                    title: 'delete',
+                    content: "You can bind the selected tab via the selected attribute on the md-tabs element."
+                }],
+            selected = null,
+            previous = null;
+        $scope.tabs = tabs;
+        $scope.selectedIndex = 2;
+        $scope.$watch('selectedIndex', function (current, old) {
+            previous = selected;
+            selected = tabs[current];
+            if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
+            if (current + 1) $log.debug('Hello ' + selected.title + '!');
+        });
+        $scope.addTab = function (title, view) {
+            view = view || title + " Content View";
+            tabs.push({title: title, content: view, disabled: false});
+        };
+        $scope.removeTab = function (tab) {
+            var index = tabs.indexOf(tab);
+            tabs.splice(index, 1);
+        };
+    }
+</script>
+
+</body>
+</html>
