@@ -37,3 +37,24 @@ HTMLJSCSS
 
 .tabsdemoDynamicTabs .md-button.add-tab {
     transform: translateY(5px); }
+
+
+
+.swipedemoBasicUsage .demo-swipe {
+    padding: 20px 10px; }
+
+.swipedemoBasicUsage .no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+
+
+.ace_editor  {
+    height : 200px;
+    width:100%
+}
+
+.ace-tm .ace_print-margin {width: 0px;background: #e8e8e8;}

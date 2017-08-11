@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Angular Material style sheet -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="angularjs/css/angular-material.min.css">
     <link rel="stylesheet" href="css/context-tabs.css">
 </head>
 <body ng-app="BlankApp" ng-cloak>
@@ -14,7 +14,7 @@
     <md-toolbar layout="row">
         <div class="md-toolbar-tools">
             <md-button ng-click="toggleLeft()" class="md-raised">
-                Toggle Sidenav
+                请求 / 历史
             </md-button>
             <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" aria-label="Toggle Menu">
             </button>
@@ -29,7 +29,7 @@
     <section layout="row" flex>
 
         <md-sidenav class="md-sidenav-left" md-component-id="left"
-                    md-disable-backdrop md-whiteframe="4">
+                    md-whiteframe="4">
 
 
             <!-- 搜索 -->
@@ -57,35 +57,155 @@
                 <md-content>
                     <md-tabs md-dynamic-height md-border-bottom>
                         <md-tab label="历史记录">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">历史记录</h1>
+                            <md-content>
+                                <div layout="row" layout-align="right">
+                                    <md-button class="md-warn">删除全部</md-button>
+                                </div>
+                                <md-list style="padding:0">
+                                    <md-divider inset></md-divider>
+                                    <md-subheader class="md-no-sticky"><strong>昨天</strong></md-subheader>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-divider inset></md-divider>
 
+                                </md-list>
+                                <md-list style="padding:0">
+                                    <md-subheader class="md-no-sticky"><strong>前天</strong></md-subheader>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-divider inset></md-divider>
+
+                                </md-list>
 
                             </md-content>
                         </md-tab>
                         <md-tab label="请求列表">
-                            <md-content class="md-padding">
-                                <h1 class="md-display-2">请求列表</h1>
-                                <p>Lorem ipsum dolor sit</p>
+                            <md-content>
+                                <md-content>
+                                    <div layout="row" layout-align="right">
+                                        <md-button class="md-warn">删除全部</md-button>
+                                    </div>
+                                    <md-list style="padding:0;">
+                                        <md-divider inset></md-divider>
+                                        <md-subheader style="background: #e1e1e1" class="md-no-sticky">
+                                            <strong>用户模块</strong></md-subheader>
+                                        <md-divider inset></md-divider>
+                                        <md-subheader class="md-no-sticky">
+                                            授权
+                                        </md-subheader>
+                                        <md-list-item>
+                                            <div class="md-list-item-text">
+                                                <div layout-wrap layout-gt-sm="row">
+                                                    <div flex-gt-sm="20">
+                                                        <strong>POST</strong>
+                                                    </div>
+                                                    <div flex-gt-sm="80">
+                                                        http://localhost:8080/asdfklasdjfkl
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-list-item>
+                                        <md-list-item>
+                                            <div class="md-list-item-text">
+                                                <div layout-wrap layout-gt-sm="row">
+                                                    <div flex-gt-sm="20">
+                                                        <strong>POST</strong>
+                                                    </div>
+                                                    <div flex-gt-sm="80">
+                                                        http://localhost:8080/asdfklasdjfkl
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-list-item>
+                                        <md-divider inset></md-divider>
+
+                                    </md-list>
+                                    <md-list style="padding:0">
+                                        <md-subheader style="background: #e1e1e1" class="md-no-sticky">
+                                            <strong>用户模块</strong></md-subheader>
+                                        <md-divider inset></md-divider>
+                                        <md-subheader class="md-no-sticky">
+                                            授权
+                                        </md-subheader>
+                                        <md-list-item>
+                                            <div class="md-list-item-text">
+                                                <div layout-wrap layout-gt-sm="row">
+                                                    <div flex-gt-sm="20">
+                                                        <strong>POST</strong>
+                                                    </div>
+                                                    <div flex-gt-sm="80">
+                                                        http://localhost:8080/asdfklasdjfkl
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-list-item>
+                                        <md-list-item>
+                                            <div class="md-list-item-text">
+                                                <div layout-wrap layout-gt-sm="row">
+                                                    <div flex-gt-sm="20">
+                                                        <strong>POST</strong>
+                                                    </div>
+                                                    <div flex-gt-sm="80">
+                                                        http://localhost:8080/asdfklasdjfkl
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-list-item>
+                                        <md-divider inset></md-divider>
+
+                                    </md-list>
+
+                                </md-content>
                             </md-content>
                         </md-tab>
                     </md-tabs>
                 </md-content>
             </div>
 
-
-            <!--<md-toolbar class="md-theme-indigo">-->
-            <!--<h1 class="md-toolbar-tools">Disabled Backdrop</h1>-->
-            <!--</md-toolbar>-->
-
-            <md-content layout-margin>
-                <p>
-                    This sidenav is not showing any backdrop, where users can click on it, to close the sidenav.
-                </p>
-                <md-button ng-click="toggleLeft()" class="md-accent">
-                    Close this Sidenav
-                </md-button>
-            </md-content>
 
         </md-sidenav>
 
@@ -108,64 +228,120 @@
                                                        md-no-asterisk="false">
                                                 <md-option value="GET">GET</md-option>
                                                 <md-option value="POST">POST</md-option>
+                                                <md-option value="PUT">PUT</md-option>
+                                                <md-option value="DELETE">DELETE</md-option>
+                                                <md-option value="PATCH">POST</md-option>
+                                                <md-option value="OPTIONS">OPTIONS</md-option>
                                             </md-select>
                                         </div>
+
                                         <md-input-container flex="80">
                                             <label>请求地扯</label>
                                             <input ng-model="user.title">
                                         </md-input-container>
                                         <section flex="12" layout="row" layout-sm="column" layout-align="center center"
                                                  layout-wrap>
+                                            <md-button class="md-raised">Prams</md-button>
                                             <md-button class="md-raised md-primary">发送</md-button>
                                             <!--<div class="label">Raised</div>-->
                                         </section>
                                     </div>
 
+                                    <!-- params -->
+                                    <md-content ng-hide="true">
+                                        <div layout-gt-sm="row">
+                                            <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
+                                            </md-checkbox>
+
+                                            <md-input-container flex="30">
+                                                <label>name</label>
+                                                <input ng-model="user.firstName">
+                                            </md-input-container>
+                                            <!--<div flex="5" hide-xs hide-sm>-->
+                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                            <!--</div>-->
+                                            <md-input-container flex="30">
+                                                <label>value</label>
+                                                <input ng-model="theMax">
+                                            </md-input-container>
+                                            <!--<div flex="5" hide-xs hide-sm>-->
+                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                            <!--</div>-->
+                                            <md-input-container flex="30">
+                                                <label>description</label>
+                                                <input ng-model="theMax">
+                                            </md-input-container>
+                                        </div>
+                                        <div layout-gt-sm="row">
+                                            <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
+                                            </md-checkbox>
+
+                                            <md-input-container flex="30">
+                                                <label>name</label>
+                                                <input ng-model="user.firstName">
+                                            </md-input-container>
+                                            <!--<div flex="5" hide-xs hide-sm>-->
+                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                            <!--</div>-->
+                                            <md-input-container flex="30">
+                                                <label>value</label>
+                                                <input ng-model="theMax">
+                                            </md-input-container>
+                                            <!--<div flex="5" hide-xs hide-sm>-->
+                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                            <!--</div>-->
+                                            <md-input-container flex="30">
+                                                <label>description</label>
+                                                <input ng-model="theMax">
+                                            </md-input-container>
+                                        </div>
+                                    </md-content>
+
                                     <md-tabs md-dynamic-height md-border-bottom>
                                         <md-tab label="请求头">
                                             <md-content class="md-padding">
                                                 <div layout-gt-sm="row">
-                                                    <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                                    <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
                                                     </md-checkbox>
 
-                                                    <md-input-container flex="30" >
+                                                    <md-input-container flex="30">
                                                         <label>name</label>
                                                         <input ng-model="user.firstName">
                                                     </md-input-container>
                                                     <!--<div flex="5" hide-xs hide-sm>-->
-                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
                                                     <!--</div>-->
-                                                    <md-input-container  flex="30" >
+                                                    <md-input-container flex="30">
                                                         <label>value</label>
                                                         <input ng-model="theMax">
                                                     </md-input-container>
                                                     <!--<div flex="5" hide-xs hide-sm>-->
-                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
                                                     <!--</div>-->
-                                                    <md-input-container  flex="30">
+                                                    <md-input-container flex="30">
                                                         <label>description</label>
                                                         <input ng-model="theMax">
                                                     </md-input-container>
                                                 </div>
                                                 <div layout-gt-sm="row">
-                                                    <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
+                                                    <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
                                                     </md-checkbox>
 
-                                                    <md-input-container flex="30" >
+                                                    <md-input-container flex="30">
                                                         <label>name</label>
                                                         <input ng-model="user.firstName">
                                                     </md-input-container>
                                                     <!--<div flex="5" hide-xs hide-sm>-->
-                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
                                                     <!--</div>-->
-                                                    <md-input-container  flex="30" >
+                                                    <md-input-container flex="30">
                                                         <label>value</label>
                                                         <input ng-model="theMax">
                                                     </md-input-container>
                                                     <!--<div flex="5" hide-xs hide-sm>-->
-                                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
                                                     <!--</div>-->
-                                                    <md-input-container  flex="30">
+                                                    <md-input-container flex="30">
                                                         <label>description</label>
                                                         <input ng-model="theMax">
                                                     </md-input-container>
@@ -174,10 +350,99 @@
                                         </md-tab>
                                         <md-tab label="数据">
                                             <md-content class="md-padding">
-                                                <h1 class="md-display-2">Tab Two</h1>
-                                                <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
-                                                    tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
-                                                    quis rhoncus
+                                                <md-tabs md-dynamic-height md-border-bottom>
+                                                    <md-tab label="表单">
+                                                        <md-content class="md-padding">
+
+                                                            <div layout-gt-sm="row">
+                                                                <md-checkbox ng-model="data.cb1" flex="6"
+                                                                             aria-label="Checkbox 1">
+                                                                </md-checkbox>
+
+                                                                <md-input-container flex="30">
+                                                                    <label>name</label>
+                                                                    <input ng-model="user.firstName">
+                                                                </md-input-container>
+                                                                <!--<div flex="5" hide-xs hide-sm>-->
+                                                                <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                                <!--</div>-->
+                                                                <md-input-container flex="30">
+                                                                    <label>value</label>
+                                                                    <input ng-model="theMax">
+                                                                </md-input-container>
+                                                                <md-input-container flex="5">
+                                                                    <md-select ng-model="weapon" placeholder="text"
+                                                                               class="md-no-underline">
+                                                                        <md-option value="text">text</md-option>
+                                                                        <md-option value="file">file</md-option>
+                                                                    </md-select>
+
+                                                                </md-input-container>
+                                                                <!--<div flex="5" hide-xs hide-sm>-->
+                                                                <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                                <!--</div>-->
+                                                                <md-input-container flex="30">
+                                                                    <label>description</label>
+                                                                    <input ng-model="theMax">
+                                                                </md-input-container>
+                                                            </div>
+
+                                                        </md-content>
+                                                    </md-tab>
+                                                    <md-tab label="编码">
+                                                        <md-content class="md-padding">
+
+                                                            <md-content class="md-padding">
+
+                                                                <div layout-gt-sm="row">
+                                                                    <md-checkbox ng-model="data.cb1" flex="6"
+                                                                                 aria-label="Checkbox 1">
+                                                                    </md-checkbox>
+
+                                                                    <md-input-container flex="30">
+                                                                        <label>name</label>
+                                                                        <input ng-model="user.firstName">
+                                                                    </md-input-container>
+                                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                                    <!--</div>-->
+                                                                    <md-input-container flex="30">
+                                                                        <label>value</label>
+                                                                        <input ng-model="theMax">
+                                                                    </md-input-container>
+                                                                    <!--<div flex="5" hide-xs hide-sm>-->
+                                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
+                                                                    <!--</div>-->
+                                                                    <md-input-container flex="30">
+                                                                        <label>description</label>
+                                                                        <input ng-model="theMax">
+                                                                    </md-input-container>
+                                                                </div>
+
+                                                            </md-content>
+
+                                                        </md-content>
+                                                    </md-tab>
+                                                    <md-tab label="raw">
+                                                        <md-content class="md-padding">
+                                                            <div layout="raw">
+                                                                <md-select ng-model="armor" placeholder="Json"
+                                                                           md-no-asterisk="false">
+                                                                    <md-option value="Html">Html</md-option>
+                                                                    <md-option value="Json">Json</md-option>
+                                                                    <md-option value="Xml">Xml</md-option>
+                                                                    <md-option value="Text">Text</md-option>
+                                                                    <md-option value="Auto">Auto</md-option>
+                                                                </md-select>
+                                                            </div>
+                                                            <md-content class="md-padding" style="border:1px solid red">
+                                                                <textarea>
+                                                                    asdfasdfasdf
+                                                                </textarea>
+                                                            </md-content>
+                                                        </md-content>
+                                                    </md-tab>
+                                                </md-tabs>
                                             </md-content>
                                         </md-tab>
                                     </md-tabs>
@@ -186,134 +451,261 @@
                                                ng-disabled="tabs.length <= 1">Remove Tab
                                     </md-button>
                                 </div>
+
+                                <md-content layout-padding>
+                                    <md-tabs md-dynamic-height md-border-bottom>
+                                        <md-tab label="响应">
+                                            <md-content class="md-padding">
+                                                <div layout="row">
+                                                    <!--<md-card-content>-->
+                                                    <!--<md-input-container>-->
+                                                    <p style="line-height: 30px">
+                                                        内容&nbsp;
+                                                    </p>
+                                                    <!--</md-input-container>-->
+
+                                                    <!--<md-input-container>-->
+                                                    <div layout-align="space-between left" flex="6">
+                                                        <md-switch ng-model="data.cb11" aria-label="Switch 1">
+                                                            预览
+                                                        </md-switch>
+                                                    </div>
+                                                    <!--</md-input-container>-->
+
+                                                    <!--<div layout="row" layout-align="space-between center">-->
+                                                    <!--<span>What is your favorite weapon?</span>-->
+                                                    <div layout-align="space-between left" flex="6">
+                                                    </div>
+                                                    <span>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </span>
+                                                    <md-select ng-model="weapon" placeholder="Json"
+                                                               class="md-no-underline">
+                                                        <md-option value="Json">Json</md-option>
+                                                        <md-option value="Html">Html</md-option>
+                                                        <md-option value="Text">Text</md-option>
+                                                        <md-option value="Xml">Xml</md-option>
+                                                    </md-select>
+                                                    <!--</div>-->
+                                                    <p style="line-height: 30px;position: absolute;right: 20px">
+                                                        Status: <span style="color: blue;margin-right: 10px">405</span>
+                                                        Time: <span style="color: blue;">200</span>
+                                                    </p>
+                                                    <!--<md-input-container>-->
+
+                                                    <!--<md-select ng-model="armor" placeholder="Json"-->
+                                                    <!--md-no-asterisk="false">-->
+                                                    <!--<md-option value="Html">Html</md-option>-->
+                                                    <!--<md-option value="Json">Json</md-option>-->
+                                                    <!--<md-option value="Xml">Xml</md-option>-->
+                                                    <!--<md-option value="Text">Text</md-option>-->
+                                                    <!--<md-option value="Auto">Auto</md-option>-->
+                                                    <!--</md-select>-->
+                                                    <!--</md-input-container>-->
+                                                    <!--</md-card-content>-->
+                                                </div>
+                                                <div layout="row">
+                                                    <section ng-controller="AceCtrl" style="width:100%;">
+
+                                                        <div ui-ace="aceOption" style="height:500px"
+                                                             ng-model="aceModel"></div>
+
+                                                        <!--<select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>-->
+
+                                                    </section>
+                                                    <!--<md-content flex layout-padding style="border:1px solid red">-->
+                                                    <!--{-->
+                                                    <!--"code": 0,-->
+                                                    <!--"msg": "",-->
+                                                    <!--"data": {-->
+                                                    <!--"name": "lake",-->
+                                                    <!--"age": 23,-->
+                                                    <!--"cusers": [-->
+                                                    <!--{-->
+                                                    <!--"address": "广东",-->
+                                                    <!--"ages": [-->
+                                                    <!--10,-->
+                                                    <!--22-->
+                                                    <!--]-->
+                                                    <!--}-->
+                                                    <!--],-->
+                                                    <!--"cu": {-->
+                                                    <!--"address": "bb",-->
+                                                    <!--"ages": [-->
+                                                    <!--10,-->
+                                                    <!--22-->
+                                                    <!--]-->
+                                                    <!--}-->
+                                                    <!--}-->
+                                                    <!--}-->
+                                                    <!--</md-content>-->
+                                                </div>
+
+                                            </md-content>
+                                        </md-tab>
+                                        <md-tab label="Cookies( 2 )">
+                                            <md-content class="md-padding">
+                                                <md-list>
+                                                    <md-list-item class="md-3-line">
+                                                        <div class="md-list-item-text">
+                                                            <h1>Name</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Value</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Domain</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Path</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Expires</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Http</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Secure</h1>
+                                                        </div>
+                                                        <md-divider inset></md-divider>
+                                                    </md-list-item>
+                                                    <md-list-item class="md-3-line" ng-repeat="item in todos">
+                                                        <!--<img ng-src="{{item.face}}" alt="{{item.who}}" class="md-avatar">-->
+
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <md-divider inset></md-divider>
+                                                    </md-list-item>
+
+                                                </md-list>
+                                            </md-content>
+                                        </md-tab>
+                                        <md-tab label="Headers( 4 )">
+                                            <md-content class="md-padding">
+                                                <md-list>
+                                                    <md-list-item class="md-3-line">
+                                                        <div class="md-list-item-text">
+                                                            <h1>Name</h1>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <h1>Value</h1>
+                                                        </div>
+                                                        <md-divider inset></md-divider>
+                                                    </md-list-item>
+                                                    <md-list-item class="md-3-line" ng-repeat="item in todos">
+                                                        <!--<img ng-src="{{item.face}}" alt="{{item.who}}" class="md-avatar">-->
+
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="md-list-item-text">
+                                                            <p>
+                                                                {{item.notes}}
+                                                            </p>
+                                                        </div>
+                                                        <md-divider inset></md-divider>
+                                                    </md-list-item>
+
+                                                </md-list>
+                                            </md-content>
+                                        </md-tab>
                             </md-tab>
                         </md-tabs>
                     </md-content>
 
-                    <md-content layout-padding>
-                        <md-tabs md-dynamic-height md-border-bottom>
-                            <md-tab label="响应">
-                                <md-content class="md-padding">
-                                    <div layout-gt-sm="row">
-                                        <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
-                                        </md-checkbox>
-
-                                        <md-input-container flex="30" >
-                                            <label>name</label>
-                                            <input ng-model="user.firstName">
-                                        </md-input-container>
-                                        <!--<div flex="5" hide-xs hide-sm>-->
-                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                        <!--</div>-->
-                                        <md-input-container  flex="30" >
-                                            <label>value</label>
-                                            <input ng-model="theMax">
-                                        </md-input-container>
-                                        <!--<div flex="5" hide-xs hide-sm>-->
-                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                        <!--</div>-->
-                                        <md-input-container  flex="30">
-                                            <label>description</label>
-                                            <input ng-model="theMax">
-                                        </md-input-container>
-                                    </div>
-                                    <div layout-gt-sm="row">
-                                        <md-checkbox ng-model="data.cb1" flex="6"  aria-label="Checkbox 1">
-                                        </md-checkbox>
-
-                                        <md-input-container flex="30" >
-                                            <label>name</label>
-                                            <input ng-model="user.firstName">
-                                        </md-input-container>
-                                        <!--<div flex="5" hide-xs hide-sm>-->
-                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                        <!--</div>-->
-                                        <md-input-container  flex="30" >
-                                            <label>value</label>
-                                            <input ng-model="theMax">
-                                        </md-input-container>
-                                        <!--<div flex="5" hide-xs hide-sm>-->
-                                        <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                        <!--</div>-->
-                                        <md-input-container  flex="30">
-                                            <label>description</label>
-                                            <input ng-model="theMax">
-                                        </md-input-container>
-                                    </div>
-                                </md-content>
-                            </md-tab>
-                            <md-tab label="Cookies( 2 )">
-                                <md-content class="md-padding">
-                                    <h1 class="md-display-2">Tab Two</h1>
-                                    <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
-                                        tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
-                                        quis rhoncus
-                                    </p>
-                                </md-content>
-                            </md-tab>
-                            <md-tab label="Headers( 4 )">
-                                <md-content class="md-padding">
-                                    <h1 class="md-display-3">Tab Two</h1>
-                                    <p>pis erat, porttitor vitae mi faucibus, laoreet interdum
-                                        tellus. Curabitur posuere molestie dictum. Morbi eget congue risus,
-                                        quis rhoncus
-                                    </p>
-                                </md-content>
-                            </md-tab>
-                            </md-tab>
-                        </md-tabs>
-                    </md-content>
-
-                    <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
-                          style="padding-top: 0;">
-                        <div layout="row" layout-sm="column">
-
-
-                            <div flex style="position: relative;">
-                                <h2 class="md-subhead"
-                                    style="position: absolute; bottom: 0; left: 0; margin: 0; font-weight: 500; text-transform: uppercase; line-height: 35px; white-space: nowrap;">
-                                    Add a new Tab:</h2>
-                            </div>
-                            <md-input-container>
-                                <label for="label">Label</label>
-                                <input type="text" id="label" ng-model="tTitle">
-                            </md-input-container>
-                            <md-input-container>
-                                <label for="content">Content</label>
-                                <input type="text" id="content" ng-model="tContent">
-                            </md-input-container>
-                            <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
-                                       type="submit" style="margin-right: 0;">Add Tab
-                            </md-button>
-                        </div>
-                    </form>
-
-                </div>
-
-            </div>
-
+                    </md-tab>
+                    </md-tabs>
         </md-content>
 
-    </section>
+
+        <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
+              style="padding-top: 0;">
+            <div layout="row" layout-sm="column">
+
+
+                <div flex style="position: relative;">
+                    <h2 class="md-subhead"
+                        style="position: absolute; bottom: 0; left: 0; margin: 0; font-weight: 500; text-transform: uppercase; line-height: 35px; white-space: nowrap;">
+                        Add a new Tab:</h2>
+                </div>
+                <md-input-container>
+                    <label for="label">Label</label>
+                    <input type="text" id="label" ng-model="tTitle">
+                </md-input-container>
+                <md-input-container>
+                    <label for="content">Content</label>
+                    <input type="text" id="content" ng-model="tContent">
+                </md-input-container>
+                <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
+                           type="submit" style="margin-right: 0;">Add Tab
+                </md-button>
+            </div>
+        </form>
+
+</div>
+
+</div>
+
+</md-content>
+
+</section>
 </div>
 
 <!-- Angular Material requires Angular.js Libraries -->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="angularjs/js/angular.min.js"></script>
+<script src="angularjs/js/angular-animate.min.js"></script>
+<script src="angularjs/js/angular-aria.min.js"></script>
+<script src="angularjs/js/angular-messages.min.js"></script>
+<script src="https://rawgithub.com/ajaxorg/ace-builds/v1.1.1/src-min-noconflict/ace.js"></script>
+<script src="plugins/ace/ui-ace.min.js"></script>
 
 <!--<script src="js/context-tabs.js"></script>-->
 
 <!-- Angular Material Library -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+<script src="angularjs/js/angular-material.min.js"></script>
+
 
 <script type="text/javascript">
 
     //    angular.module('BlankApp', ['ngMaterial']);
 
-    angular
-        .module('BlankApp', ['ngMaterial'])
+    angular.module('BlankApp', ['ngMaterial', 'ui.ace'])
         .controller('AppCtrl', function ($scope, $timeout, $mdSidenav) {
             $scope.toggleLeft = buildToggler('left');
             $scope.toggleRight = buildToggler('right');
@@ -323,7 +715,8 @@
                     $mdSidenav(componentId).toggle();
                 };
             }
-        }).controller('ContextTabsCtl', ContextTabsCtl);
+        }).controller('ContextTabsCtl', ContextTabsCtl)
+        .controller('AceCtrl', AceCtrl);
 
     function ContextTabsCtl($scope, $log) {
         var tabs = [
@@ -354,6 +747,45 @@
             var index = tabs.indexOf(tab);
             tabs.splice(index, 1);
         };
+
+        $scope.todos = [];
+        for (var i = 0; i < 15; i++) {
+            $scope.todos.push({
+                face: '',
+                what: "Brunch this weekend?",
+                who: "Min Li Chan",
+                notes: "I'll be in your neighborhood doing errands."
+            });
+        }
+    }
+
+    function AceCtrl($scope) {
+// The modes
+        $scope.modes = ['Scheme', 'XML', 'Javascript'];
+        $scope.mode = $scope.modes[0];
+
+
+        // The ui-ace option
+        $scope.aceOption = {
+            mode: $scope.mode.toLowerCase(),
+            onLoad: function (_ace) {
+
+                // HACK to have the ace instance in the scope...
+                $scope.modeChanged = function () {
+                    _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
+                };
+
+            }
+        };
+
+        // Initial code content...
+        $scope.aceModel = ';; Scheme code in here.\n' +
+            '(define (double x)\n\t(* x x))\n\n\n' +
+            '<!-- XML code in here. -->\n' +
+            '<root>\n\t<foo>\n\t</foo>\n\t<bar/>\n</root>\n\n\n' +
+            '// Javascript code in here.\n' +
+            'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
+
     }
 </script>
 
