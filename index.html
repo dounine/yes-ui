@@ -13,9 +13,14 @@
     <!--头部-->
     <md-toolbar layout="row">
         <div class="md-toolbar-tools">
-            <md-button ng-click="toggleLeft()" class="md-raised">
-                请求 / 历史
+            <md-button class="md-icon-button" ng-click="toggleLeft()" aria-label="More">
+                <md-icon md-svg-icon="svgs/slide.svg"></md-icon>
             </md-button>
+
+            </md-icon>
+            <!--<md-button ng-click="toggleLeft()" class="md-raised">-->
+            <!--请求 / 历史-->
+            <!--</md-button>-->
             <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" aria-label="Toggle Menu">
             </button>
             <h1 layout-align-gt-sm="center">
@@ -54,6 +59,8 @@
 
             <!-- tab分组 -->
             <div ng-cloak>
+
+
                 <md-content>
                     <md-tabs md-dynamic-height md-border-bottom>
                         <md-tab label="历史记录">
@@ -63,7 +70,10 @@
                                 </div>
                                 <md-list style="padding:0">
                                     <md-divider inset></md-divider>
-                                    <md-subheader class="md-no-sticky"><strong>昨天</strong></md-subheader>
+                                    <md-subheader class="md-no-sticky">
+
+                                        <strong>昨天</strong>
+                                    </md-subheader>
                                     <md-list-item>
                                         <div class="md-list-item-text">
                                             <div layout-wrap layout-gt-sm="row">
@@ -123,83 +133,212 @@
 
                             </md-content>
                         </md-tab>
+
+
                         <md-tab label="请求列表">
                             <md-content>
-                                <md-content>
-                                    <div layout="row" layout-align="right">
-                                        <md-button class="md-warn">删除全部</md-button>
-                                    </div>
-                                    <md-list style="padding:0;">
-                                        <md-divider inset></md-divider>
-                                        <md-subheader style="background: #e1e1e1" class="md-no-sticky">
-                                            <strong>用户模块</strong></md-subheader>
-                                        <md-divider inset></md-divider>
-                                        <md-subheader class="md-no-sticky">
-                                            授权
-                                        </md-subheader>
-                                        <md-list-item>
-                                            <div class="md-list-item-text">
-                                                <div layout-wrap layout-gt-sm="row">
-                                                    <div flex-gt-sm="20">
-                                                        <strong>POST</strong>
-                                                    </div>
-                                                    <div flex-gt-sm="80">
-                                                        http://localhost:8080/asdfklasdjfkl
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item>
-                                            <div class="md-list-item-text">
-                                                <div layout-wrap layout-gt-sm="row">
-                                                    <div flex-gt-sm="20">
-                                                        <strong>POST</strong>
-                                                    </div>
-                                                    <div flex-gt-sm="80">
-                                                        http://localhost:8080/asdfklasdjfkl
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-list-item>
-                                        <md-divider inset></md-divider>
 
-                                    </md-list>
-                                    <md-list style="padding:0">
-                                        <md-subheader style="background: #e1e1e1" class="md-no-sticky">
-                                            <strong>用户模块</strong></md-subheader>
-                                        <md-divider inset></md-divider>
-                                        <md-subheader class="md-no-sticky">
-                                            授权
-                                        </md-subheader>
-                                        <md-list-item>
-                                            <div class="md-list-item-text">
-                                                <div layout-wrap layout-gt-sm="row">
-                                                    <div flex-gt-sm="20">
-                                                        <strong>POST</strong>
-                                                    </div>
-                                                    <div flex-gt-sm="80">
-                                                        http://localhost:8080/asdfklasdjfkl
-                                                    </div>
+                                <md-sidenav class="md-sidenav-right" md-component-id="settingSild"
+                                            md-disable-backdrop md-whiteframe="4">
+
+                                    <md-toolbar class="md-theme-indigo">
+                                        <!--<h1 class="md-toolbar-tools">操作/测试</h1>-->
+                                        <!--<md-button ng-click="settingSild()" class="md-accent">close</md-button>-->
+                                        <md-list-item class="md-2-line">
+                                            <div class="md-list-item-text"
+                                                 ng-class="{'md-offset': phone.options.offset }">
+                                                <h3>操作/测试</h3>
+                                            </div>
+                                            <md-button aria-label="menu" ng-click="settingSild()"
+                                                       class="md-secondary md-fab md-primary md-mini">
+                                                <md-icon md-svg-src="svgs/close.svg"></md-icon>
+                                            </md-button>
+
+                                        </md-list-item>
+                                    </md-toolbar>
+
+                                    <md-content>
+
+                                        <md-tabs md-dynamic-height md-border-bottom>
+                                            <md-tab label="操作">
+                                                <md-tab-label>
+                                                    <md-icon md-svg-icon="svgs/operation.svg"></md-icon>
+                                                </md-tab-label>
+                                                <md-tab-body>
+                                                    <md -list>
+                                                        <md-list-item
+                                                                ng-click="navigateTo(setting.extraScreen, $event)">
+                                                            <md-icon md-svg-icon="svgs/export.svg"></md-icon>
+                                                            <p> 导出postman </p>
+                                                        </md-list-item>
+                                                        <md-list-item
+                                                                ng-click="navigateTo(setting.extraScreen, $event)">
+                                                            <md-icon md-svg-icon="svgs/file.svg"></md-icon>
+                                                            <p> 导出postman </p>
+                                                        </md-list-item>
+                                                        <md-list-item
+                                                                ng-click="navigateTo(setting.extraScreen, $event)">
+                                                            <md-icon md-svg-icon="svgs/file.svg"></md-icon>
+                                                            <p> 导出postman </p>
+                                                        </md-list-item>
+                                                    </md-list>
+
+                                                </md-tab-body>
+                                            </md-tab>
+                                            <md-tab>
+                                                <md-tab-label>
+                                                    <md-icon md-svg-icon="svgs/test.svg"></md-icon>
+                                                </md-tab-label>
+                                                <md-tab-body>
+                                                    <md-list>
+                                                        <md-list-item>
+                                                            <md-icon md-svg-icon="svgs/last-time.svg"></md-icon>
+                                                            <p>2017-08-12 14:51:22</p>
+                                                        </md-list-item>
+                                                        <md-list-item>
+                                                            <md-icon md-svg-icon="svgs/owner.svg"></md-icon>
+                                                            <p>lake</p>
+                                                        </md-list-item>
+                                                    </md-list>
+                                                    <md-list>
+                                                        <md-button aria-label="menu" ng-click="settingSild()"
+                                                                   class="md-raised">
+                                                            共享
+                                                        </md-button>
+                                                        <md-button aria-label="menu" ng-click="settingSild()"
+                                                                   class="md-raised md-primary">
+                                                            运行
+                                                        </md-button>
+                                                    </md-list>
+                                                    <!--<md-divider inset></md-divider>-->
+                                                    <md-tabs md-dynamic-height md-border-bottom>
+                                                        <md-tab label="操作">
+                                                            <md-tab-label>
+                                                                测试结果
+                                                            </md-tab-label>
+                                                            <md-tab-body>
+
+                                                            </md-tab-body>
+                                                        </md-tab>
+                                                        <md-tab>
+                                                            <md-tab-label>
+                                                                监控
+                                                            </md-tab-label>
+                                                            <md-tab-body>
+
+                                                            </md-tab-body>
+                                                        </md-tab>
+                                                    </md-tabs>
+                                                </md-tab-body>
+                                            </md-tab>
+                                        </md-tabs>
+                                    </md-content>
+
+                                </md-sidenav>
+
+                                <div layout="row" layout-align="right">
+                                    <md-button class="md-icon-button" aria-label="More">
+                                        <md-icon md-svg-icon="svgs/all.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="More">
+                                        <md-icon md-svg-icon="svgs/my.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="More">
+                                        <md-icon md-svg-icon="svgs/team.svg"></md-icon>
+                                    </md-button>
+                                </div>
+                                <md-divider inset></md-divider>
+                                <md-list>
+                                    <md-list-item class="md-2-line" style="background: #e1e1e1">
+                                        <md-icon md-svg-icon="svgs/fold.svg"></md-icon>
+                                        <div class="md-list-item-text"
+                                             ng-class="{'md-offset': phone.options.offset }">
+                                            <h3> 用户模块 </h3>
+                                            <p> 2 request</p>
+                                        </div>
+                                        <md-button aria-label="menu" ng-click="settingSild()"
+                                                   class="md-secondary md-fab md-primary md-mini">
+                                            <md-icon md-svg-src="svgs/more-white.svg"></md-icon>
+                                        </md-button>
+
+                                    </md-list-item>
+
+                                    <md-divider inset></md-divider>
+                                    <md-list-item class="md-2-line" style="background: #f3f3f3">
+                                        <md-icon md-svg-icon="svgs/file.svg"></md-icon>
+                                        <div class="md-list-item-text"
+                                             ng-class="{'md-offset': phone.options.offset }">
+                                            <h3> 授权 </h3>
+                                            <p> 2 request</p>
+                                        </div>
+                                        <md-button aria-label="menu" ng-click="settingSild()"
+                                                   class="md-secondary md-fab md-primary md-mini">
+                                            <md-icon md-svg-src="svgs/more-white.svg"></md-icon>
+                                        </md-button>
+
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
                                                 </div>
                                             </div>
-                                        </md-list-item>
-                                        <md-list-item>
-                                            <div class="md-list-item-text">
-                                                <div layout-wrap layout-gt-sm="row">
-                                                    <div flex-gt-sm="20">
-                                                        <strong>POST</strong>
-                                                    </div>
-                                                    <div flex-gt-sm="80">
-                                                        http://localhost:8080/asdfklasdjfkl
-                                                    </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
                                                 </div>
                                             </div>
-                                        </md-list-item>
-                                        <md-divider inset></md-divider>
+                                        </div>
+                                    </md-list-item>
+                                    <md-divider inset></md-divider>
 
-                                    </md-list>
+                                </md-list>
+                                <md-list>
+                                    <md-subheader style="background: #e1e1e1" class="md-no-sticky">
+                                        <strong>用户模块</strong></md-subheader>
+                                    <md-divider inset></md-divider>
+                                    <md-subheader class="md-no-sticky">
+                                        授权
+                                    </md-subheader>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <div class="md-list-item-text">
+                                            <div layout-wrap layout-gt-sm="row">
+                                                <div flex-gt-sm="20">
+                                                    <strong>POST</strong>
+                                                </div>
+                                                <div flex-gt-sm="80">
+                                                    http://localhost:8080/asdfklasdjfkl
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                    <md-divider inset></md-divider>
 
-                                </md-content>
+                                </md-list>
+
                             </md-content>
                         </md-tab>
                     </md-tabs>
@@ -491,18 +630,7 @@
                                                         Status: <span style="color: blue;margin-right: 10px">405</span>
                                                         Time: <span style="color: blue;">200</span>
                                                     </p>
-                                                    <!--<md-input-container>-->
 
-                                                    <!--<md-select ng-model="armor" placeholder="Json"-->
-                                                    <!--md-no-asterisk="false">-->
-                                                    <!--<md-option value="Html">Html</md-option>-->
-                                                    <!--<md-option value="Json">Json</md-option>-->
-                                                    <!--<md-option value="Xml">Xml</md-option>-->
-                                                    <!--<md-option value="Text">Text</md-option>-->
-                                                    <!--<md-option value="Auto">Auto</md-option>-->
-                                                    <!--</md-select>-->
-                                                    <!--</md-input-container>-->
-                                                    <!--</md-card-content>-->
                                                 </div>
                                                 <div layout="row">
                                                     <section ng-controller="AceCtrl" style="width:100%;">
@@ -513,32 +641,7 @@
                                                         <!--<select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>-->
 
                                                     </section>
-                                                    <!--<md-content flex layout-padding style="border:1px solid red">-->
-                                                    <!--{-->
-                                                    <!--"code": 0,-->
-                                                    <!--"msg": "",-->
-                                                    <!--"data": {-->
-                                                    <!--"name": "lake",-->
-                                                    <!--"age": 23,-->
-                                                    <!--"cusers": [-->
-                                                    <!--{-->
-                                                    <!--"address": "广东",-->
-                                                    <!--"ages": [-->
-                                                    <!--10,-->
-                                                    <!--22-->
-                                                    <!--]-->
-                                                    <!--}-->
-                                                    <!--],-->
-                                                    <!--"cu": {-->
-                                                    <!--"address": "bb",-->
-                                                    <!--"ages": [-->
-                                                    <!--10,-->
-                                                    <!--22-->
-                                                    <!--]-->
-                                                    <!--}-->
-                                                    <!--}-->
-                                                    <!--}-->
-                                                    <!--</md-content>-->
+
                                                 </div>
 
                                             </md-content>
@@ -708,6 +811,7 @@
     angular.module('BlankApp', ['ngMaterial', 'ui.ace'])
         .controller('AppCtrl', function ($scope, $timeout, $mdSidenav) {
             $scope.toggleLeft = buildToggler('left');
+            $scope.settingSild = buildToggler('settingSild');
             $scope.toggleRight = buildToggler('right');
 
             function buildToggler(componentId) {
