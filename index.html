@@ -29,6 +29,253 @@
         </div>
     </md-toolbar>
 
+    <md-content layout-padding layout="row" flex>
+        <div flex="10">
+
+        </div>
+        <div flex="90">
+            <section layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                <md-button class="md-icon-button" aria-label="More">
+                    <md-icon md-svg-icon="svgs/all.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="More">
+                    <md-icon md-svg-icon="svgs/my.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="More">
+                    <md-icon md-svg-icon="svgs/team.svg"></md-icon>
+                </md-button>
+                <form ng-controller="DemoAACtrl as ctrl" ng-submit="$event.preventDefault()">
+                    <!--<p>Use <code>&lt;md-autocomplete&gt;</code> with custom templates to show styled autocomplete-->
+                        <!--results.</p>-->
+                    <md-autocomplete
+                            ng-disabled="ctrl.isDisable"
+                            md-no-cache="ctrl.noCache"
+                            md-selected-item="ctrl.selectedItem"
+                            md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                            md-search-text="ctrl.searchText"
+                            md-selected-item-change="ctrl.selectedItemChange(item)"
+                            md-items="item in ctrl.querySearch(ctrl.searchText)"
+                            md-item-text="item.name"
+                            md-min-length="0"
+                            placeholder="模块名"
+                            md-menu-class="autocomplete-custom-template">
+
+                        <md-item-template>
+                          <span class="item-title">
+                            <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+                            <span> {{item.name}} </span>
+                          </span>
+                                            <span class="item-metadata">
+                            <span>
+                              <strong>{{item.watchers}}</strong> watchers
+                            </span>
+                            <span>
+                              <strong>{{item.forks}}</strong> forks
+                            </span>
+                          </span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </form>
+            </section>
+        </div>
+
+    </md-content>
+
+    <div layout="row" flex>
+        <div flex="10">
+
+        </div>
+        <div flex="80">
+            <md-content layout-xs="column" layout="row">
+                <div flex-xs flex-gt-xs="50" layout="column">
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                </div>
+                <div flex-xs flex-gt-xs="50" layout="column">
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                </div>
+                <div flex-xs flex-gt-xs="50" layout="column">
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">用户模块</span>
+                                <span class="md-subhead">这里是用户模块的描述信息</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <div class="md-media-lg card-media">
+                                    <img ng-src="imgs/washedout.png" style="width: 152px;height: 152px;"
+                                         class="md-card-image" alt="Washed Out">
+                                </div>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button>postman</md-button>
+                            <md-button>打开</md-button>
+                        </md-card-actions>
+                    </md-card>
+                </div>
+            </md-content>
+
+        </div>
+        <div flex="10">
+
+        </div>
+    </div>
+
+    <md-content layout-padding layout="row" flex>
+        <div flex="60">
+
+        </div>
+        <div flex="40">
+            <section layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                <md-button class="md-raised">首页</md-button>
+                <md-button ng-disabled="true" class="md-raised">上一页</md-button>
+                <md-button ng-disabled="true" class="md-raised">下一页</md-button>
+                <md-button class="md-raised">尾页</md-button>
+            </section>
+        </div>
+    </md-content>
 
     <!--左边导航-->
     <section layout="row" flex>
@@ -181,7 +428,7 @@
                                                             <md-icon md-svg-icon="svgs/file.svg"></md-icon>
                                                             <p> 导出postman </p>
                                                         </md-list-item>
-                                                    </md-list>
+                                                        </md-list>
 
                                                 </md-tab-body>
                                             </md-tab>
@@ -344,554 +591,226 @@
                     </md-tabs>
                 </md-content>
             </div>
-
-
         </md-sidenav>
 
-        <md-content flex layout-padding>
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="angularjs/js/angular.min.js"></script>
+        <script src="angularjs/js/angular-animate.min.js"></script>
+        <script src="angularjs/js/angular-aria.min.js"></script>
+        <script src="angularjs/js/angular-messages.min.js"></script>
+        <!--<script src="https://rawgithub.com/ajaxorg/ace-builds/v1.1.1/src-min-noconflict/ace.js"></script>-->
+        <!--<script src="https://rawgithub.com/ajaxorg/ace-builds/v1.1.1/src-min-noconflict/ace.js"></script>-->
+        <script src="plugins/ace/ace.js"></script>
+        <script src="plugins/ace/ui-ace.min.js"></script>
 
-            <div layout-align="center">
+        <!--<script src="js/context-tabs.js"></script>-->
 
-                <div ng-controller="ContextTabsCtl" class="sample" layout="column" ng-cloak>
-                    <md-content class="md-padding">
-                        <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom md-autoselect>
-                            <md-tab ng-repeat="tab in tabs"
-                                    ng-disabled="tab.disabled"
-                                    label="{{tab.title}}">
-                                <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-
-                                    <div flex layout="row">
-                                        <!--下拉-->
-                                        <div layout-align="space-between left" flex="6">
-                                            <md-select ng-model="armor" placeholder="GET" class="md-no-underline"
-                                                       md-no-asterisk="false">
-                                                <md-option value="GET">GET</md-option>
-                                                <md-option value="POST">POST</md-option>
-                                                <md-option value="PUT">PUT</md-option>
-                                                <md-option value="DELETE">DELETE</md-option>
-                                                <md-option value="PATCH">POST</md-option>
-                                                <md-option value="OPTIONS">OPTIONS</md-option>
-                                            </md-select>
-                                        </div>
-
-                                        <md-input-container flex="80">
-                                            <label>请求地扯</label>
-                                            <input ng-model="user.title">
-                                        </md-input-container>
-                                        <section flex="12" layout="row" layout-sm="column" layout-align="center center"
-                                                 layout-wrap>
-                                            <md-button class="md-raised">Prams</md-button>
-                                            <md-button class="md-raised md-primary">发送</md-button>
-                                            <!--<div class="label">Raised</div>-->
-                                        </section>
-                                    </div>
-
-                                    <!-- params -->
-                                    <md-content ng-hide="true">
-                                        <div layout-gt-sm="row">
-                                            <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
-                                            </md-checkbox>
-
-                                            <md-input-container flex="30">
-                                                <label>name</label>
-                                                <input ng-model="user.firstName">
-                                            </md-input-container>
-                                            <!--<div flex="5" hide-xs hide-sm>-->
-                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                            <!--</div>-->
-                                            <md-input-container flex="30">
-                                                <label>value</label>
-                                                <input ng-model="theMax">
-                                            </md-input-container>
-                                            <!--<div flex="5" hide-xs hide-sm>-->
-                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                            <!--</div>-->
-                                            <md-input-container flex="30">
-                                                <label>description</label>
-                                                <input ng-model="theMax">
-                                            </md-input-container>
-                                        </div>
-                                        <div layout-gt-sm="row">
-                                            <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
-                                            </md-checkbox>
-
-                                            <md-input-container flex="30">
-                                                <label>name</label>
-                                                <input ng-model="user.firstName">
-                                            </md-input-container>
-                                            <!--<div flex="5" hide-xs hide-sm>-->
-                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                            <!--</div>-->
-                                            <md-input-container flex="30">
-                                                <label>value</label>
-                                                <input ng-model="theMax">
-                                            </md-input-container>
-                                            <!--<div flex="5" hide-xs hide-sm>-->
-                                            <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                            <!--</div>-->
-                                            <md-input-container flex="30">
-                                                <label>description</label>
-                                                <input ng-model="theMax">
-                                            </md-input-container>
-                                        </div>
-                                    </md-content>
-
-                                    <md-tabs md-dynamic-height md-border-bottom>
-                                        <md-tab label="请求头">
-                                            <md-content class="md-padding">
-                                                <div layout-gt-sm="row">
-                                                    <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
-                                                    </md-checkbox>
-
-                                                    <md-input-container flex="30">
-                                                        <label>name</label>
-                                                        <input ng-model="user.firstName">
-                                                    </md-input-container>
-                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <md-input-container flex="30">
-                                                        <label>value</label>
-                                                        <input ng-model="theMax">
-                                                    </md-input-container>
-                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <md-input-container flex="30">
-                                                        <label>description</label>
-                                                        <input ng-model="theMax">
-                                                    </md-input-container>
-                                                </div>
-                                                <div layout-gt-sm="row">
-                                                    <md-checkbox ng-model="data.cb1" flex="6" aria-label="Checkbox 1">
-                                                    </md-checkbox>
-
-                                                    <md-input-container flex="30">
-                                                        <label>name</label>
-                                                        <input ng-model="user.firstName">
-                                                    </md-input-container>
-                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <md-input-container flex="30">
-                                                        <label>value</label>
-                                                        <input ng-model="theMax">
-                                                    </md-input-container>
-                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <md-input-container flex="30">
-                                                        <label>description</label>
-                                                        <input ng-model="theMax">
-                                                    </md-input-container>
-                                                </div>
-                                            </md-content>
-                                        </md-tab>
-                                        <md-tab label="数据">
-                                            <md-content class="md-padding">
-                                                <md-tabs md-dynamic-height md-border-bottom>
-                                                    <md-tab label="表单">
-                                                        <md-content class="md-padding">
-
-                                                            <div layout-gt-sm="row">
-                                                                <md-checkbox ng-model="data.cb1" flex="6"
-                                                                             aria-label="Checkbox 1">
-                                                                </md-checkbox>
-
-                                                                <md-input-container flex="30">
-                                                                    <label>name</label>
-                                                                    <input ng-model="user.firstName">
-                                                                </md-input-container>
-                                                                <!--<div flex="5" hide-xs hide-sm>-->
-                                                                <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                                <!--</div>-->
-                                                                <md-input-container flex="30">
-                                                                    <label>value</label>
-                                                                    <input ng-model="theMax">
-                                                                </md-input-container>
-                                                                <md-input-container flex="5">
-                                                                    <md-select ng-model="weapon" placeholder="text"
-                                                                               class="md-no-underline">
-                                                                        <md-option value="text">text</md-option>
-                                                                        <md-option value="file">file</md-option>
-                                                                    </md-select>
-
-                                                                </md-input-container>
-                                                                <!--<div flex="5" hide-xs hide-sm>-->
-                                                                <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                                <!--</div>-->
-                                                                <md-input-container flex="30">
-                                                                    <label>description</label>
-                                                                    <input ng-model="theMax">
-                                                                </md-input-container>
-                                                            </div>
-
-                                                        </md-content>
-                                                    </md-tab>
-                                                    <md-tab label="编码">
-                                                        <md-content class="md-padding">
-
-                                                            <md-content class="md-padding">
-
-                                                                <div layout-gt-sm="row">
-                                                                    <md-checkbox ng-model="data.cb1" flex="6"
-                                                                                 aria-label="Checkbox 1">
-                                                                    </md-checkbox>
-
-                                                                    <md-input-container flex="30">
-                                                                        <label>name</label>
-                                                                        <input ng-model="user.firstName">
-                                                                    </md-input-container>
-                                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                                    <!--</div>-->
-                                                                    <md-input-container flex="30">
-                                                                        <label>value</label>
-                                                                        <input ng-model="theMax">
-                                                                    </md-input-container>
-                                                                    <!--<div flex="5" hide-xs hide-sm>-->
-                                                                    <!--&lt;!&ndash; Spacer //&ndash;&gt;-->
-                                                                    <!--</div>-->
-                                                                    <md-input-container flex="30">
-                                                                        <label>description</label>
-                                                                        <input ng-model="theMax">
-                                                                    </md-input-container>
-                                                                </div>
-
-                                                            </md-content>
-
-                                                        </md-content>
-                                                    </md-tab>
-                                                    <md-tab label="raw">
-                                                        <md-content class="md-padding">
-                                                            <div layout="raw">
-                                                                <md-select ng-model="armor" placeholder="Json"
-                                                                           md-no-asterisk="false">
-                                                                    <md-option value="Html">Html</md-option>
-                                                                    <md-option value="Json">Json</md-option>
-                                                                    <md-option value="Xml">Xml</md-option>
-                                                                    <md-option value="Text">Text</md-option>
-                                                                    <md-option value="Auto">Auto</md-option>
-                                                                </md-select>
-                                                            </div>
-                                                            <md-content class="md-padding" style="border:1px solid red">
-                                                                <textarea>
-                                                                    asdfasdfasdf
-                                                                </textarea>
-                                                            </md-content>
-                                                        </md-content>
-                                                    </md-tab>
-                                                </md-tabs>
-                                            </md-content>
-                                        </md-tab>
-                                    </md-tabs>
-
-                                    <md-button class="md-primary md-raised" ng-click="removeTab( tab )"
-                                               ng-disabled="tabs.length <= 1">Remove Tab
-                                    </md-button>
-                                </div>
-
-                                <md-content layout-padding>
-                                    <md-tabs md-dynamic-height md-border-bottom>
-                                        <md-tab label="响应">
-                                            <md-content class="md-padding">
-                                                <div layout="row">
-                                                    <!--<md-card-content>-->
-                                                    <!--<md-input-container>-->
-                                                    <p style="line-height: 30px">
-                                                        内容&nbsp;
-                                                    </p>
-                                                    <!--</md-input-container>-->
-
-                                                    <!--<md-input-container>-->
-                                                    <div layout-align="space-between left" flex="6">
-                                                        <md-switch ng-model="data.cb11" aria-label="Switch 1">
-                                                            预览
-                                                        </md-switch>
-                                                    </div>
-                                                    <!--</md-input-container>-->
-
-                                                    <!--<div layout="row" layout-align="space-between center">-->
-                                                    <!--<span>What is your favorite weapon?</span>-->
-                                                    <div layout-align="space-between left" flex="6">
-                                                    </div>
-                                                    <span>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        </span>
-                                                    <md-select ng-model="weapon" placeholder="Json"
-                                                               class="md-no-underline">
-                                                        <md-option value="Json">Json</md-option>
-                                                        <md-option value="Html">Html</md-option>
-                                                        <md-option value="Text">Text</md-option>
-                                                        <md-option value="Xml">Xml</md-option>
-                                                    </md-select>
-                                                    <!--</div>-->
-                                                    <p style="line-height: 30px;position: absolute;right: 20px">
-                                                        Status: <span style="color: blue;margin-right: 10px">405</span>
-                                                        Time: <span style="color: blue;">200</span>
-                                                    </p>
-
-                                                </div>
-                                                <div layout="row">
-                                                    <section ng-controller="AceCtrl" style="width:100%;">
-
-                                                        <div ui-ace="aceOption" style="height:500px"
-                                                             ng-model="aceModel"></div>
-
-                                                        <!--<select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>-->
-
-                                                    </section>
-
-                                                </div>
-
-                                            </md-content>
-                                        </md-tab>
-                                        <md-tab label="Cookies( 2 )">
-                                            <md-content class="md-padding">
-                                                <md-list>
-                                                    <md-list-item class="md-3-line">
-                                                        <div class="md-list-item-text">
-                                                            <h1>Name</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Value</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Domain</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Path</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Expires</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Http</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Secure</h1>
-                                                        </div>
-                                                        <md-divider inset></md-divider>
-                                                    </md-list-item>
-                                                    <md-list-item class="md-3-line" ng-repeat="item in todos">
-                                                        <!--<img ng-src="{{item.face}}" alt="{{item.who}}" class="md-avatar">-->
-
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <md-divider inset></md-divider>
-                                                    </md-list-item>
-
-                                                </md-list>
-                                            </md-content>
-                                        </md-tab>
-                                        <md-tab label="Headers( 4 )">
-                                            <md-content class="md-padding">
-                                                <md-list>
-                                                    <md-list-item class="md-3-line">
-                                                        <div class="md-list-item-text">
-                                                            <h1>Name</h1>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <h1>Value</h1>
-                                                        </div>
-                                                        <md-divider inset></md-divider>
-                                                    </md-list-item>
-                                                    <md-list-item class="md-3-line" ng-repeat="item in todos">
-                                                        <!--<img ng-src="{{item.face}}" alt="{{item.who}}" class="md-avatar">-->
-
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <div class="md-list-item-text">
-                                                            <p>
-                                                                {{item.notes}}
-                                                            </p>
-                                                        </div>
-                                                        <md-divider inset></md-divider>
-                                                    </md-list-item>
-
-                                                </md-list>
-                                            </md-content>
-                                        </md-tab>
-                            </md-tab>
-                        </md-tabs>
-                    </md-content>
-
-                    </md-tab>
-                    </md-tabs>
-        </md-content>
+        <!-- Angular Material Library -->
+        <script src="angularjs/js/angular-material.min.js"></script>
 
 
-        <form ng-submit="addTab(tTitle,tContent)" layout="column" class="md-padding"
-              style="padding-top: 0;">
-            <div layout="row" layout-sm="column">
+        <script type="text/javascript">
+
+            //    angular.module('BlankApp', ['ngMaterial']);
+
+            angular.module('BlankApp', ['ngMaterial', 'ui.ace'])
+                .controller('AppCtrl', function ($scope, $timeout, $mdSidenav) {
+                    $scope.toggleLeft = buildToggler('left');
+                    $scope.settingSild = buildToggler('settingSild');
+                    $scope.toggleRight = buildToggler('right');
+
+                    function buildToggler(componentId) {
+                        return function () {
+                            $mdSidenav(componentId).toggle();
+                        };
+                    }
 
 
-                <div flex style="position: relative;">
-                    <h2 class="md-subhead"
-                        style="position: absolute; bottom: 0; left: 0; margin: 0; font-weight: 500; text-transform: uppercase; line-height: 35px; white-space: nowrap;">
-                        Add a new Tab:</h2>
-                </div>
-                <md-input-container>
-                    <label for="label">Label</label>
-                    <input type="text" id="label" ng-model="tTitle">
-                </md-input-container>
-                <md-input-container>
-                    <label for="content">Content</label>
-                    <input type="text" id="content" ng-model="tContent">
-                </md-input-container>
-                <md-button class="add-tab md-primary md-raised" ng-disabled="!tTitle || !tContent"
-                           type="submit" style="margin-right: 0;">Add Tab
-                </md-button>
-            </div>
-        </form>
 
-</div>
+                }).controller('ContextTabsCtl', ContextTabsCtl)
+                .controller('AceCtrl', AceCtrl)
+                .controller('DemoAACtrl', DemoAACtrl)
+            //                .controller('IndexAct', function($scope) {
+            //                    $scope.isOpen = false;
+            //
+            //                    $scope.demo = {
+            //                        isOpen: false,
+            //                        count: 0,
+            //                        selectedDirection: 'left'
+            //                    };
+            //                });
 
-</div>
+            function DemoAACtrl ($timeout, $q, $log) {
+                var self = this;
 
-</md-content>
+                self.simulateQuery = false;
+                self.isDisabled    = false;
 
-</section>
-</div>
+                self.repos         = loadAll();
+                self.querySearch   = querySearch;
+                self.selectedItemChange = selectedItemChange;
+                self.searchTextChange   = searchTextChange;
 
-<!-- Angular Material requires Angular.js Libraries -->
-<script src="angularjs/js/angular.min.js"></script>
-<script src="angularjs/js/angular-animate.min.js"></script>
-<script src="angularjs/js/angular-aria.min.js"></script>
-<script src="angularjs/js/angular-messages.min.js"></script>
-<script src="https://rawgithub.com/ajaxorg/ace-builds/v1.1.1/src-min-noconflict/ace.js"></script>
-<script src="plugins/ace/ui-ace.min.js"></script>
+                // ******************************
+                // Internal methods
+                // ******************************
 
-<!--<script src="js/context-tabs.js"></script>-->
+                /**
+                 * Search for repos... use $timeout to simulate
+                 * remote dataservice call.
+                 */
+                function querySearch (query) {
+                    var results = query ? self.repos.filter( createFilterFor(query) ) : self.repos,
+                        deferred;
+                    if (self.simulateQuery) {
+                        deferred = $q.defer();
+                        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+                        return deferred.promise;
+                    } else {
+                        return results;
+                    }
+                }
 
-<!-- Angular Material Library -->
-<script src="angularjs/js/angular-material.min.js"></script>
+                function searchTextChange(text) {
+                    $log.info('Text changed to ' + text);
+                }
 
+                function selectedItemChange(item) {
+                    $log.info('Item changed to ' + JSON.stringify(item));
+                }
 
-<script type="text/javascript">
+                /**
+                 * Build `components` list of key/value pairs
+                 */
+                function loadAll() {
+                    alert
+                    var repos = [
+                        {
+                            'name'      : 'AngularJS',
+                            'url'       : 'https://github.com/angular/angular.js',
+                            'watchers'  : '3,623',
+                            'forks'     : '16,175',
+                        },
+                        {
+                            'name'      : 'Angular',
+                            'url'       : 'https://github.com/angular/angular',
+                            'watchers'  : '469',
+                            'forks'     : '760',
+                        },
+                        {
+                            'name'      : 'AngularJS Material',
+                            'url'       : 'https://github.com/angular/material',
+                            'watchers'  : '727',
+                            'forks'     : '1,241',
+                        },
+                        {
+                            'name'      : 'Angular Material',
+                            'url'       : 'https://github.com/angular/material2',
+                            'watchers'  : '727',
+                            'forks'     : '1,241',
+                        },
+                        {
+                            'name'      : 'Bower Material',
+                            'url'       : 'https://github.com/angular/bower-material',
+                            'watchers'  : '42',
+                            'forks'     : '84',
+                        },
+                        {
+                            'name'      : 'Material Start',
+                            'url'       : 'https://github.com/angular/material-start',
+                            'watchers'  : '81',
+                            'forks'     : '303',
+                        }
+                    ];
+                    return repos.map( function (repo) {
+                        repo.value = repo.name.toLowerCase();
+                        return repo;
+                    });
+                }
 
-    //    angular.module('BlankApp', ['ngMaterial']);
+                /**
+                 * Create filter function for a query string
+                 */
+                function createFilterFor(query) {
+                    var lowercaseQuery = angular.lowercase(query);
 
-    angular.module('BlankApp', ['ngMaterial', 'ui.ace'])
-        .controller('AppCtrl', function ($scope, $timeout, $mdSidenav) {
-            $scope.toggleLeft = buildToggler('left');
-            $scope.settingSild = buildToggler('settingSild');
-            $scope.toggleRight = buildToggler('right');
+                    return function filterFn(item) {
+                        return (item.value.indexOf(lowercaseQuery) === 0);
+                    };
 
-            function buildToggler(componentId) {
-                return function () {
-                    $mdSidenav(componentId).toggle();
-                };
+                }
             }
-        }).controller('ContextTabsCtl', ContextTabsCtl)
-        .controller('AceCtrl', AceCtrl);
 
-    function ContextTabsCtl($scope, $log) {
-        var tabs = [
-                {title: '查询用户列表', content: "one"},
-                {
-                    title: '更新',
-                    content: '<div layout="row" layout-align="space-between center"><span>What armor do you wear?</span><md-select ng-model="armor" placeholder="Armor" class="md-no-underline" required md-no-asterisk="false"><md-option value="cloth">Cloth</md-option><md-option value="leather">Leather</md-option></md-select></div>'
-                },
-                {
-                    title: 'delete',
-                    content: "You can bind the selected tab via the selected attribute on the md-tabs element."
-                }],
-            selected = null,
-            previous = null;
-        $scope.tabs = tabs;
-        $scope.selectedIndex = 2;
-        $scope.$watch('selectedIndex', function (current, old) {
-            previous = selected;
-            selected = tabs[current];
-            if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
-            if (current + 1) $log.debug('Hello ' + selected.title + '!');
-        });
-        $scope.addTab = function (title, view) {
-            view = view || title + " Content View";
-            tabs.push({title: title, content: view, disabled: false});
-        };
-        $scope.removeTab = function (tab) {
-            var index = tabs.indexOf(tab);
-            tabs.splice(index, 1);
-        };
+            function ContextTabsCtl($scope, $log) {
+                var tabs = [
+                        {title: '查询用户列表', content: "one"},
+                        {
+                            title: '更新',
+                            content: '<div layout="row" layout-align="space-between center"><span>What armor do you wear?</span><md-select ng-model="armor" placeholder="Armor" class="md-no-underline" required md-no-asterisk="false"><md-option value="cloth">Cloth</md-option><md-option value="leather">Leather</md-option></md-select></div>'
+                        },
+                        {
+                            title: 'delete',
+                            content: "You can bind the selected tab via the selected attribute on the md-tabs element."
+                        }],
+                    selected = null,
+                    previous = null;
+                $scope.tabs = tabs;
+                $scope.selectedIndex = 2;
+                $scope.$watch('selectedIndex', function (current, old) {
+                    previous = selected;
+                    selected = tabs[current];
+                    if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
+                    if (current + 1) $log.debug('Hello ' + selected.title + '!');
+                });
+                $scope.addTab = function (title, view) {
+                    view = view || title + " Content View";
+                    tabs.push({title: title, content: view, disabled: false});
+                };
+                $scope.removeTab = function (tab) {
+                    var index = tabs.indexOf(tab);
+                    tabs.splice(content, 1);
+                };
 
-        $scope.todos = [];
-        for (var i = 0; i < 15; i++) {
-            $scope.todos.push({
-                face: '',
-                what: "Brunch this weekend?",
-                who: "Min Li Chan",
-                notes: "I'll be in your neighborhood doing errands."
-            });
-        }
-    }
+                $scope.todos = [];
+                for (var i = 0; i < 15; i++) {
+                    $scope.todos.push({
+                        face: '',
+                        what: "Brunch this weekend?",
+                        who: "Min Li Chan",
+                        notes: "I'll be in your neighborhood doing errands."
+                    });
+                }
+            }
 
-    function AceCtrl($scope) {
+            function AceCtrl($scope) {
 // The modes
-        $scope.modes = ['Scheme', 'XML', 'Javascript'];
-        $scope.mode = $scope.modes[0];
+                $scope.modes = ['Scheme', 'XML', 'Javascript'];
+                $scope.mode = $scope.modes[0];
 
 
-        // The ui-ace option
-        $scope.aceOption = {
-            mode: $scope.mode.toLowerCase(),
-            onLoad: function (_ace) {
+                // The ui-ace option
+                $scope.aceOption = {
+                    mode: $scope.mode.toLowerCase(),
+                    onLoad: function (_ace) {
 
-                // HACK to have the ace instance in the scope...
-                $scope.modeChanged = function () {
-                    _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
+                        // HACK to have the ace instance in the scope...
+                        $scope.modeChanged = function () {
+                            _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
+                        };
+
+                    }
                 };
 
+                // Initial code content...
+                $scope.aceModel = ';; Scheme code in here.\n' +
+                    '(define (double x)\n\t(* x x))\n\n\n' +
+                    '<!-- XML code in here. -->\n' +
+                    '<root>\n\t<foo>\n\t</foo>\n\t<bar/>\n</root>\n\n\n' +
+                    '// Javascript code in here.\n' +
+                    'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
+
             }
-        };
-
-        // Initial code content...
-        $scope.aceModel = ';; Scheme code in here.\n' +
-            '(define (double x)\n\t(* x x))\n\n\n' +
-            '<!-- XML code in here. -->\n' +
-            '<root>\n\t<foo>\n\t</foo>\n\t<bar/>\n</root>\n\n\n' +
-            '// Javascript code in here.\n' +
-            'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
-
-    }
-</script>
+        </script>
 
 </body>
 </html>
