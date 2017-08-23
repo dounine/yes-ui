@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Badge from 'material-ui/Badge';
-import '../components/iconfont.css';
+import './iconfont/iconfont.css';
 
 const styles = theme => ({
     badge: {
