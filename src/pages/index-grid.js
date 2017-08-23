@@ -1,38 +1,18 @@
 import React, {Component} from 'react';
 import withRoot from '../components/withRoot';
 import IconButton from 'material-ui/IconButton'
+import Module from '../components/module';
 import Search from '../components/search';
-import ModuleList from '../components/module-list';
 import Paging from '../components/paging';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
+
 
 const styles = {
-    container: {},
     list: {
         display: 'flex',
-        paddingLeft: 20,
-        paddingRight: 10,
-        flexWrap: 'wrap'
-    },
-    search: {
-        display: 'inline-flex'
-    },
-    pages: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-    },
-    pageButton: {
-        margin: 4,
-        fontSize: 30,
-
-    },
-    pageBlock: {
-        width: 377,
-        display: 'flex',
-        justifyContent: 'flex-end'
-    },
-    pageIcon: {
-        fontSize: 30
+        paddingLeft:20,
+        paddingRight:10,
+        flexWrap:'wrap'
     },
     filterIcon: {
         fontSize: 24
@@ -42,11 +22,11 @@ const styles = {
         display: 'flex',
         alignItems: 'center'
     },
-    flexStart: {
-        display: 'flex',
-        flex: 1,
+    flexStart:{
+        display:'flex',
+        flex:1,
     },
-    flexEnd: {
+    flexEnd:{
         display: 'flex',
 
     }
@@ -55,7 +35,7 @@ const styles = {
 class Index extends Component {
 
     switchGridList = () => {
-        this.props.history.push('/grid')
+        this.props.history.push('/list')
     };
 
     render() {
@@ -79,12 +59,20 @@ class Index extends Component {
 
                     <div style={styles.flexEnd}>
                         <IconButton onClick={this.switchGridList}>
-                            <i style={styles.filterIcon} className="iconfont icon-liebiao"/>
+                            <i style={styles.filterIcon} className="iconfont icon-list"/>
                         </IconButton>
                     </div>
                 </div>
                 <div>
-                    <ModuleList/>
+                    <div style={styles.list}>
+                        <Module/>
+                        <Module/>
+                        <Module/>
+
+                        <Module/>
+                        <Module/>
+                        <Module/>
+                    </div>
                 </div>
                 <Paging />
             </div>

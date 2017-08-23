@@ -8,6 +8,8 @@
     "react": "latest",
     "react-autosuggest": "^9.3.2",
     "react-dom": "latest",
+    "react-router": "latest",
+    "react-router-dom": "latest",
     "react-scripts": "latest"
   },
   "scripts": {
