@@ -8,17 +8,19 @@ import FormHelperText from 'material-ui/Form/FormHelperText';
 
 const styles = theme => ({
     container: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        // display: 'flex',
+        // flexWrap: 'wrap',
+        width:'100%'
     },
     formControl: {
         margin: theme.spacing.unit,
-    },
+        width:'98%'
+    }
 });
 
 class ComposedTextField extends React.Component {
     state = {
-        name: 'http://localhost:8080/user/login',
+        name: 'Composed TextField',
     };
 
     handleChange = event => {
@@ -30,25 +32,16 @@ class ComposedTextField extends React.Component {
 
         return (
             <div className={classes.container}>
+
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="name-simple">Name</InputLabel>
-                    <Input id="name-simple" value={this.state.name} onChange={this.handleChange} />
+                    <Input
+                        placeholder="request url"
+                        inputProps={{
+                            'aria-label': 'Description',
+                        }}
+                    />
+                    <FormHelperText>可结合全局相对地扯使用</FormHelperText>
                 </FormControl>
-                {/*<FormControl className={classes.formControl}>*/}
-                    {/*<InputLabel htmlFor="name-helper">Name</InputLabel>*/}
-                    {/*<Input id="name-helper" value={this.state.name} onChange={this.handleChange} />*/}
-                    {/*<FormHelperText>Some important helper text</FormHelperText>*/}
-                {/*</FormControl>*/}
-                {/*<FormControl className={classes.formControl} disabled>*/}
-                    {/*<InputLabel htmlFor="name-disabled">Name</InputLabel>*/}
-                    {/*<Input id="name-disabled" value={this.state.name} onChange={this.handleChange} />*/}
-                    {/*<FormHelperText>Some important helper text</FormHelperText>*/}
-                {/*</FormControl>*/}
-                {/*<FormControl className={classes.formControl} error>*/}
-                    {/*<InputLabel htmlFor="name-error">Name</InputLabel>*/}
-                    {/*<Input id="name-error" value={this.state.name} onChange={this.handleChange} />*/}
-                    {/*<FormHelperText>Some important helper text</FormHelperText>*/}
-                {/*</FormControl>*/}
             </div>
         );
     }
