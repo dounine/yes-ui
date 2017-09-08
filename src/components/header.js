@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import {withRouter} from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -19,27 +20,38 @@ const styles = {
     },
 };
 
-function ButtonAppBar(props) {
-    const classes = props.classes;
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton color="contrast" aria-label="Menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography type="title" color="inherit" className={classes.flex}>
-                        Yes Doc API
-                    </Typography>
-                    <Button color="contrast">Login</Button>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+class ButtonAppBar extends Component{
+
+    module = () =>{
+        this.props.history.push('/module/1234')
+    }
+
+    render(){
+        return (
+            <div style={styles.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton color="contrast" aria-label="Menu">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography type="title" color="inherit" style={styles.flex}>
+                            Yes Doc API
+                        </Typography>
+                        <Button onClick={this.module} color="contrast">
+                            项目
+                        </Button>
+                        <Button color="contrast">Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
+
 }
 
 ButtonAppBar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonAppBar);
+const ShowTheLocationWithRouter = withRouter(ButtonAppBar);
+export default withStyles(styles)(ShowTheLocationWithRouter);

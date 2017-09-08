@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import withRoot from '../components/withRoot';
 import IconButton from 'material-ui/IconButton'
 import Module from '../components/module';
-import Search from '../components/search';
 import Paging from '../components/paging';
+import LeftBar from '../components/left-bar';
 import { withRouter } from 'react-router';
+import Search from '../components/search';
 
 
 const styles = {
@@ -22,41 +23,34 @@ const styles = {
         display: 'flex',
         alignItems: 'center'
     },
-    flexStart:{
-        display:'flex',
-        flex:1,
-    },
-    flexEnd:{
-        display: 'flex',
-
+    search: {
+        display: 'inline-flex'
     }
 };
 
 class Index extends Component {
 
     switchGridList = () => {
-        this.props.history.push('/list')
+        let pathname = this.props.history.location.pathname;
+        var arr = pathname.split('/');
+        arr[1] = 'list';
+        if(pathname!==arr.join('/')){
+            this.props.history.push(arr.join('/'))
+        }
     };
 
     render() {
         return (
             <div style={styles.container}>
                 <div style={styles.filterIconHeight}>
-                    <div style={styles.flexStart}>
-                        <IconButton>
-                            <i style={styles.filterIcon} className="iconfont icon-all"/>
-                        </IconButton>
-                        <IconButton>
-                            <i style={styles.filterIcon} className="iconfont icon-team"/>
-                        </IconButton>
-                        <IconButton>
-                            <i style={styles.filterIcon} className="iconfont icon-mine"/>
-                        </IconButton>
-                        <div style={styles.search}>
-                            <Search/>
-                        </div>
-                    </div>
+                    <LeftBar />
 
+                    <div style={styles.search}>
+                        <Search />
+                        <IconButton>
+                            <i style={styles.filterIcon} className="iconfont icon-search"/>
+                        </IconButton>
+                    </div>
                     <div style={styles.flexEnd}>
                         <IconButton onClick={this.switchGridList}>
                             <i style={styles.filterIcon} className="iconfont icon-list"/>
