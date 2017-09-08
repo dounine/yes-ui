@@ -94,8 +94,8 @@ const styles = theme => ({
         flexGrow: 1,
         width: 200,
         position: 'relative',
-        display: 'flex'
-
+        display: 'flex',
+        zIndex:2
     },
     suggestionsContainerOpen: {
         position: 'absolute',

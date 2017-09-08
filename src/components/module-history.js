@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import {withStyles} from 'material-ui/styles';
+import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-// import InboxIcon from 'material-ui-icons/MoveToInbox';
-// import DraftsIcon from 'material-ui-icons/Drafts';
-// import SendIcon from 'material-ui-icons/Send';
-// import ExpandLess from 'material-ui-icons/ExpandLess';
-// import ExpandMore from 'material-ui-icons/ExpandMore';
-// import StarBorder from 'material-ui-icons/StarBorder';
+import IconButton from 'material-ui/IconButton';
 
 const styles = theme => ({
     root: {
@@ -23,17 +16,38 @@ const styles = theme => ({
     nested: {
         paddingLeft: 0,
         // marginLeft:-10
+        // background:'#F3E5F5'
     },
+    group: {
+        // background:'#AB47BC '
+    },
+    fontSize: {
+        fontSize: 24,
+    },
+    requestGroup: {
+        textIndent: 40
+    },
+    requestUrl: {
+        overflow: 'hidden',
+        whiteSpace: 'nowrap'
+    }
 });
 
 class NestedList extends React.Component {
-    state = { open: true };
-
-    handleClick = () => {
-        this.setState({ open: !this.state.open });
+    state = {
+        open1: true,
+        open2: true
     };
 
-    moduleClick = () =>{
+    handleClick = (a) => {
+        var name = "open" + a
+        var value = !this.state[name]
+        var obj = {}
+        obj[name] = value
+        this.setState(obj);
+    };
+
+    moduleClick = () => {
 
     };
 
@@ -41,36 +55,128 @@ class NestedList extends React.Component {
         const classes = this.props.classes;
         return (
             <List className={classes.root}>
-                <Divider />
-                <ListItem button>
-                    <Avatar>
+                <Divider/>
+                <ListItem className={classes.group} button>
+                    <IconButton>
                         <i className="iconfont icon-module"/>
-                    </Avatar>
+                    </IconButton>
                     <ListItemText primary="用户模块"/>
                 </ListItem>
-                <Divider inset/>
-                <ListItem button>
-                    <Avatar>
+                <Divider/>
+                <ListItem className={classes.group} button>
+                    <IconButton>
                         <i className="iconfont icon-module"/>
-                    </Avatar>
-                    <ListItemText primary="Drafts" />
+                    </IconButton>
+                    <ListItemText primary="Drafts"/>
                 </ListItem>
-                <Divider inset/>
-                <ListItem button onClick={this.handleClick}>
-                    <Avatar>
+                <Divider/>
+                <ListItem className={classes.group} button onClick={() => this.handleClick('1')}>
+                    <IconButton>
                         <i className="iconfont icon-module"/>
-                    </Avatar>
-                    <ListItemText primary="Inbox" />
-                    {this.state.open ? <i className="iconfont icon-down"/> : <i className="iconfont icon-up"/>}
+                    </IconButton>
+                    <ListItemText primary="Inbox"/>
+                    {this.state.open1 ? <i className="iconfont icon-down"/> : <i className="iconfont icon-up"/>}
                 </ListItem>
-                <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
-                    <Divider inset/>
-                    <ListItem className={classes.nested}>
-                        {/*<Avatar>*/}
-                            {/*<i className="iconfont icon-Requestforquotation"/>*/}
-                        {/*</Avatar>*/}
-                        <ListItemText inset primary="Starred" />
+                <Collapse in={this.state.open1} transitionDuration="auto" unmountOnExit>
+                    <Divider/>
+                    <ListItem button className={classes.nested} onClick={() => this.handleClick('2')}>
+                        <i className={classes.requestGroup + ' ' + classes.fontSize + " iconfont icon-Requestforquotation"}/>
+                        <ListItemText inset primary="&nbsp;&nbsp;请求分组"/>
+                        {this.state.open2 ? <i className="iconfont icon-down"/> : <i className="iconfont icon-up"/>}
                     </ListItem>
+                    <Collapse in={this.state.open2} transitionDuration="auto" unmountOnExit>
+                        <Divider/>
+                        <ListItem button>
+                            <span>GE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>PO</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>PU</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>PA</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <ListItem button>
+                            <span>DE</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                        <Divider/>
+                        <ListItem button>
+                            <span>OP</span>
+                            <ListItemText className={classes.requestUrl}
+                                          primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                        </ListItem>
+                    </Collapse>
                 </Collapse>
             </List>
         );

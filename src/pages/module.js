@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/Menu';
 import Search from '../components/search';
 import ModuleLeftTabs from '../components/module-slide';
+import Request from '../components/request';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
@@ -21,7 +22,7 @@ const drawerWidth = 340;
 const styles = theme => ({
     root: {
         width: '100%',
-        height: '100%',
+        height: 900,
         // marginTop: theme.spacing.unit * 3,
         marginTop: 0,
         zIndex: 1,
@@ -64,7 +65,7 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: '0 8px',
+        padding: '0 16px',
         height: 56,
         [theme.breakpoints.up('sm')]: {
             height: 64,
@@ -81,11 +82,11 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         height: 'calc(100% - 56px)',
-        marginTop: 56,
+        marginTop: 40,
         [theme.breakpoints.up('sm')]: {
             content: {
                 height: 'calc(100% - 64px)',
-                marginTop: 64,
+                marginTop: 40,
             },
         },
     },
@@ -129,7 +130,7 @@ class PersistentDrawer extends React.Component {
                                 <i className="iconfont icon-slidedot"/>
                             </IconButton>
                             <Typography type="title" color="inherit" noWrap>
-                                Persistent drawer
+                                用户模块
                             </Typography>
                         </Toolbar>
                     </AppBar>
@@ -159,9 +160,7 @@ class PersistentDrawer extends React.Component {
                         </div>
                     </Drawer>
                     <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
-                        <Typography type="body1" noWrap>
-                            {'You think water moves fast? You should see ice.'}
-                        </Typography>
+                        <Request />
                     </main>
                 </div>
             </div>
