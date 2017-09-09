@@ -22,7 +22,7 @@ const drawerWidth = 340;
 const styles = theme => ({
     root: {
         width: '100%',
-        height: 900,
+        height: '100%',
         // marginTop: theme.spacing.unit * 3,
         marginTop: 0,
         zIndex: 1,

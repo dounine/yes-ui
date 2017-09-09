@@ -7,6 +7,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import RequestMethod from './request-method';
 import RequestUrl from './request-url';
 import RequestOptions from './request-options';
+import Response from './response';
 
 function TabContainer(props) {
     return <div style={{padding: 20}}>{props.children}</div>;
@@ -41,6 +42,9 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+    },
+    response:{
+
     }
 });
 
@@ -99,6 +103,9 @@ class ScrollableTabsButtonAuto extends React.Component {
                     </div>
                     <div className={classes.requestOption}>
                         <RequestOptions />
+                    </div>
+                    <div className={classes.response}>
+                        <Response />
                     </div>
                 </TabContainer>}
                 {value === 1 && <TabContainer>{'Item Two'}</TabContainer>}
