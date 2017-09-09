@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import Input from 'material-ui/Input/Input';
+import {withStyles} from 'material-ui/styles';
 import keycode from 'keycode';
 import Table, {
     TableBody,
@@ -17,16 +18,17 @@ import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 
 let counter = 0;
+
 function createData(name, calories, fat, carbs, protein) {
     counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
+    return {id: counter, name, calories, fat, carbs, protein};
 }
 
 const columnData = [
-    { id: 'name', numeric: false, disablePadding: true, label: '名称' },
-    { id: 'calories', numeric: true, disablePadding: false, label: '值' },
-    { id: 'fat', numeric: true, disablePadding: false, label: '描述' },
-    { id: 'operation', numeric: true, disablePadding: false, label: '操作' },
+    {id: 'name', numeric: false, disablePadding: true, label: '名称'},
+    {id: 'calories', numeric: true, disablePadding: false, label: '值'},
+    {id: 'fat', numeric: true, disablePadding: false, label: '描述'},
+    {id: 'operation', numeric: true, disablePadding: false, label: ''},
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -43,7 +45,7 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const { onSelectAllClick, order, orderBy, numSelected } = this.props;
+        const {onSelectAllClick, order, orderBy, numSelected} = this.props;
 
         return (
             <TableHead>
@@ -104,7 +106,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const {numSelected, classes} = props;
 
     return (
         <Toolbar
@@ -119,7 +121,7 @@ let EnhancedTableToolbar = props => {
                     <Typography type="title">请求头</Typography>
                 )}
             </div>
-            <div className={classes.spacer} />
+            <div className={classes.spacer}/>
             <div className={classes.actions}>
                 {numSelected > 0 ? (
                     <IconButton aria-label="Delete">
@@ -145,9 +147,13 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 const styles = theme => ({
     paper: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        marginTop: 0,
         overflowX: 'auto',
     },
+    text: {},
+    input: {
+        // display:'none'
+    }
 });
 
 class EnhancedTable extends React.Component {
@@ -176,15 +182,39 @@ class EnhancedTable extends React.Component {
             (a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]),
         );
 
-        this.setState({ data, order, orderBy });
+        this.setState({data, order, orderBy});
     };
 
     handleSelectAllClick = (event, checked) => {
         if (checked) {
-            this.setState({ selected: this.state.data.map(n => n.id) });
+            this.setState({selected: this.state.data.map(n => n.id)});
             return;
         }
-        this.setState({ selected: [] });
+        this.setState({selected: []});
+    };
+
+    cellClick = (event, id) => {
+
+        var obj = {}
+        obj['display' + id] = 'show'
+        this.setState(obj)
+        // const input = this.inputRef.refs.input;
+        var input = document.getElementById('id' + id)
+        console.log(input.value)
+        // input = input.child(0)
+        // console.log(this.state.textInput);
+        setTimeout(function () {
+            var _value = input.value
+            input.value = ""
+            input.focus();
+            input.value = _value
+        });
+    };
+
+    cellBlur = (event, id) => {
+        var obj = {}
+        obj['display' + id] = 'hide'
+        this.setState(obj)
     };
 
     handleKeyDown = (event, id) => {
@@ -194,7 +224,7 @@ class EnhancedTable extends React.Component {
     };
 
     handleClick = (event, id) => {
-        const { selected } = this.state;
+        const {selected} = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
@@ -211,14 +241,18 @@ class EnhancedTable extends React.Component {
             );
         }
 
-        this.setState({ selected: newSelected });
+        this.setState({selected: newSelected});
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    testt = () => {
+        console.log(this.refs.lake)
+    }
+
     render() {
         const classes = this.props.classes;
-        const { data, order, orderBy, selected } = this.state;
+        const {data, order, orderBy, selected} = this.state;
 
         return (
             <Paper className={classes.paper}>
@@ -234,11 +268,10 @@ class EnhancedTable extends React.Component {
                     <TableBody>
                         {data.map(n => {
                             const isSelected = this.isSelected(n.id);
+                            const $self = this;
                             return (
                                 <TableRow
                                     hover
-                                    onClick={event => this.handleClick(event, n.id)}
-                                    onKeyDown={event => this.handleKeyDown(event, n.id)}
                                     role="checkbox"
                                     aria-checked={isSelected}
                                     tabIndex="-1"
@@ -246,9 +279,30 @@ class EnhancedTable extends React.Component {
                                     selected={isSelected}
                                 >
                                     <TableCell checkbox>
-                                        <Checkbox checked={isSelected} />
+                                        <Checkbox onKeyDown={event => this.handleKeyDown(event, n.id)}
+                                                  onClick={event => this.handleClick(event, n.id)}
+                                                  checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell disablePadding>{n.name}</TableCell>
+                                    <TableCell disablePadding>
+                                        <span
+                                            style={{display: (($self.state['display' + n.id] != 'show') ? 'block' : 'none')}}
+
+                                            className={classes.text}
+                                            onClick={event => this.cellClick(event, n.id)}
+                                        >{n.name}</span>
+                                        <Input
+                                            autoFocus="true"
+                                            id={'id' + n.id}
+                                            style={{display: (($self.state['display' + n.id] != 'show') ? 'none' : 'block')}}
+                                            onBlur={event => this.cellBlur(event, n.id)}
+                                            // ref={(input) => { this.state['textInput'+n.id] = input; }}
+                                            defaultValue={n.name}
+                                            className={classes.input}
+                                            inputProps={{
+                                                'aria-label': n.id,
+                                            }}
+                                        />
+                                    </TableCell>
                                     <TableCell numeric>{n.calories}</TableCell>
                                     <TableCell numeric>{n.fat}</TableCell>
                                     <TableCell numeric>

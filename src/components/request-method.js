@@ -1,5 +1,8 @@
 import React from 'react';
-import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
+import { withStyles } from 'material-ui/styles';
+import deepPurple from 'material-ui/colors/deepPurple';
+import Avatar from 'material-ui/Avatar';
 import Menu, { MenuItem } from 'material-ui/Menu';
 
 const options = [
@@ -10,6 +13,14 @@ const options = [
     'PUT',
     'OPTIONS',
 ];
+
+const styles = theme => ({
+    orangeAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+    }
+})
 
 const ITEM_HEIGHT = 48;
 
@@ -28,16 +39,19 @@ class LongMenu extends React.Component {
     };
 
     render() {
+        const {classes} = this.props
         return (
             <div>
-                <IconButton
+                <Button
+                    fab
                     aria-label="More"
                     aria-owns={this.state.open ? 'long-menu' : null}
                     aria-haspopup="true"
+                    className={classes.orangeAvatar}
                     onClick={this.handleClick}
                 >
-                    GET
-                </IconButton>
+                    Get
+                </Button>
                 <Menu
                     id="long-menu"
                     anchorEl={this.state.anchorEl}
@@ -61,4 +75,4 @@ class LongMenu extends React.Component {
     }
 }
 
-export default LongMenu;
+export default withStyles(styles)(LongMenu);

@@ -18,14 +18,19 @@ const styles = theme => ({
         // marginLeft:-10
         // background:'#F3E5F5'
     },
+    blueIcon:{
+        color:'#9cf'
+    },
     group: {
         // background:'#AB47BC '
+        color: 'rgba(0, 0, 0, 0.54)'
     },
     fontSize: {
         fontSize: 24,
     },
     requestGroup: {
-        textIndent: 40
+        textIndent:20,
+        color: 'rgba(0, 0, 0, 0.54)'
     },
     requestUrl: {
         overflow: 'hidden',
@@ -57,32 +62,26 @@ class NestedList extends React.Component {
             <List className={classes.root}>
                 <Divider/>
                 <ListItem className={classes.group} button>
-                    <IconButton>
-                        <i className="iconfont icon-module"/>
-                    </IconButton>
+                    <i className="iconfont icon-module"/>
                     <ListItemText primary="用户模块"/>
                 </ListItem>
                 <Divider/>
                 <ListItem className={classes.group} button>
-                    <IconButton>
-                        <i className="iconfont icon-module"/>
-                    </IconButton>
+                    <i className="iconfont icon-module"/>
                     <ListItemText primary="Drafts"/>
                 </ListItem>
                 <Divider/>
                 <ListItem className={classes.group} button onClick={() => this.handleClick('1')}>
-                    <IconButton>
-                        <i className="iconfont icon-module"/>
-                    </IconButton>
+                    <i className="iconfont icon-module"/>
                     <ListItemText primary="Inbox"/>
-                    {this.state.open1 ? <i className="iconfont icon-down"/> : <i className="iconfont icon-up"/>}
+                    {this.state.open1 ? <i className={classes.blueIcon + " iconfont icon-down"}/> : <i className={classes.blueIcon + " iconfont icon-up"}/>}
                 </ListItem>
                 <Collapse in={this.state.open1} transitionDuration="auto" unmountOnExit>
                     <Divider/>
                     <ListItem button className={classes.nested} onClick={() => this.handleClick('2')}>
                         <i className={classes.requestGroup + ' ' + classes.fontSize + " iconfont icon-Requestforquotation"}/>
-                        <ListItemText inset primary="&nbsp;&nbsp;请求分组"/>
-                        {this.state.open2 ? <i className="iconfont icon-down"/> : <i className="iconfont icon-up"/>}
+                        <ListItemText inset primary="请求分组"/>
+                        {this.state.open2 ? <i className={classes.blueIcon + " iconfont icon-down"}/> : <i className={classes.blueIcon + " iconfont icon-up"}/>}
                     </ListItem>
                     <Collapse in={this.state.open2} transitionDuration="auto" unmountOnExit>
                         <Divider/>
