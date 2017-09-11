@@ -277,8 +277,16 @@ class EnhancedTable extends React.Component {
     };
 
     onClearAll = () => {
+        var obj = createData('','','')
         this.setState({
-            data: []
+            data: [
+                obj
+            ],
+            selected:[obj.id]
+        })
+        var $self = this
+        setTimeout(function () {
+            $self.state['inputRefsname'][obj.id].focus()
         })
     };
 
