@@ -8,6 +8,17 @@ import IndexGrid from './pages/index-grid';
 import Header from './components/header';
 import {Switch, Redirect, Router, Route} from 'react-router-dom';
 import createHashHistory from 'history/createHashHistory';
+Array.prototype.removeByValue = function(val,fun) {
+    for(var i=0,len=this.length; i<len; i++) {
+        if(this[i] == val) {
+            this.splice(i, 1);
+            if(fun){
+                return fun(this[i])
+            }
+            break;
+        }
+    }
+}
 
 const history = createHashHistory()
 

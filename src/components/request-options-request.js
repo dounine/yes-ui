@@ -34,13 +34,14 @@ const columnData = [
 
 class EnhancedTableHead extends React.Component {
     static propTypes = {
-        // numSelected: PropTypes.number.isRequired,
+        numSelected: PropTypes.number.isRequired,
         onRequestSort: PropTypes.func.isRequired,
         onRestAll: PropTypes.func.isRequired,
         onClearAll: PropTypes.func.isRequired,
         onSelectAllClick: PropTypes.func.isRequired,
         order: PropTypes.string.isRequired,
         orderBy: PropTypes.string.isRequired,
+        dataSize:PropTypes.func.isRequired
     };
 
     createRestAll = () => {
@@ -58,15 +59,15 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const {onRestAll, onClearAll, onSelectAllClick, order, orderBy, numSelected} = this.props;
+        const {onRestAll, onClearAll, onSelectAllClick, order, orderBy, numSelected,dataSize} = this.props;
 
         return (
             <TableHead>
                 <TableRow>
                     <TableCell checkbox>
                         <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < 5}
-                            checked={numSelected === 5}
+                            indeterminate={numSelected > 0 && numSelected < dataSize()}
+                            checked={numSelected === dataSize()}
                             onChange={onSelectAllClick}
                         />
                     </TableCell>
@@ -192,7 +193,7 @@ class EnhancedTable extends React.Component {
     };
 
     componentWillMount = () =>{
-        this.setState({selected: this.state.data.map(n => n.id)});
+        this.handleSelectAllClick(null,true)
     }
 
     cellClick = (event, id, name) => {
@@ -253,6 +254,9 @@ class EnhancedTable extends React.Component {
                     d.nameDirty = null
                     d.valueDirty = null
                     d.desDirty = null
+                    this.state['inputRefsname'][id].value = d['_name']
+                    this.state['inputRefsvalue'][id].value = d['_value']
+                    this.state['inputRefsdes'][id].value = d['_des']
                     d.name = d['_name']
                     d.value = d['_value']
                     d.des = d['_des']
@@ -264,6 +268,7 @@ class EnhancedTable extends React.Component {
                 var d = datas[i]
                 if (d && d.id === id) {
                     datas.splice(i, 1)
+                    this.state.selected.removeByValue(d.id)
                     break
                 }
             }
@@ -285,6 +290,9 @@ class EnhancedTable extends React.Component {
                 d.nameDirty = null
                 d.valueDirty = null
                 d.desDirty = null
+                this.state['inputRefsname'][d.id].value = d['_name']
+                this.state['inputRefsvalue'][d.id].value = d['_value']
+                this.state['inputRefsdes'][d.id].value = d['_des']
                 d.name = d['_name']
                 d.value = d['_value']
                 d.des = d['_des']
@@ -298,12 +306,17 @@ class EnhancedTable extends React.Component {
         var lastIndex = datas.length-1
         if(id===datas[lastIndex].id){
             if(event.target.value.trim().length!=0){
-                datas.push(createData('', '', ''))
-                this.handleClick(null,id)
+                var obj = createData('', '', '')
+                datas.push(obj)
+                this.handleClick(null,obj.id)
             }
         }
         this.setState({})
     };
+
+    dataSize = () =>{
+        return this.state.data.length
+    }
 
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -321,6 +334,7 @@ class EnhancedTable extends React.Component {
                         orderBy={orderBy}
                         onClearAll={this.onClearAll}
                         onRestAll={this.onResetAll}
+                        dataSize={this.dataSize}
                         onSelectAllClick={this.handleSelectAllClick}
                         onRequestSort={this.handleRequestSort}
                     />
