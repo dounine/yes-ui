@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Input from 'material-ui/Input/Input';
@@ -19,16 +20,19 @@ import IconButton from 'material-ui/IconButton';
 
 let counter = 0;
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(name, value, des) {
     counter += 1;
-    return {id: counter, name, calories, fat, carbs, protein};
+    var _name = name
+    var _value = value
+    var _des = des
+    return {id: counter, name, value, des, _name, _value, _des};
 }
 
 const columnData = [
     {id: 'name', numeric: false, disablePadding: true, label: '名称'},
-    {id: 'calories', numeric: true, disablePadding: false, label: '值'},
-    {id: 'fat', numeric: true, disablePadding: false, label: '描述'},
-    {id: 'operation', numeric: true, disablePadding: false, label: ''},
+    {id: 'calories', numeric: false, disablePadding: false, label: '值'},
+    {id: 'fat', numeric: false, disablePadding: false, label: '描述'},
+    {id: 'operation', numeric: false, disablePadding: false, label: ''},
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -41,7 +45,9 @@ class EnhancedTableHead extends React.Component {
     };
 
     createSortHandler = property => event => {
-        this.props.onRequestSort(event, property);
+        if (property !== 'operation') {
+            this.props.onRequestSort(event, property);
+        }
     };
 
     render() {
@@ -69,7 +75,10 @@ class EnhancedTableHead extends React.Component {
                                     direction={order}
                                     onClick={this.createSortHandler(column.id)}
                                 >
-                                    {column.label}
+                                    {column.label == '' ? <div>
+                                        <IconButton><i className={"iconfont icon-dantizhongzhi"}/> </IconButton>
+                                        <IconButton><i className={"iconfont icon-clear"}/> </IconButton>
+                                    </div> : column.label}
                                 </TableSortLabel>
                             </TableCell>
                         );
@@ -105,68 +114,39 @@ const toolbarStyles = theme => ({
     },
 });
 
-let EnhancedTableToolbar = props => {
-    const {numSelected, classes} = props;
-
-    return (
-        <Toolbar
-            className={classNames(classes.root, {
-                [classes.highlight]: numSelected > 0,
-            })}
-        >
-            <div className={classes.title}>
-                {numSelected > 0 ? (
-                    <Typography type="subheading">{numSelected} selected</Typography>
-                ) : (
-                    <Typography type="title">请求头</Typography>
-                )}
-            </div>
-            <div className={classes.spacer}/>
-            <div className={classes.actions}>
-                {numSelected > 0 ? (
-                    <IconButton aria-label="Delete">
-                        {/*<DeleteIcon />*/}
-                    </IconButton>
-                ) : (
-                    <IconButton aria-label="Filter list">
-                        {/*<FilterListIcon />*/}
-                    </IconButton>
-                )}
-            </div>
-        </Toolbar>
-    );
-};
-
-EnhancedTableToolbar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-};
-
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
-
 const styles = theme => ({
     paper: {
         width: '100%',
         marginTop: 0,
         overflowX: 'auto',
     },
-    text: {},
+    text: {
+        // padding: '0 24px'
+    },
+    textDirty: {
+        // padding: '0 24px',
+        color: 'blue'
+    },
     input: {
         // display:'none'
     }
 });
 
 class EnhancedTable extends React.Component {
+
     state = {
         order: 'asc',
         orderBy: 'calories',
         selected: [],
+        inputRefsname: {},
+        inputRefsvalue: {},
+        inputRefsdes: {},
         data: [
-            createData('Frozen yoghurt', 159, 4.0),
-            createData('Ice cream sandwich', 237, 4.3),
-            createData('Eclair', 262, 6.0),
-            createData('Cupcake', 305, 4.3),
-            createData('Gingerbread', 356, 3.9),
+            createData('FrozenYoghurt', 'value', 'des'),
+            createData('Username', 'value', 'des'),
+            createData('Eclair', 'value', 'des'),
+            createData('Cupcake', 'value', 'des'),
+            createData('Gingerbread', 'value', 'des'),
         ],
     };
 
@@ -193,16 +173,11 @@ class EnhancedTable extends React.Component {
         this.setState({selected: []});
     };
 
-    cellClick = (event, id) => {
-
+    cellClick = (event, id, name) => {
         var obj = {}
-        obj['display' + id] = 'show'
+        obj[name + '-display' + id] = 'show'
         this.setState(obj)
-        // const input = this.inputRef.refs.input;
-        var input = document.getElementById('id' + id)
-        console.log(input.value)
-        // input = input.child(0)
-        // console.log(this.state.textInput);
+        var input = this.state['inputRefs' + name][id]
         setTimeout(function () {
             var _value = input.value
             input.value = ""
@@ -211,9 +186,23 @@ class EnhancedTable extends React.Component {
         });
     };
 
-    cellBlur = (event, id) => {
+    cellBlur = (event, id, name) => {
         var obj = {}
-        obj['display' + id] = 'hide'
+        obj[name + '-display' + id] = 'hide'
+        var datas = this.state.data
+        for (var i = 0, len = datas.length; i < len; i++) {
+            var d = datas[i]
+            if (d.id === id && d[name] !== event.target.value) {
+                d[name] = event.target.value
+                if (d['_' + name] != d[name]) {
+                    d[name + 'Dirty'] = 'yes'
+                } else {
+                    d[name + 'Dirty'] = null
+                }
+                break
+            }
+        }
+        // obj.data = datas
         this.setState(obj)
     };
 
@@ -244,11 +233,38 @@ class EnhancedTable extends React.Component {
         this.setState({selected: newSelected});
     };
 
-    isSelected = id => this.state.selected.indexOf(id) !== -1;
+    dataOperator = (event, id, type) => {
+        var datas = this.state.data
+        if (type === 'reset') {
+            for (var i = 0, len = datas.length; i < len; i++) {
+                var d = datas[i]
+                if (d.id === id) {
+                    d.nameDirty = null
+                    d.valueDirty = null
+                    d.desDirty = null
+                    d.name = d['_name']
+                    d.value = d['_value']
+                    d.des = d['_des']
+                    break
+                }
+            }
+        } else if (type === 'clear') {
+            for (var i = 0, len = datas.length; i < len; i++) {
+                var d = datas[i]
+                if (d && d.id === id) {
+                    datas.splice(i, 1)
+                    break
+                }
+            }
+        }
+        this.setState({})
+    };
 
-    testt = () => {
-        console.log(this.refs.lake)
-    }
+    cellHover = () => {
+        console.log('aa')
+    };
+
+    isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
         const classes = this.props.classes;
@@ -283,32 +299,56 @@ class EnhancedTable extends React.Component {
                                                   onClick={event => this.handleClick(event, n.id)}
                                                   checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell disablePadding>
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'name')} disablePadding>
                                         <span
-                                            style={{display: (($self.state['display' + n.id] != 'show') ? 'block' : 'none')}}
-
-                                            className={classes.text}
-                                            onClick={event => this.cellClick(event, n.id)}
+                                            style={{display: (($self.state['name-display' + n.id] != 'show') ? 'block' : 'none')}}
+                                            className={n.nameDirty === 'yes' ? classes.textDirty : classes.text}
                                         >{n.name}</span>
                                         <Input
-                                            autoFocus="true"
-                                            id={'id' + n.id}
-                                            style={{display: (($self.state['display' + n.id] != 'show') ? 'none' : 'block')}}
-                                            onBlur={event => this.cellBlur(event, n.id)}
-                                            // ref={(input) => { this.state['textInput'+n.id] = input; }}
+                                            style={{display: (($self.state['name-display' + n.id] != 'show') ? 'none' : 'block')}}
+                                            onBlur={event => this.cellBlur(event, n.id, 'name')}
+                                            inputRef={input => this.state['inputRefs' + 'name'][n.id] = input}
                                             defaultValue={n.name}
                                             className={classes.input}
-                                            inputProps={{
-                                                'aria-label': n.id,
-                                            }}
                                         />
                                     </TableCell>
-                                    <TableCell numeric>{n.calories}</TableCell>
-                                    <TableCell numeric>{n.fat}</TableCell>
-                                    <TableCell numeric>
-                                        <IconButton>
-                                            <i className={"iconfont icon-close"}></i>
-                                        </IconButton>
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'value')} disablePadding>
+                                        <span
+                                            style={{display: (($self.state['value-display' + n.id] != 'show') ? 'block' : 'none')}}
+                                            className={n.valueDirty === 'yes' ? classes.textDirty : classes.text}
+                                        >{n.value}</span>
+                                        <Input
+                                            style={{display: (($self.state['value-display' + n.id] != 'show') ? 'none' : 'block')}}
+                                            onBlur={event => this.cellBlur(event, n.id, 'value')}
+                                            inputRef={input => this.state['inputRefs' + 'value'][n.id] = input}
+                                            defaultValue={n.value}
+                                            className={classes.input}
+                                        />
+                                    </TableCell>
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'des')} disablePadding>
+                                        <span
+                                            style={{display: (($self.state['des-display' + n.id] != 'show') ? 'block' : 'none')}}
+                                            className={n.desDirty === 'yes' ? classes.textDirty : classes.text}
+                                        >{n.des}</span>
+                                        <Input
+                                            style={{display: (($self.state['des-display' + n.id] != 'show') ? 'none' : 'block')}}
+                                            onBlur={event => this.cellBlur(event, n.id, 'des')}
+                                            inputRef={input => this.state['inputRefs' + 'des'][n.id] = input}
+                                            defaultValue={n.des}
+                                            className={classes.input}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div>
+                                            <IconButton
+                                                style={{visibility: ((n.nameDirty == 'yes' || n.valueDirty == 'yes' || n.desDirty == 'yes') ? 'visible' : 'hidden')}}
+                                                onClick={event => this.dataOperator(event, n.id, 'reset')}>
+                                                <i className={"iconfont icon-dantizhongzhi"}></i>
+                                            </IconButton>
+                                            <IconButton onClick={event => this.dataOperator(event, n.id, 'clear')}>
+                                                <i className={"iconfont icon-clear"}></i>
+                                            </IconButton>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             );
