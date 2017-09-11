@@ -4,6 +4,9 @@ import { withStyles } from 'material-ui/styles';
 import deepPurple from 'material-ui/colors/deepPurple';
 import Avatar from 'material-ui/Avatar';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Select from 'material-ui/Select';
 
 const options = [
     'GET',
@@ -38,20 +41,37 @@ class LongMenu extends React.Component {
         this.setState({ open: false });
     };
 
+    state = {
+        type: 1,
+    };
+
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
+
+    componentDidMount = () =>{
+        this.handleChange('type',{target:{value:'GET'}})
+    }
+
     render() {
         const {classes} = this.props
         return (
             <div>
-                <Button
-                    fab
-                    aria-label="More"
-                    aria-owns={this.state.open ? 'long-menu' : null}
-                    aria-haspopup="true"
-                    className={classes.orangeAvatar}
-                    onClick={this.handleClick}
-                >
-                    Get
-                </Button>
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="age-simple">method</InputLabel>
+                    <Select
+                        value={this.state.type}
+                        onChange={this.handleChange('type')}
+                        input={<Input id="age-simple" />}
+                    >
+                        <MenuItem value={1}>&nbsp;GET</MenuItem>
+                        <MenuItem value={2}>&nbsp;POST</MenuItem>
+                        <MenuItem value={3}>&nbsp;DELETE</MenuItem>
+                        <MenuItem value={4}>&nbsp;PATCH</MenuItem>
+                        <MenuItem value={5}>&nbsp;PUT</MenuItem>
+                        <MenuItem value={6}>&nbsp;OPTIONS</MenuItem>
+                    </Select>
+                </FormControl>
                 <Menu
                     id="long-menu"
                     anchorEl={this.state.anchorEl}

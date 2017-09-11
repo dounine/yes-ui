@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Input from 'material-ui/Input/Input';
+import TextField from 'material-ui/TextField';
 import {withStyles} from 'material-ui/styles';
 import keycode from 'keycode';
 import Table, {
@@ -12,8 +11,6 @@ import Table, {
     TableRow,
     TableSortLabel,
 } from 'material-ui/Table';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
@@ -39,10 +36,20 @@ class EnhancedTableHead extends React.Component {
     static propTypes = {
         numSelected: PropTypes.number.isRequired,
         onRequestSort: PropTypes.func.isRequired,
+        onRestAll: PropTypes.func.isRequired,
+        onClearAll: PropTypes.func.isRequired,
         onSelectAllClick: PropTypes.func.isRequired,
         order: PropTypes.string.isRequired,
         orderBy: PropTypes.string.isRequired,
     };
+
+    createRestAll = () => {
+        this.props.onRestAll();
+    };
+
+    createClearAll = () => {
+        this.props.onClearAll();
+    }
 
     createSortHandler = property => event => {
         if (property !== 'operation') {
@@ -51,7 +58,7 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const {onSelectAllClick, order, orderBy, numSelected} = this.props;
+        const {onRestAll, onClearAll, onSelectAllClick, order, orderBy, numSelected} = this.props;
 
         return (
             <TableHead>
@@ -76,8 +83,10 @@ class EnhancedTableHead extends React.Component {
                                     onClick={this.createSortHandler(column.id)}
                                 >
                                     {column.label == '' ? <div>
-                                        <IconButton><i className={"iconfont icon-dantizhongzhi"}/> </IconButton>
-                                        <IconButton><i className={"iconfont icon-clear"}/> </IconButton>
+                                        <IconButton onClick={onRestAll}><i className={"iconfont icon-dantizhongzhi"}/>
+                                        </IconButton>
+                                        <IconButton onClick={onClearAll}><i className={"iconfont icon-clear"}/>
+                                        </IconButton>
                                     </div> : column.label}
                                 </TableSortLabel>
                             </TableCell>
@@ -121,14 +130,22 @@ const styles = theme => ({
         overflowX: 'auto',
     },
     text: {
-        // padding: '0 24px'
+        width:'100%',
+        display:'inline-flex'
     },
     textDirty: {
-        // padding: '0 24px',
+        width:'100%',
+        display:'inline-flex',
         color: 'blue'
     },
     input: {
-        // display:'none'
+        width:'100%',
+        fontSize:16,
+    },
+    inputDirty: {
+        width:'100%',
+        fontSize:16,
+        backgroundColor:'#bff2ff'
     }
 });
 
@@ -173,22 +190,16 @@ class EnhancedTable extends React.Component {
         this.setState({selected: []});
     };
 
+    componentWillMount = () =>{
+        this.setState({selected: this.state.data.map(n => n.id)});
+    }
+
     cellClick = (event, id, name) => {
-        var obj = {}
-        obj[name + '-display' + id] = 'show'
-        this.setState(obj)
-        var input = this.state['inputRefs' + name][id]
-        setTimeout(function () {
-            var _value = input.value
-            input.value = ""
-            input.focus();
-            input.value = _value
-        });
+
     };
 
     cellBlur = (event, id, name) => {
-        var obj = {}
-        obj[name + '-display' + id] = 'hide'
+        this.state[name + '-display' + id] = 'hide'
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
@@ -202,8 +213,7 @@ class EnhancedTable extends React.Component {
                 break
             }
         }
-        // obj.data = datas
-        this.setState(obj)
+        this.setState({})
     };
 
     handleKeyDown = (event, id) => {
@@ -260,9 +270,28 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
-    cellHover = () => {
-        console.log('aa')
+    onClearAll = () => {
+        this.setState({
+            data: []
+        })
     };
+
+    onResetAll = () => {
+        var datas = this.state.data
+        for (var i = 0, len = datas.length; i < len; i++) {
+            var d = datas[i]
+            if (d) {
+                d.nameDirty = null
+                d.valueDirty = null
+                d.desDirty = null
+                d.name = d['_name']
+                d.value = d['_value']
+                d.des = d['_des']
+            }
+        }
+        this.setState({})
+    };
+
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
@@ -272,12 +301,13 @@ class EnhancedTable extends React.Component {
 
         return (
             <Paper className={classes.paper}>
-                {/*<EnhancedTableToolbar numSelected={selected.length} />*/}
                 <Table>
                     <EnhancedTableHead
                         numSelected={selected.length}
                         order={order}
                         orderBy={orderBy}
+                        onClearAll={this.onClearAll}
+                        onRestAll={this.onResetAll}
                         onSelectAllClick={this.handleSelectAllClick}
                         onRequestSort={this.handleRequestSort}
                     />
@@ -289,53 +319,39 @@ class EnhancedTable extends React.Component {
                                 <TableRow
                                     hover
                                     role="checkbox"
-                                    aria-checked={isSelected}
+                                    aria-checked={!isSelected}
                                     tabIndex="-1"
                                     key={n.id}
-                                    selected={isSelected}
+                                    selected={!isSelected}
                                 >
                                     <TableCell checkbox>
                                         <Checkbox onKeyDown={event => this.handleKeyDown(event, n.id)}
                                                   onClick={event => this.handleClick(event, n.id)}
                                                   checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell onClick={event => this.cellClick(event, n.id, 'name')} disablePadding>
-                                        <span
-                                            style={{display: (($self.state['name-display' + n.id] != 'show') ? 'block' : 'none')}}
-                                            className={n.nameDirty === 'yes' ? classes.textDirty : classes.text}
-                                        >{n.name}</span>
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'name')}>
                                         <Input
-                                            style={{display: (($self.state['name-display' + n.id] != 'show') ? 'none' : 'block')}}
                                             onBlur={event => this.cellBlur(event, n.id, 'name')}
                                             inputRef={input => this.state['inputRefs' + 'name'][n.id] = input}
                                             defaultValue={n.name}
-                                            className={classes.input}
+                                            className={n.nameDirty==='yes'?classes.inputDirty:classes.input}
                                         />
                                     </TableCell>
-                                    <TableCell onClick={event => this.cellClick(event, n.id, 'value')} disablePadding>
-                                        <span
-                                            style={{display: (($self.state['value-display' + n.id] != 'show') ? 'block' : 'none')}}
-                                            className={n.valueDirty === 'yes' ? classes.textDirty : classes.text}
-                                        >{n.value}</span>
-                                        <Input
-                                            style={{display: (($self.state['value-display' + n.id] != 'show') ? 'none' : 'block')}}
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'value')}>
+                                        <TextField
                                             onBlur={event => this.cellBlur(event, n.id, 'value')}
                                             inputRef={input => this.state['inputRefs' + 'value'][n.id] = input}
                                             defaultValue={n.value}
-                                            className={classes.input}
+                                            className={n.valueDirty==='yes'?classes.inputDirty:classes.input}
                                         />
                                     </TableCell>
-                                    <TableCell onClick={event => this.cellClick(event, n.id, 'des')} disablePadding>
-                                        <span
-                                            style={{display: (($self.state['des-display' + n.id] != 'show') ? 'block' : 'none')}}
-                                            className={n.desDirty === 'yes' ? classes.textDirty : classes.text}
-                                        >{n.des}</span>
-                                        <Input
-                                            style={{display: (($self.state['des-display' + n.id] != 'show') ? 'none' : 'block')}}
+                                    <TableCell onClick={event => this.cellClick(event, n.id, 'des')}>
+                                        <TextField
+                                            disabled
                                             onBlur={event => this.cellBlur(event, n.id, 'des')}
                                             inputRef={input => this.state['inputRefs' + 'des'][n.id] = input}
                                             defaultValue={n.des}
-                                            className={classes.input}
+                                            className={n.desDirty==='yes'?classes.inputDirty:classes.input}
                                         />
                                     </TableCell>
                                     <TableCell>

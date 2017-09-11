@@ -2,7 +2,8 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import { withStyles } from 'material-ui/styles';
-import RequestHeader from './request-options-hreader';
+import OptionRequest from './request-options-request';
+import OptionHeader from './request-options-header';
 const styles = theme => ({
     operator: {
         display:'flex',
@@ -60,7 +61,10 @@ class IconTabs extends React.Component {
                     </div>
                 </Tabs>
                 {this.state.value === 0 && <div>
-                    <RequestHeader />
+                    <OptionRequest />
+                </div>}
+                {this.state.value === 1 && <div>
+                    <OptionHeader />
                 </div>}
             </Paper>
         );
