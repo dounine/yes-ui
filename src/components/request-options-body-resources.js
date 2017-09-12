@@ -105,7 +105,7 @@ class CircularFab extends React.Component {
     state = {
         loading: false,
         success: false,
-        open: true,
+        open: false,
         navs: [
             {
                 fileName: '全部资源',
@@ -287,8 +287,13 @@ class CircularFab extends React.Component {
                                 navs.map(n => {
                                     return (
                                         <span>
-                                            <Button color="primary" onClick={event => this.navClick(event, n)}
-                                                    disabled={n.isLast == 'true' ? 'yes' : ''}>{n.fileName}</Button>
+                                            {
+                                                n.isLast === 'true'?
+                                                    <Button color="primary" onClick={event => this.navClick(event, n)}
+                                                            disabled>{n.fileName}</Button>:
+                                                    <Button color="primary" onClick={event => this.navClick(event, n)}
+                                                            >{n.fileName}</Button>
+                                            }
                                             {n.isLast === 'true' ? '' : <span className={classes.nav}>/</span>}
                                         </span>
                                     );

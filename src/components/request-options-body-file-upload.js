@@ -4,9 +4,6 @@ import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
 import green from 'material-ui/colors/green';
 import IconButton from 'material-ui/IconButton';
-import Button from 'material-ui/Button';
-// import CheckIcon from 'material-ui-icons/Check';
-// import SaveIcon from 'material-ui-icons/Save';
 
 const styles = {
     wrapper: {
@@ -17,6 +14,7 @@ const styles = {
         height:30,
         top:2,
         left:9,
+        marginRight:18,
         backgroundColor: green[500],
         '&:hover': {
             backgroundColor: green[700],

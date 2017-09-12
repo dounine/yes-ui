@@ -26,8 +26,8 @@ function createData(name, value, des) {
     var _name = name
     var _value = value
     var _des = des
-    var _type = 3
-    var _type_value = 'resource'
+    var _type = 1
+    var _type_value = 'text'
     return {id: counter, name, value, des, _name,_type,_type_value, _value, _des};
 }
 
@@ -480,8 +480,7 @@ class EnhancedTable extends React.Component {
                                         />
                                     </TableCell>
                                     <TableCell style={{padding:'0px'}}>
-                                        {n._type==2?<Upload />:(n._type==1?'':<Resource />)}
-
+                                        {n._type===2?<Upload />:(n._type===1?'':<Resource />)}
                                     </TableCell>
                                     <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'des')}>
                                         <Input
