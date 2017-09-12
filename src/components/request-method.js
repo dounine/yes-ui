@@ -8,15 +8,6 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 
-const options = [
-    'GET',
-    'POST',
-    'DELETE',
-    'PATCH',
-    'PUT',
-    'OPTIONS',
-];
-
 const styles = theme => ({
     orangeAvatar: {
         margin: 10,
@@ -31,10 +22,6 @@ class LongMenu extends React.Component {
     state = {
         anchorEl: undefined,
         open: false,
-    };
-
-    handleClick = event => {
-        this.setState({ open: true, anchorEl: event.currentTarget });
     };
 
     handleRequestClose = () => {
@@ -72,24 +59,6 @@ class LongMenu extends React.Component {
                         <MenuItem value={6}>&nbsp;OPTIONS</MenuItem>
                     </Select>
                 </FormControl>
-                <Menu
-                    id="long-menu"
-                    anchorEl={this.state.anchorEl}
-                    open={this.state.open}
-                    onRequestClose={this.handleRequestClose}
-                    style={{ maxHeight: ITEM_HEIGHT * 4.5 }}
-                    MenuListProps={{
-                        style: {
-                            width: 100,
-                        },
-                    }}
-                >
-                    {options.map(option => (
-                        <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.handleRequestClose}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Menu>
             </div>
         );
     }

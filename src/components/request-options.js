@@ -3,6 +3,7 @@ import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import { withStyles } from 'material-ui/styles';
 import OptionRequest from './request-options-request';
+import OptionBody from './request-options-body';
 import OptionHeader from './request-options-header';
 const styles = theme => ({
     operator: {
@@ -61,7 +62,7 @@ class IconTabs extends React.Component {
                     </div>
                 </Tabs>
                 {this.state.value === 0 && <div>
-                    <OptionRequest />
+                    <OptionBody />
                 </div>}
                 {this.state.value === 1 && <div>
                     <OptionHeader />
