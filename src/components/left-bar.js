@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import IconButton from 'material-ui/IconButton';
 import {withRouter} from 'react-router';
-import './iconfont/iconfont.css';
 
 const styles = {
     pages: {

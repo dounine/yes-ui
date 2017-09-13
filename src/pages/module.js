@@ -14,6 +14,7 @@ import MenuIcon from 'material-ui/Menu';
 import Search from '../components/search';
 import ModuleLeftTabs from '../components/module-slide';
 import Request from '../components/request';
+import SearchIcon from '../components/icons/SearchIcon';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
@@ -145,7 +146,7 @@ class PersistentDrawer extends React.Component {
                             <div className={classes.drawerHeader}>
                                 <Search />
                                 <IconButton>
-                                    <i style={classes.filterIcon} className="iconfont icon-search"/>
+                                    <SearchIcon />
                                 </IconButton>
                                 <IconButton onClick={this.handleDrawerClose}>
                                     <i className="iconfont icon-left"/>

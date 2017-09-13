@@ -52,6 +52,7 @@ class IconTabs extends React.Component {
                     <Tab icon={<i className={"iconfont icon-header"} />} />
                     <Tab icon={<i className={"iconfont icon-cookie"} />} />
                     <Tab icon={<i className={"iconfont icon-run"} />} />
+                    {/*此处会报错,因为不是属于Tabs子标签*/}
                     <div className={classes.statusTime}>
                         <div className={classes.full}></div>
                         <div className={classes.right}>

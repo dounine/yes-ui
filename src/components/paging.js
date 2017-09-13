@@ -51,8 +51,7 @@ class Paging extends Component {
         let self = this;
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
-        let size = parseInt(arr[3]);
-        let page = parseInt(arr[4]);
+        let page = parseInt(arr[4],10);
 
         this.setState({
             prevButton: !(page > 1),
@@ -63,7 +62,7 @@ class Paging extends Component {
         axios.get('http://localhost:8080/yes/count')
             .then((response) => {
                 self.setState({
-                    count: parseInt(response.data)
+                    count: parseInt(response.data,10)
                 })
                 this.handlerPagesButton()
             });
@@ -84,7 +83,7 @@ class Paging extends Component {
     clickPrev = () => {
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
-        let page = parseInt(arr[4]);
+        let page = 10|0;
         if (page > 1) {
             arr[4] = page - 1;
             this.props.history.push(arr.join('/'))
@@ -96,9 +95,9 @@ class Paging extends Component {
     handlerPagesButton = () => {
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
-        let size = parseInt(arr[3]);
-        let page = parseInt(arr[4]);
-        if(size=='0'){
+        let size = arr[3]|0;
+        let page = arr[4]|0;
+        if(size===0){
             this.setState({
                 nextButton: true,
                 lastButton: true,
@@ -106,7 +105,7 @@ class Paging extends Component {
                 indexButton:true
             })
         }else{
-            if (arr[4] == 1) {//第一页
+            if (arr[4] === 1) {//第一页
                 this.setState({
                     prevButton: true,
                     indexButton: true
@@ -139,7 +138,7 @@ class Paging extends Component {
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
         if (arr[4]) {
-            arr[4] = parseInt(arr[4]) + 1;
+            arr[4] = parseInt(arr[4],10) + 1;
             this.props.history.push(arr.join('/'))
         }
 
@@ -151,7 +150,7 @@ class Paging extends Component {
         var arr = pathname.split('/');
 
         if (arr[4]) {
-            arr[4] = Math.ceil(this.state.count / parseInt(arr[3]))
+            arr[4] = Math.ceil(this.state.count / parseInt(arr[3],10))
             this.props.history.push(arr.join('/'))
         }
 
@@ -161,7 +160,7 @@ class Paging extends Component {
     componentDidMount() {
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
-        this.setState({size: arr[3]=='0'?'全部':arr[3]});
+        this.setState({size: arr[3]==='0'?'全部':arr[3]});
     };
 
     handleClick = event => {
@@ -171,8 +170,8 @@ class Paging extends Component {
     handleRequestClose = (select) => {
         let pathname = this.props.history.location.pathname;
         var arr = pathname.split('/');
-        if (arr[3] != select.toString() && typeof select == 'string') {
-            arr[3] = select=='全部'?'0':select;
+        if (arr[3] !== select.toString() && typeof select === 'string') {
+            arr[3] = select==='全部'?'0':select;
             this.props.history.push(arr.join('/'))
             this.setState({open: false, size: select});
         }else{

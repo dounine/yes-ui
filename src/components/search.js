@@ -158,7 +158,7 @@ class IntegrationAutosuggest extends Component {
         let pathname = this.props.history.location.pathname;
         let $self = this
         document.addEventListener('keydown', function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 var arr = pathname.split('/');
                 if(arr[5]){
                     arr[5] = $self.state.value

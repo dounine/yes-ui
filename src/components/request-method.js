@@ -1,11 +1,9 @@
 import React from 'react';
-import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import deepPurple from 'material-ui/colors/deepPurple';
-import Avatar from 'material-ui/Avatar';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import { MenuItem } from 'material-ui/Menu';
 import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 
 const styles = theme => ({
@@ -16,20 +14,15 @@ const styles = theme => ({
     }
 })
 
-const ITEM_HEIGHT = 48;
-
 class LongMenu extends React.Component {
     state = {
         anchorEl: undefined,
+        type: 1,
         open: false,
     };
 
     handleRequestClose = () => {
         this.setState({ open: false });
-    };
-
-    state = {
-        type: 1,
     };
 
     handleChange = name => event => {

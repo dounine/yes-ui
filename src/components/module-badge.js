@@ -18,7 +18,7 @@ function SimpleBadge(props) {
     return (
         <div>
             <Badge className={classes.badge} badgeContent={10} color="primary">
-                <i className={classes.badeFont+' '+"iconfont icon-Requestforquotation"}></i>
+                <i className={classes.badeFont+" iconfont icon-Requestforquotation"}></i>
             </Badge>
         </div>
     );

@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
 const styles = theme => ({
     container: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
         width:'100%'
     },
     formControl: {

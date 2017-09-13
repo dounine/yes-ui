@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import Avatar from 'material-ui/Avatar';
-import deepOrange from 'material-ui/colors/deepOrange';
 import deepPurple from 'material-ui/colors/deepPurple';
-import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import Menu,{ MenuItem } from 'material-ui/Menu';
-import { FormControlLabel } from 'material-ui/Form';
+import {MenuItem} from 'material-ui/Menu';
+import {FormControlLabel} from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
+import SearchIcon from './icons/SearchIcon';
+import Select from 'material-ui/Select';
+import Input, {InputLabel} from 'material-ui/Input';
+import CopyIcon from "./icons/CopyIcon";
 
 const styles = theme => ({
     container: {
@@ -22,37 +22,37 @@ const styles = theme => ({
         width: '100%',
         height: 500
     },
-    operator:{
+    operator: {
         border: '1px solid #ccc',
-        borderBottom:'0px solid #ccc',
+        borderBottom: '0px solid #ccc',
         // padding:10,
-        display:'flex'
+        display: 'flex'
     },
-    format:{
+    format: {
         // display:'inline-flex',
         // padding:'0 10px',
         // border: '1px solid #ccc',
         // borderBottom:'0px solid #ccc',
         // background:'#f0f0f0'
-        display:'flex',
-        flex:1
+        display: 'flex',
+        flex: 1
     },
-    formatOutline:{
-        display:'inline-flex',
-        padding:'0 10px',
+    formatOutline: {
+        display: 'inline-flex',
+        padding: '0 10px',
         // outline: '1px solid #ccc',
     },
-    format_left:{
-        height:48,
+    format_left: {
+        height: 48,
         fontSize: 14,
         color: 'rgba(0, 0, 0, 0.87)',
-        fontWeight:400,
+        fontWeight: 400,
         fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-        lineHeight:'50px',
+        lineHeight: '50px',
     },
-    format_right:{
-        marginLeft:0,
-        marginRight:0
+    format_right: {
+        marginLeft: 0,
+        marginRight: 0
     },
     body: {
         display: 'flex',
@@ -90,24 +90,15 @@ const styles = theme => ({
         color: '#fff',
         backgroundColor: deepPurple[500],
     },
-    searchCopy:{
-        display:'flex',
-        // flex:1
+    searchCopy: {
+        display: 'flex',
     }
 });
-
-const options = [
-    'JSON',
-    'Text',
-    'XML',
-    'Auto',
-    'HTML'
-];
-const ITEM_HEIGHT = 48;
 
 class TextFields extends React.Component {
     state = {
         name: 'Cat in the Hat',
+        methodType: 1,
         multiline: 'Controlled',
         value: 'nihao',
         anchorEl: undefined,
@@ -133,7 +124,7 @@ class TextFields extends React.Component {
 
     syntaxHighlightLines = cc => {
         var json = this.state.value
-        if (typeof json != 'string') {
+        if (typeof json !== 'string') {
             json = JSON.stringify(json, undefined, 2);
         }
         var objs = []
@@ -145,12 +136,12 @@ class TextFields extends React.Component {
 
     syntaxHighlight = cc => {
         var json = this.state.value
-        if (typeof json != 'string') {
+        if (typeof json !== 'string') {
             json = JSON.stringify(json, undefined, 2);
         }
         json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
 
-        var body = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var body = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
             var cls = cc.number;
             if (/^"/.test(match)) {
                 if (/:$/.test(match)) {
@@ -169,11 +160,9 @@ class TextFields extends React.Component {
     };
 
     typeHandleClick = event => {
-        this.setState({ open: true, anchorEl: event.currentTarget });
+        this.setState({methodType: event.currentTarget.value});
     };
-    typeHandleRequestClose = event => {
-        this.setState({ open: false });
-    };
+
 
     render() {
         const classes = this.props.classes;
@@ -189,49 +178,33 @@ class TextFields extends React.Component {
                                 control={
                                     <Switch
                                         checked={this.state.checkedA}
-                                        onChange={(event, checked) => this.setState({ checkedA: checked })}
+                                        onChange={(event, checked) => this.setState({checkedA: checked})}
                                     />
                                 }
                                 label="预览"
                             />
                         </div>
 
-                        <div>
-                            <Button
-                                dense
-                                aria-owns={this.state.open ? 'long-menu' : null}
-                                aria-haspopup="true"
-                                className={classes.orangeAvatar}
-                                onClick={this.typeHandleClick}
+                        <div style={{marginTop:'6px',marginLeft:'6px'}}>
+                            <InputLabel htmlFor="age-simple"></InputLabel>
+                            <Select
+                                value={this.state.methodType}
+                                onChange={this.typeHandleClick}
+                                input={<Input id="age-simple"/>}
                             >
-                                JSON
-                            </Button>
-                            <Menu
-                                id="long-menu"
-                                anchorEl={this.state.anchorEl}
-                                open={this.state.open}
-                                onRequestClose={this.typeHandleRequestClose}
-                                style={{ maxHeight: ITEM_HEIGHT * 4.5 }}
-                                MenuListProps={{
-                                    style: {
-                                        width: 70,
-                                    },
-                                }}
-                            >
-                                {options.map(option => (
-                                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.typeHandleRequestClose}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
+                                <MenuItem value={1}>JSON</MenuItem>
+                                <MenuItem value={2}>TEXT</MenuItem>
+                                <MenuItem value={3}>XML</MenuItem>
+                                <MenuItem value={4}>HTML</MenuItem>
+                            </Select>
                         </div>
                     </div>
                     <div className={classes.searchCopy}>
                         <IconButton>
-                            <i className={"iconfont icon-copy"}></i>
+                            <CopyIcon/>
                         </IconButton>
                         <IconButton>
-                            <i className={"iconfont icon-search"}></i>
+                            <SearchIcon/>
                         </IconButton>
                     </div>
                 </div>

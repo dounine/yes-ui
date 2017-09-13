@@ -8,7 +8,6 @@ import green from 'material-ui/colors/green';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
-import Avatar from 'material-ui/Avatar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Slide from 'material-ui/transitions/Slide';
@@ -19,15 +18,11 @@ const styles = {
         position: 'relative',
     },
     successButton: {
+        marginRight:10,
         width: 30,
         height: 30,
         top: 2,
         left: 9
-    },
-    progress: {
-        position: 'absolute',
-        top: 6,
-        left: 5,
     },
     appBar: {
         position: 'relative',
@@ -101,7 +96,7 @@ const styles = {
     }
 };
 
-class CircularFab extends React.Component {
+class Resource extends React.Component {
     state = {
         loading: false,
         success: false,
@@ -110,6 +105,7 @@ class CircularFab extends React.Component {
             {
                 fileName: '全部资源',
                 isLast: 'true',
+                id:'1',
                 isRoot: 'true'
             },
         ],
@@ -134,7 +130,7 @@ class CircularFab extends React.Component {
                 fileName: '苍老师2017',
                 foldCount: 10,
                 fileCount: 200,
-                id: 'uuid-1234adsf-asdf-asdf-qwer-1233',
+                id: 'uuid-1234adsf-asdf-asdf-qwer-1232',
                 preview: 'http://www.easyicon.net/api/resizeApi.php?id=1176246&size=128',
                 size: '1024kb',
                 fileType: 'txt'
@@ -176,7 +172,7 @@ class CircularFab extends React.Component {
 
     navClick = (event, n) => {
         var datas = this.state.navs
-        if (n.isRoot == 'true') {
+        if (n.isRoot === 'true') {
             datas = [datas[0]]
             datas[0].isLast = 'true'
             for (var i = 1, len = datas.length; i < len; i++) {
@@ -184,8 +180,8 @@ class CircularFab extends React.Component {
             }
         } else {
             var isFind = false
-            for (var i = 1, len = datas.length; i < len; i++) {
-                if (!isFind && datas[i].id == n.id) {
+            for (var index = 1, sizeLen = datas.length; index < sizeLen; index++) {
+                if (!isFind && datas[index].id === n.id) {
                     isFind = true
                 }
                 if (isFind){
@@ -212,11 +208,11 @@ class CircularFab extends React.Component {
     };
 
     getFileTypeInfo = (classes, n) => {
-        if (n.fileType == 'fold') {
+        if (n.fileType === 'fold') {
             return <li className={classes.fileTileTip}><i
                 className="iconfont icon-folder"/>:{n.foldCount}&nbsp;&nbsp;<i
                 className="iconfont icon-filetexto"/>:{n.fileCount}</li>
-        } else if (n.fileType == 'png' || n.fileType == 'gif' || n.fileType == 'jpg') {
+        } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
             return <li className={classes.fileTileTip}>
                 <i className="iconfont icon-size"/>:{n.size}&nbsp;&nbsp;
                 <i className="iconfont icon-format_wipe"/>:{n.fileType}
@@ -232,14 +228,14 @@ class CircularFab extends React.Component {
     imgLoadComplete = (event,n) =>{
         n['_success'+n.id] = true
         this.setState({});
-    }
+    };
 
     getFilePreview = (classes, n) => {
-        if (n.fileType == 'fold') {
+        if (n.fileType === 'fold') {
             return <i className={classes.fileTileIconSize + " iconfont icon-fold"}/>
-        } else if (n.fileType == 'png' || n.fileType == 'gif' || n.fileType == 'jpg') {
-            return <span><img onLoad={event => this.imgLoadComplete(event,n)} className={classes.tilePreview} src={n.preview}/>
-                {n['_success'+n.id]==undefined && <CircularProgress size={36} className={classes.progress} />}
+        } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
+            return <span><img onLoad={event => this.imgLoadComplete(event,n)} alt={n.fileName} className={classes.tilePreview} src={n.preview}/>
+                {n['_success'+n.id]===undefined && <CircularProgress size={36} className={classes.progress} />}
             </span>
         } else {
             return <i className={classes.fileTileIconSize + " iconfont icon-file"}/>
@@ -249,17 +245,12 @@ class CircularFab extends React.Component {
     timer = undefined;
 
     render() {
-        const {loading, success, data, navs} = this.state;
+        const {data, navs} = this.state;
         const classes = this.props.classes;
-        let buttonClass = '';
-
-        if (success) {
-            buttonClass = classes.successButton;
-        }
 
         return (
             <div className={classes.wrapper}>
-                <IconButton className={buttonClass} onClick={this.handleOpen}>
+                <IconButton className={classes.successButton} onClick={this.handleOpen}>
                     <i className={"iconfont icon-resource"}></i>
                 </IconButton>
                 <Dialog
@@ -286,7 +277,7 @@ class CircularFab extends React.Component {
                             {
                                 navs.map(n => {
                                     return (
-                                        <span>
+                                        <span key={n.id}>
                                             {
                                                 n.isLast === 'true'?
                                                     <Button color="primary" onClick={event => this.navClick(event, n)}
@@ -318,7 +309,7 @@ class CircularFab extends React.Component {
                     <div className={classes.fileTileBox}>
                         {data.map(n => {
                             return (
-                                <Button onClick={event => {
+                                <Button key={n.id} onClick={event => {
                                     this.tileItemClick(event, n)
                                 }}
                                         className={classes.fileTileItem}>
@@ -339,8 +330,8 @@ class CircularFab extends React.Component {
     }
 }
 
-CircularFab.propTypes = {
+Resource.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CircularFab);
+export default withStyles(styles)(Resource);

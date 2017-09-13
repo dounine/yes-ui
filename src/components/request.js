@@ -7,6 +7,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import RequestMethod from './request-method';
 import RequestUrl from './request-url';
 import RequestOptions from './request-options';
+import RequestQuery from './request-options-request';
 import Response from './response';
 
 function TabContainer(props) {
@@ -51,10 +52,17 @@ const styles = theme => ({
 class ScrollableTabsButtonAuto extends React.Component {
     state = {
         value: 0,
+        requestQuery:false
     };
 
     handleChange = (event, value) => {
         this.setState({value});
+    };
+
+    requestQueryClick = () =>{
+        this.setState({
+            requestQuery : !this.state.requestQuery
+        })
     };
 
     render() {
@@ -93,13 +101,18 @@ class ScrollableTabsButtonAuto extends React.Component {
                             <RequestUrl/>
                         </div>
                         <div className={classes.requestOption}>
-                            <Button raised className={classes.button}>
+                            <Button color={this.state.requestQuery?"contrast":"default"} onClick={this.requestQueryClick} raised className={classes.button}>
                                 参数
                             </Button>
                             <Button raised color="primary" className={classes.button}>
                                 发送
                             </Button>
                         </div>
+                    </div>
+                    <div>
+                        {
+                            this.state.requestQuery && <RequestQuery/>
+                        }
                     </div>
                     <div className={classes.requestOption}>
                         <RequestOptions />

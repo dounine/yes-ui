@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
+import List, {ListItem, ListItemText} from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
 
 const styles = theme => ({
     root: {
@@ -15,14 +13,11 @@ const styles = theme => ({
     },
     nested: {
         paddingLeft: 0,
-        // marginLeft:-10
-        // background:'#F3E5F5'
     },
     blueIcon:{
         color:'#9cf'
     },
     group: {
-        // background:'#AB47BC '
         color: 'rgba(0, 0, 0, 0.54)'
     },
     fontSize: {
