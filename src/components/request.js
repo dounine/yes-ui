@@ -56,7 +56,7 @@ class ScrollableTabsButtonAuto extends React.Component {
         urlErrorTipMsg:undefined,
         value: 0,
         urlValue:'/user/login?username=lake&password=1234&a=b',
-        requestQuery:true,
+        requestQuery:false,
         params:[]
     };
 
@@ -104,7 +104,6 @@ class ScrollableTabsButtonAuto extends React.Component {
     urlChange = (event) =>{
         let params = this.getUrlParams(event.target.value)
         this.setState({
-            requestQuery:true,
             params:params
         })
     };
