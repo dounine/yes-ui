@@ -50,9 +50,14 @@ const styles = theme => ({
 });
 
 class ScrollableTabsButtonAuto extends React.Component {
+    defaultHost = "http://yes-ui"
+    params = []
     state = {
+        urlErrorTipMsg:undefined,
         value: 0,
-        requestQuery:false
+        urlValue:'/user/login?username=lake&password=1234&a=b',
+        requestQuery:true,
+        params:[]
     };
 
     handleChange = (event, value) => {
@@ -63,6 +68,63 @@ class ScrollableTabsButtonAuto extends React.Component {
         this.setState({
             requestQuery : !this.state.requestQuery
         })
+    };
+
+
+    getUrlParams = (urlPath) =>{
+        if(urlPath.indexOf('/')!=0){
+            this.setState({
+                urlErrorTipMsg:'url地扯不正确,只能以/开头'
+            })
+            return
+        }else{
+            this.setState({
+                urlErrorTipMsg:undefined
+            })
+        }
+
+        var url = new URL(this.defaultHost+urlPath);
+        var params = []
+        for (let p of url.searchParams) {
+            params.push({
+                name:p[0],
+                value:p[1]
+            })
+        }
+        return params
+    }
+
+    componentWillMount = () =>{
+        let params = this.getUrlParams(this.state.urlValue)
+        this.setState({
+            params:params
+        })
+    }
+
+    urlChange = (event) =>{
+        let params = this.getUrlParams(event.target.value)
+        this.setState({
+            requestQuery:true,
+            params:params
+        })
+    };
+
+    returnInputEl = (target) =>{
+        this.requestUrlRef = target
+    };
+
+    childQueryChange = (params) =>{
+        var ss = []
+        for(let o of params){
+            if(o.name.trim()!==''||o.value.trim()!==''){
+                ss.push(o.name+'='+o.value)
+            }
+        }
+        params = ss
+        if(ss.length>0){
+            var url = new URL(this.defaultHost+this.state.urlValue);
+            this.requestUrlRef.value = (url.pathname+'?'+ss.join('&'))
+        }
     };
 
     render() {
@@ -98,7 +160,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                             <RequestMethod/>
                         </div>
                         <div className={classes.requestUrl}>
-                            <RequestUrl/>
+                            <RequestUrl returnInputEl={this.returnInputEl} value={this.state.urlValue} tipMsg={this.state.urlErrorTipMsg} onChange={this.urlChange}/>
                         </div>
                         <div className={classes.requestOption}>
                             <Button color={this.state.requestQuery?"contrast":"default"} onClick={this.requestQueryClick} raised className={classes.button}>
@@ -111,11 +173,11 @@ class ScrollableTabsButtonAuto extends React.Component {
                     </div>
                     <div>
                         {
-                            this.state.requestQuery && <RequestQuery/>
+                            this.state.requestQuery && <RequestQuery childQueryChange={this.childQueryChange} params={this.state.params}/>
                         }
                     </div>
                     <div className={classes.requestOption}>
-                        <RequestOptions />
+                        <RequestOptions/>
                     </div>
                     <div className={classes.response}>
                         <Response />

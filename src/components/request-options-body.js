@@ -193,10 +193,6 @@ class EnhancedTable extends React.Component {
         this.handleSelectAllClick(null, true)
     }
 
-    cellClick = (event, id, name) => {
-
-    };
-
     cellBlur = (event, id, name) => {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
@@ -428,7 +424,7 @@ class EnhancedTable extends React.Component {
                                                   onClick={event => this.handleClick(event, n.id)}
                                                   checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'name')}>
+                                    <TableCell style={{paddingLeft:0}}>
                                         <Input
                                             onChange={event => this.addRow(event, n.id)}
                                             onBlur={event => this.cellBlur(event, n.id, 'name')}
@@ -449,7 +445,7 @@ class EnhancedTable extends React.Component {
                                             <MenuItem value={3}>资源</MenuItem>
                                         </Select>
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0,paddingRight:0}} onClick={event => this.cellClick(event, n.id, 'value')}>
+                                    <TableCell style={{paddingLeft:0,paddingRight:0}}>
                                         <Input
                                             type={n._type_value}
                                             onChange={event => this.addRow(event, n.id)}
@@ -462,7 +458,7 @@ class EnhancedTable extends React.Component {
                                     <TableCell style={{padding:'0px'}}>
                                         {n._type===2?<Upload />:(n._type===1?'':<Resource />)}
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'des')}>
+                                    <TableCell style={{paddingLeft:0}}>
                                         <Input
                                             disabled
                                             onChange={event => this.addRow(event, n.id)}

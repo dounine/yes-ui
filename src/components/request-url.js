@@ -24,20 +24,44 @@ class ComposedTextField extends React.Component {
         this.setState({ name: event.target.value });
     };
 
+    componentWillReceiveProps(nextProps) {
+
+    }
+
     render() {
         const classes = this.props.classes;
-
+        const onChange = this.props.onChange
+        const urlValue = this.props.value
+        const defaultTip = "可结合全局相对地扯使用"
+        const returnInputEl = this.props.returnInputEl
+        const tipMsg = this.props.tipMsg || defaultTip
         return (
             <div className={classes.container}>
 
                 <FormControl className={classes.formControl}>
-                    <Input
-                        placeholder="request url"
-                        inputProps={{
-                            'aria-label': 'Description',
-                        }}
-                    />
-                    <FormHelperText>可结合全局相对地扯使用</FormHelperText>
+                    {
+                        tipMsg!==defaultTip?<Input
+                            error
+                            placeholder="request url"
+                            defaultValue={urlValue}
+                            inputRef={el => {this.returnInputEl = el;returnInputEl(this.returnInputEl)}}
+                            onChange={event=>onChange(event)}
+                            inputProps={{
+                                'aria-label': 'url',
+                            }}
+                        />:
+                            <Input
+                                placeholder="request url"
+                                defaultValue={urlValue}
+                                inputRef={el => {this.returnInputEl = el;returnInputEl(this.returnInputEl)}}
+                                onChange={event=>onChange(event)}
+                                inputProps={{
+                                    'aria-label': 'url',
+                                }}
+                            />
+                    }
+
+                    <FormHelperText>{tipMsg}</FormHelperText>
                 </FormControl>
             </div>
         );

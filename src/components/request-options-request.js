@@ -19,16 +19,22 @@ import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
 import {ResetIcon,InitIcon,ClearIcon} from './icons/Icons';
 
-let counter = 0;
+let counter = 1;
+let counter1 = 0;
 
-function createData(name, value, des) {
-    counter += 1;
+function createData(name, value, des,isOld) {
+    var m = -1
+    if(isOld){
+        m = counter1 += 1;
+    }else{
+        m = counter += 1;
+    }
     var _name = name
     var _value = value
     var _des = des
     var _type = 1
     var _type_value = 'text'
-    return {id: counter, name, value, des, _name,_type,_type_value, _value, _des};
+    return {id: m, name, value, des, _name,_type,_type_value, _value, _des};
 }
 
 const columnData = [
@@ -153,12 +159,7 @@ class EnhancedTable extends React.Component {
         orderBy: 'calories',
         selected: [],
         data: [
-            createData('FrozenYoghurt', 'value', 'des'),
-            createData('Username', 'value', 'des'),
-            createData('Eclair', 'value', 'des'),
-            createData('Cupcake', 'value', 'des'),
-            createData('Gingerbread', 'value', 'des'),
-            createData('', '', ''),
+            createData('', '', '',true),
         ],
     };
 
@@ -190,10 +191,6 @@ class EnhancedTable extends React.Component {
     componentWillMount = () => {
         this.handleSelectAllClick(null, true)
     }
-
-    cellClick = (event, id, name) => {
-
-    };
 
     cellBlur = (event, id, name) => {
         var datas = this.state.data
@@ -344,7 +341,7 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
-    addRow = (event, id) => {
+    inputOnChange = (event,type, id) => {
         var datas = this.state.data
         var lastIndex = datas.length - 1
         if (id === datas[lastIndex].id) {
@@ -354,6 +351,33 @@ class EnhancedTable extends React.Component {
                 this.handleClick(null, obj.id)
             }
         }
+        var ds = []
+        for(let d of this.state.data){
+            if(id===d.id){
+                var obj = {}
+                if(type==='Name'){
+                    obj.name = event.target.value
+                    obj.value = this.getInputEl('Value',d.id).value
+                    obj.des = this.getInputEl('Des',d.id).value
+                }else if(type==='Value'){
+                    obj.name = this.getInputEl('Name',d.id).value
+                    obj.value = event.target.value
+                    obj.des = this.getInputEl('Des',d.id).value
+                }else if(type==='Des'){
+                    obj.name = this.getInputEl('Name',d.id).value
+                    obj.value = this.getInputEl('Value',d.id).value
+                    obj.des = this.getInputEl('Des',d.id).value
+                }
+                ds.push(obj)
+            }else{
+                ds.push({
+                    name:this.getInputEl('Name',d.id).value,
+                    value:this.getInputEl('Value',d.id).value,
+                    des:this.getInputEl('Des',d.id).value
+                })
+            }
+        }
+        this.props.childQueryChange(ds)
         this.setState({})
     };
 
@@ -365,12 +389,82 @@ class EnhancedTable extends React.Component {
         return this[this.inputElName + name+id]
     }
 
+    componentWillMount = () =>{
+        if(this.props.params.length>0){
+            var ds = []
+            var selected = []
+            for(let o of this.props.params){
+                var obj = createData(o.name,o.value,'',true)
+                ds.push(
+                    obj
+                )
+                selected.push(obj.id)
+            }
+            this.setState({
+                data:ds,
+                oldData:ds,
+                selected:selected
+            })
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        var ds = []
+        var selected = []
+        var oldData = this.state.oldData
+        if(nextProps.params){
+            counter = 1
+            for(let o of nextProps.params){
+                var obj = createData(o.name,o.value,'',false)
+                ds.push(
+                    obj
+                )
+                selected.push(obj.id)
+            }
+            for(let o of oldData){
+                let find = null
+                for(let d of ds){
+                    if(d.id===o.id){
+                        if(d.name!==o['_name']){
+                            d.nameDirty = 'yes'
+                            d._name = o.name
+                        }else{
+                            d.nameDirty = null
+                        }
+                        if(d.value!==o['_value']){
+                            d.valueDirty = 'yes'
+                            d._value = o.value
+
+                        }else{
+                            d.valueDirty = null
+                        }
+                        if(d.des!==o['_des']){
+                            d.desDirty = 'yes'
+                            d._des = o.des
+                        }else{
+                            d.desDirty = null
+                        }
+                        this.getInputEl('Name',d.id).value = d.name
+                        this.getInputEl('Value',d.id).value = d.value
+                        this.getInputEl('Des',d.id).value = d.des
+                        break
+                    }
+                }
+            }
+            this.setState({
+                data:ds,
+                selected:selected
+            })
+        }
+    }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
         const classes = this.props.classes;
         const {data, order, orderBy, selected} = this.state;
+
+        let urlValue = this.props.value
 
         return (
             <Paper className={classes.paper}>
@@ -406,30 +500,30 @@ class EnhancedTable extends React.Component {
                                             onClick={event => this.handleClick(event, n.id)}
                                             checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'name')}>
+                                    <TableCell style={{paddingLeft:0}}>
                                         <Input
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'name')}
+                                            onChange={event => this.inputOnChange(event,'Name', n.id)}
+                                            onBlur={event => this.cellBlur(event, n.id, 'Name')}
                                             inputRef={input => this[this.inputElName+'Name'+n.id] = input}
                                             defaultValue={n.name}
                                             className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
                                         />
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0,paddingRight:0}} onClick={event => this.cellClick(event, n.id, 'value')}>
+                                    <TableCell style={{paddingLeft:0,paddingRight:0}}>
                                         <Input
                                             type={n._type_value}
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'value')}
+                                            onChange={event => this.inputOnChange(event,'Value', n.id)}
+                                            onBlur={event => this.cellBlur(event, n.id, 'Value')}
                                             inputRef={input => this[this.inputElName+'Value'+n.id] = input}
                                             defaultValue={n.value}
                                             className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
                                         />
                                     </TableCell>
-                                    <TableCell onClick={event => this.cellClick(event, n.id, 'des')}>
+                                    <TableCell>
                                         <Input
                                             disabled
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'des')}
+                                            onChange={event => this.inputOnChange(event,'Des' ,n.id)}
+                                            onBlur={event => this.cellBlur(event, n.id, 'Des')}
                                             inputRef={input => this[this.inputElName+'Des'+n.id] = input}
                                             defaultValue={n.des}
                                             className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
