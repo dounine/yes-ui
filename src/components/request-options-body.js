@@ -197,7 +197,7 @@ class EnhancedTable extends React.Component {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
-            if (d.id === id && d[name] !== event.target.value) {
+            if (d.id === id && d['_'+name] !== event.target.value) {
                 d[name] = event.target.value
                 if (d['_' + name] !== d[name]) {
                     d[name + 'Dirty'] = 'yes'

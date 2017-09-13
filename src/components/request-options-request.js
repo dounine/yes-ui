@@ -196,7 +196,7 @@ class EnhancedTable extends React.Component {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
-            if (d.id === id && d[name] !== event.target.value) {
+            if (d.id === id && d['_'+name] !== event.target.value) {
                 d[name] = event.target.value
                 if (d['_' + name] !== d[name]) {
                     d[name + 'Dirty'] = 'yes'
@@ -346,7 +346,7 @@ class EnhancedTable extends React.Component {
         var lastIndex = datas.length - 1
         if (id === datas[lastIndex].id) {
             if (event.target.value.trim().length !== 0) {
-                var obj = createData('', '', '')
+                var obj = createData('', '', '',true)
                 datas.push(obj)
                 this.handleClick(null, obj.id)
             }
@@ -354,7 +354,7 @@ class EnhancedTable extends React.Component {
         var ds = []
         for(let d of this.state.data){
             if(id===d.id){
-                var obj = {}
+                var obj = d
                 if(type==='Name'){
                     obj.name = event.target.value
                     obj.value = this.getInputEl('Value',d.id).value
@@ -370,15 +370,13 @@ class EnhancedTable extends React.Component {
                 }
                 ds.push(obj)
             }else{
-                ds.push({
-                    name:this.getInputEl('Name',d.id).value,
-                    value:this.getInputEl('Value',d.id).value,
-                    des:this.getInputEl('Des',d.id).value
-                })
+                ds.push(d)
             }
         }
         this.props.childQueryChange(ds)
-        this.setState({})
+        this.setState({
+            data:ds
+        })
     };
 
     dataSize = () => {
@@ -503,7 +501,7 @@ class EnhancedTable extends React.Component {
                                     <TableCell style={{paddingLeft:0}}>
                                         <Input
                                             onChange={event => this.inputOnChange(event,'Name', n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'Name')}
+                                            onBlur={event => this.cellBlur(event, n.id, 'name')}
                                             inputRef={input => this[this.inputElName+'Name'+n.id] = input}
                                             defaultValue={n.name}
                                             className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -513,7 +511,7 @@ class EnhancedTable extends React.Component {
                                         <Input
                                             type={n._type_value}
                                             onChange={event => this.inputOnChange(event,'Value', n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'Value')}
+                                            onBlur={event => this.cellBlur(event, n.id, 'value')}
                                             inputRef={input => this[this.inputElName+'Value'+n.id] = input}
                                             defaultValue={n.value}
                                             className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -523,7 +521,7 @@ class EnhancedTable extends React.Component {
                                         <Input
                                             disabled
                                             onChange={event => this.inputOnChange(event,'Des' ,n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'Des')}
+                                            onBlur={event => this.cellBlur(event, n.id, 'des')}
                                             inputRef={input => this[this.inputElName+'Des'+n.id] = input}
                                             defaultValue={n.des}
                                             className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
