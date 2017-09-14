@@ -317,9 +317,7 @@ class EnhancedTable extends React.Component {
         })
         var $self = this
         setTimeout(function () {
-            if( $self[this.inputElName+obj.id]){
-                $self[this.inputElName+obj.id].focus()
-            }
+            $self.getInputEl('Name',obj.id).focus()
         })
     };
 

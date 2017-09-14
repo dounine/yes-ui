@@ -72,7 +72,7 @@ class ScrollableTabsButtonAuto extends React.Component {
 
 
     getUrlParams = (urlPath) =>{
-        if(urlPath.indexOf('/')!=0){
+        if(urlPath.indexOf('/')!==0){
             this.setState({
                 urlErrorTipMsg:'url地扯不正确,只能以/开头'
             })
@@ -83,7 +83,7 @@ class ScrollableTabsButtonAuto extends React.Component {
             })
         }
 
-        var url = new URL(this.defaultHost+urlPath);
+        let url = new URL(this.defaultHost+urlPath);
         var params = []
         for (let p of url.searchParams) {
             params.push({
@@ -121,8 +121,11 @@ class ScrollableTabsButtonAuto extends React.Component {
         }
         params = ss
         if(ss.length>0){
-            var url = new URL(this.defaultHost+this.state.urlValue);
+            let url = new URL(this.defaultHost+this.state.urlValue);
             this.requestUrlRef.value = (url.pathname+'?'+ss.join('&'))
+        }else{
+            let url = new URL(this.defaultHost+this.state.urlValue);
+            this.requestUrlRef.value = (url.pathname)
         }
     };
 
@@ -172,7 +175,8 @@ class ScrollableTabsButtonAuto extends React.Component {
                     </div>
                     <div>
                         {
-                            this.state.requestQuery && <RequestQuery childQueryChange={this.childQueryChange} params={this.state.params}/>
+                            this.state.requestQuery?<RequestQuery childQueryChange={this.childQueryChange} params={this.state.params}/>:
+                                <RequestQuery hidden="hidden" childQueryChange={this.childQueryChange} params={this.state.params}/>
                         }
                     </div>
                     <div className={classes.requestOption}>
