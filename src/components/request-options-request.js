@@ -236,6 +236,8 @@ class EnhancedTable extends React.Component {
         }
 
         this.setState({selected: newSelected});
+
+
     };
 
     dataOperator = (event, id, type) => {
@@ -292,21 +294,30 @@ class EnhancedTable extends React.Component {
 
     onInitAll = () => {
         var datas = this.state.data
+        var oldData = this.state.oldData
         for (var index2 = 0, len2 = datas.length; index2 < len2; index2++) {
             var d = datas[index2]
+            var old = oldData[index2]
             if (d['_name'] !== d.name) {
                 d.nameDirty = null
                 d['_name'] = d.name
+                old.name = d.name
+                old._name = d.name
             }
             if (d['_value'] !== d.value) {
                 d.valueDirty = null
                 d['_value'] = d.value
+                old.value = d.value
+                old._value = d.value
             }
             if (d['_des'] !== d.des) {
                 d.desDirty = null
                 d['_des'] = d.des
+                old.des = d.des
+                old._des = d.des
             }
         }
+        this.props.childQueryChange(datas, true)
         this.setState({})
     };
 
@@ -314,18 +325,27 @@ class EnhancedTable extends React.Component {
         var $self = this
         counterOld = 0//特殊原因必需清0
         var obj = createData('', '', '', true)
-        this.setState({
-            data: [],
-            selected: []
-        })
-        setTimeout(function () {
-            $self.props.childQueryChange([])
+        $self.props.childQueryChange([])
+        if($self.getInputEl('Name', obj.id).value!=''){
+            this.setState({
+                data: [],
+                selected: []
+            })
+            setTimeout(function () {
+                $self.setState({
+                    data: [obj],
+                    selected: [obj.id]
+                })
+                $self.getInputEl('Name', obj.id).focus()
+            })
+        }else{
             $self.setState({
                 data: [obj],
                 selected: [obj.id]
             })
             $self.getInputEl('Name', obj.id).focus()
-        })
+        }
+
     };
 
     onResetAll = () => {
@@ -428,54 +448,77 @@ class EnhancedTable extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        var ds = []
-        var selected = []
-        var oldData = this.state.oldData
-        // if (nextProps.params) {
-        //     counterNew = 0
-        //     for (let o of nextProps.params) {
-        //         var obj = createData(o.name, o.value, '', false)
-        //         ds.push(
-        //             obj
-        //         )
-        //         selected.push(obj.id)
-        //     }
-        //     for (let o of oldData) {
-        //         let find = null
-        //         for (let d of ds) {
-        //             if (d.id === o.id) {
-        //                 console.log(o)
-        //                 if (d.name !== o['_name']) {
-        //                     d.nameDirty = 'yes'
-        //                     d._name = o.name
-        //                 } else {
-        //                     d.nameDirty = null
-        //                 }
-        //                 if (d.value !== o['_value']) {
-        //                     d.valueDirty = 'yes'
-        //                     d._value = o.value
-        //
-        //                 } else {
-        //                     d.valueDirty = null
-        //                 }
-        //                 if (d.des !== o['_des']) {
-        //                     d.desDirty = 'yes'
-        //                     d._des = o.des
-        //                 } else {
-        //                     d.desDirty = null
-        //                 }
-        //                 console.log(d)
-        //                 this.getInputEl('Name', d.id).value = d.name
-        //                 this.getInputEl('Value', d.id).value = d.value
-        //                 this.getInputEl('Des', d.id).value = d.des
-        //             }
-        //         }
-        //     }
-        //     this.setState({
-        //         data: ds,
-        //         selected: selected
-        //     })
-        // }
+        let ds = []
+        let selected = []
+        let oldData = this.state.oldData
+        if (nextProps.params) {
+            counterNew = 0
+            for (let o of nextProps.params) {
+                let obj = createData(o.name, o.value, '', false)
+                ds.push(
+                    obj
+                )
+                selected.push(obj.id)
+            }
+            if (ds.length == 0) {
+                let obj = createData('', '', '', false)
+                ds.push(obj)
+                selected.push(obj.id)
+                var $self = this
+                $self.setState({
+                    data: [],
+                    selected: []
+                })
+                setTimeout(function () {
+                    $self.setState({
+                        data: ds,
+                        selected: selected
+                    })
+                    $self.getInputEl('Name',obj.id).focus()
+                })
+            } else {
+                for (let o of oldData) {
+                    let find = null
+                    for (let d of ds) {
+                        if (d.id === o.id) {
+                            if (d.name !== o['_name']) {
+                                if (this.getInputEl('Name', d.id)) {
+                                    this.getInputEl('Name', d.id).value = d.name
+                                }
+                                d.nameDirty = 'yes'
+                                d._name = o.name
+                            } else {
+                                d.nameDirty = null
+                            }
+                            if (d.value !== o['_value']) {
+                                if (this.getInputEl('Value', d.id)) {
+                                    this.getInputEl('Value', d.id).value = d.value
+                                }
+                                d.valueDirty = 'yes'
+                                d._value = o.value
+
+                            } else {
+                                d.valueDirty = null
+                            }
+                            if (d.des !== o['_des']) {
+                                if (this.getInputEl('Des', d.id)) {
+                                    this.getInputEl('Des', d.id).value = d.des
+                                }
+                                d.desDirty = 'yes'
+                                d._des = o.des
+                            } else {
+                                d.desDirty = null
+                            }
+                        }
+                    }
+                }
+                this.setState({
+                    data: ds,
+                    selected: selected
+                })
+            }
+
+        }
     }
 
     dataIsDirty = () => {
@@ -529,7 +572,6 @@ class EnhancedTable extends React.Component {
                                                 onKeyDown={event => this.handleKeyDown(event, n.id)}
                                                 onClick={event => this.handleClick(event, n.id)}
                                                 checked={isSelected}/>
-                                            {n.id}
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
