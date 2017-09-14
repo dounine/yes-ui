@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
+import {yellow,blue} from 'material-ui/colors'
 import Dialog from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import green from 'material-ui/colors/green';
@@ -51,7 +52,16 @@ const styles = {
         margin: 10,
         border: '1px solid #cccccc',
         borderRadius: '4px',
-        // background: 'rgb(255, 216, 33)',
+        cursor: 'pointer'
+    },
+    fileTileItemFold: {
+        display: 'flex',
+        width: 200,
+        height: 90,
+        margin: 10,
+        border: '1px solid #cccccc',
+        borderRadius: '4px',
+        background: blue[300],
         cursor: 'pointer'
     },
     fileTileIcon: {
@@ -63,6 +73,10 @@ const styles = {
     fileTileIconSize: {
         fontSize: 38,
         color: '#666666'
+    },
+    fileTileIconSizeFold: {
+        fontSize: 38,
+        color: 'white'
     },
     fileTileInfo: {
         flex: 70,
@@ -162,11 +176,18 @@ class Resource extends React.Component {
     };
 
     handleRequestClose = () => {
+        this.props.resourceClose()
         this.setState({open: false});
     };
 
     handleOpen = () => {
         this.setState({open: true});
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.resourceButton){
+            this.setState({open: true});
+        }
     };
 
 
@@ -232,7 +253,7 @@ class Resource extends React.Component {
 
     getFilePreview = (classes, n) => {
         if (n.fileType === 'fold') {
-            return <i className={classes.fileTileIconSize + " iconfont icon-fold"}/>
+            return <i className={classes.fileTileIconSizeFold + " iconfont icon-fold"}/>
         } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
             return <span><img onLoad={event => this.imgLoadComplete(event,n)} alt={n.fileName} className={classes.tilePreview} src={n.preview}/>
                 {n['_success'+n.id]===undefined && <CircularProgress size={36} className={classes.progress} />}
@@ -312,7 +333,7 @@ class Resource extends React.Component {
                                 <Button key={n.id} onClick={event => {
                                     this.tileItemClick(event, n)
                                 }}
-                                        className={classes.fileTileItem}>
+                                        className={n.fileType==='fold'?classes.fileTileItemFold:classes.fileTileItem}>
                                     <div className={classes.fileTileIcon}>
                                         {this.getFilePreview(classes, n)}
                                     </div>

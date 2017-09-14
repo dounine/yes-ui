@@ -26,12 +26,8 @@ class LongMenu extends React.Component {
     };
 
     handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+        this.setState({ type: event.target.value });
     };
-
-    componentDidMount = () =>{
-        this.handleChange('type',{target:{value:'GET'}})
-    }
 
     render() {
         const {classes} = this.props
@@ -41,7 +37,7 @@ class LongMenu extends React.Component {
                     <InputLabel htmlFor="age-simple">method</InputLabel>
                     <Select
                         value={this.state.type}
-                        onChange={this.handleChange('type')}
+                        onChange={this.handleChange()}
                         input={<Input id="age-simple" />}
                     >
                         <MenuItem value={1}>&nbsp;GET</MenuItem>

@@ -12,11 +12,7 @@ import Table, {
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
-import {MenuItem} from 'material-ui/Menu';
-import Input, {InputLabel} from 'material-ui/Input';
-import Upload from './request-options-body-file-upload';
-import Resource from './request-options-body-resources';
-import Select from 'material-ui/Select';
+import Input from 'material-ui/Input';
 import {ResetIcon, InitIcon, ClearIcon} from './icons/Icons';
 
 let counterNew = 0;
@@ -324,9 +320,9 @@ class EnhancedTable extends React.Component {
     onClearAll = () => {
         var $self = this
         counterOld = 0//特殊原因必需清0
-        var obj = createData('', '', '', true)
+        let obj = createData('', '', '', true)
         $self.props.childQueryChange([])
-        if($self.getInputEl('Name', obj.id).value!=''){
+        if($self.getInputEl('Name', obj.id).value!==''){
             this.setState({
                 data: [],
                 selected: []
@@ -350,8 +346,8 @@ class EnhancedTable extends React.Component {
 
     onResetAll = () => {
         var datas = this.state.oldData
-        for (var i = 0, len = datas.length; i < len; i++) {
-            var d = datas[i]
+        for (let i = 0, len = datas.length; i < len; i++) {
+            let d = datas[i]
             if (d) {
                 d.nameDirty = null
                 d.valueDirty = null
@@ -386,15 +382,15 @@ class EnhancedTable extends React.Component {
         var lastIndex = datas.length - 1
         if (id === datas[lastIndex].id) {
             if (event.target.value.trim().length !== 0) {
-                var obj = createData('', '', '', true)
+                let obj = createData('', '', '', true)
                 datas.push(obj)
                 this.handleClick(null, obj.id)
             }
         }
-        var ds = []
+        let ds = []
         for (let d of this.state.data) {
             if (id === d.id) {
-                var obj = d
+                let obj = d
                 if (type === 'Name') {
                     obj.name = event.target.value
                     obj.value = this.getInputEl('Value', d.id).value
@@ -460,7 +456,7 @@ class EnhancedTable extends React.Component {
                 )
                 selected.push(obj.id)
             }
-            if (ds.length == 0) {
+            if (ds.length === 0) {
                 let obj = createData('', '', '', false)
                 ds.push(obj)
                 selected.push(obj.id)
@@ -478,7 +474,6 @@ class EnhancedTable extends React.Component {
                 })
             } else {
                 for (let o of oldData) {
-                    let find = null
                     for (let d of ds) {
                         if (d.id === o.id) {
                             if (d.name !== o['_name']) {
@@ -534,11 +529,11 @@ class EnhancedTable extends React.Component {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
-        const {classes, hidden, urlValue} = this.props;
+        const {classes, hidden} = this.props;
         const {data, order, orderBy, selected} = this.state;
 
         return (
-            <div style={{display: hidden == 'hidden' ? 'none' : 'block'}}>
+            <div style={{display: hidden === 'hidden' ? 'none' : 'block'}}>
                 <Paper className={classes.paper}>
                     <Table>
                         <EnhancedTableHead

@@ -17,6 +17,7 @@ import Input, {InputLabel} from 'material-ui/Input';
 import Upload from './request-options-body-file-upload';
 import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
+import {ResetIcon,InitIcon,ClearIcon} from './icons/Icons';
 
 let counter = 0;
 
@@ -48,7 +49,7 @@ class EnhancedTableHead extends React.Component {
         onSelectAllClick: PropTypes.func.isRequired,
         order: PropTypes.string.isRequired,
         orderBy: PropTypes.string.isRequired,
-        dataSize: PropTypes.func.isRequired
+        dataSize: PropTypes.func.isRequired,
     };
 
     createRestAll = () => {
@@ -70,13 +71,14 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const {onRestAll,onInitAll, onClearAll, onSelectAllClick, order, orderBy, numSelected, dataSize} = this.props;
+        const {classes,onRestAll,onInitAll, onClearAll, onSelectAllClick, order, orderBy, numSelected, dataSize} = this.props;
 
         return (
             <TableHead>
                 <TableRow>
                     <TableCell checkbox>
                         <Checkbox
+                            className={classes.checkbox}
                             indeterminate={numSelected > 0 && numSelected < dataSize()}
                             checked={numSelected === dataSize()}
                             onChange={onSelectAllClick}
@@ -96,11 +98,14 @@ class EnhancedTableHead extends React.Component {
                                     onClick={this.createSortHandler(column.id)}
                                 >
                                     {column.id === 'operation' ? <div>
-                                        <IconButton onClick={onInitAll}><i className={"iconfont icon-initial"}/>
+                                        <IconButton onClick={onInitAll}>
+                                            <InitIcon/>
                                         </IconButton>
-                                        <IconButton onClick={onRestAll}><i className={"iconfont icon-dantizhongzhi"}/>
+                                        <IconButton onClick={onRestAll}>
+                                            <ResetIcon/>
                                         </IconButton>
-                                        <IconButton onClick={onClearAll}><i className={"iconfont icon-clear"}/>
+                                        <IconButton onClick={onClearAll}>
+                                            <ClearIcon/>
                                         </IconButton>
                                     </div> : column.label}
                                 </TableSortLabel>
@@ -118,6 +123,9 @@ const styles = theme => ({
         width: '100%',
         marginTop: 0,
         overflowX: 'auto',
+    },
+    checkbox:{
+        color:theme.headerOptions.grey.checkbox
     },
     text: {
         width: '100%',
@@ -156,6 +164,8 @@ class EnhancedTable extends React.Component {
         ],
     };
 
+    inputElName = 'bodyInputRefs';
+
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -183,15 +193,11 @@ class EnhancedTable extends React.Component {
         this.handleSelectAllClick(null, true)
     }
 
-    cellClick = (event, id, name) => {
-
-    };
-
     cellBlur = (event, id, name) => {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
-            if (d.id === id && d[name] !== event.target.value) {
+            if (d.id === id && d['_'+name] !== event.target.value) {
                 d[name] = event.target.value
                 if (d['_' + name] !== d[name]) {
                     d[name + 'Dirty'] = 'yes'
@@ -311,7 +317,7 @@ class EnhancedTable extends React.Component {
         })
         var $self = this
         setTimeout(function () {
-            $self['inputRefsName'+obj.id].focus()
+            $self.getInputEl('Name',obj.id).focus()
         })
     };
 
@@ -357,7 +363,7 @@ class EnhancedTable extends React.Component {
 
 
     getInputEl = (name,id) =>{
-        return this['inputRefs' + name+id]
+        return this[this.inputElName + name+id]
     }
 
     typeHandleChange = (name,n) => event => {
@@ -375,10 +381,6 @@ class EnhancedTable extends React.Component {
         }
         this.setState({});
     };
-
-    componentDidMount = () =>{
-        // this.typeHandleChange('type',{target:{value:'file'}})
-    }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
@@ -399,6 +401,7 @@ class EnhancedTable extends React.Component {
                         dataSize={this.dataSize}
                         onSelectAllClick={this.handleSelectAllClick}
                         onRequestSort={this.handleRequestSort}
+                        classes={classes}
                     />
                     <TableBody>
                         {data.map(n => {
@@ -413,15 +416,17 @@ class EnhancedTable extends React.Component {
                                     selected={!isSelected}
                                 >
                                     <TableCell checkbox>
-                                        <Checkbox onKeyDown={event => this.handleKeyDown(event, n.id)}
-                                                  onClick={event => this.handleClick(event, n.id)}
-                                                  checked={isSelected}/>
+                                        <Checkbox
+                                            className={classes.checkbox}
+                                            onKeyDown={event => this.handleKeyDown(event, n.id)}
+                                            onClick={event => this.handleClick(event, n.id)}
+                                            checked={isSelected}/>
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'name')}>
+                                    <TableCell style={{paddingLeft:0}}>
                                         <Input
                                             onChange={event => this.addRow(event, n.id)}
                                             onBlur={event => this.cellBlur(event, n.id, 'name')}
-                                            inputRef={input => this['inputRefsName'+n.id] = input}
+                                            inputRef={input => this[this.inputElName+'Name'+n.id] = input}
                                             defaultValue={n.name}
                                             className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
                                         />
@@ -438,12 +443,12 @@ class EnhancedTable extends React.Component {
                                             <MenuItem value={3}>资源</MenuItem>
                                         </Select>
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0,paddingRight:0}} onClick={event => this.cellClick(event, n.id, 'value')}>
+                                    <TableCell style={{paddingLeft:0,paddingRight:0}}>
                                         <Input
                                             type={n._type_value}
                                             onChange={event => this.addRow(event, n.id)}
                                             onBlur={event => this.cellBlur(event, n.id, 'value')}
-                                            inputRef={input => this['inputRefsValue'+n.id] = input}
+                                            inputRef={input => this[this.inputElName+'Value'+n.id] = input}
                                             defaultValue={n.value}
                                             className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
                                         />
@@ -451,12 +456,12 @@ class EnhancedTable extends React.Component {
                                     <TableCell style={{padding:'0px'}}>
                                         {n._type===2?<Upload />:(n._type===1?'':<Resource />)}
                                     </TableCell>
-                                    <TableCell style={{paddingLeft:0}} onClick={event => this.cellClick(event, n.id, 'des')}>
+                                    <TableCell style={{paddingLeft:0}}>
                                         <Input
                                             disabled
                                             onChange={event => this.addRow(event, n.id)}
                                             onBlur={event => this.cellBlur(event, n.id, 'des')}
-                                            inputRef={input => this['inputRefsDes'+n.id] = input}
+                                            inputRef={input => this[this.inputElName+'Des'+n.id] = input}
                                             defaultValue={n.des}
                                             className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
                                         />
@@ -466,15 +471,15 @@ class EnhancedTable extends React.Component {
                                             <IconButton
                                                 style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
                                                 onClick={event => this.dataOperator(event, n.id, 'init')}>
-                                                <i className={"iconfont icon-initial"}></i>
+                                                <InitIcon />
                                             </IconButton>
                                             <IconButton
                                                 style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
                                                 onClick={event => this.dataOperator(event, n.id, 'reset')}>
-                                                <i className={"iconfont icon-dantizhongzhi"}></i>
+                                                <ResetIcon />
                                             </IconButton>
                                             <IconButton onClick={event => this.dataOperator(event, n.id, 'clear')}>
-                                                <i className={"iconfont icon-clear"}></i>
+                                                <ClearIcon />
                                             </IconButton>
                                         </div>
                                     </TableCell>

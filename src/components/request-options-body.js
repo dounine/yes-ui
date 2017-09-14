@@ -21,13 +21,13 @@ import {ResetIcon,InitIcon,ClearIcon} from './icons/Icons';
 
 let counter = 0;
 
-function createData(name, value, des) {
+function createData(name, value, des,_type,_type_value) {
     counter += 1;
     var _name = name
     var _value = value
     var _des = des
-    var _type = 1
-    var _type_value = 'text'
+    _type = _type || 1
+    _type_value = _type_value || 'text'
     return {id: counter, name, value, des, _name,_type,_type_value, _value, _des};
 }
 
@@ -154,8 +154,9 @@ class EnhancedTable extends React.Component {
         order: 'asc',
         orderBy: 'calories',
         selected: [],
+        resourceButton:false,
         data: [
-            createData('FrozenYoghurt', 'value', 'des'),
+            createData('FrozenYoghurt', 'value', 'des',3),
             createData('Username', 'value', 'des'),
             createData('Eclair', 'value', 'des'),
             createData('Cupcake', 'value', 'des'),
@@ -382,6 +383,18 @@ class EnhancedTable extends React.Component {
         this.setState({});
     };
 
+    resourceClick = () =>{
+        this.setState({
+            resourceButton:true
+        })
+    };
+
+    resourceCallbackClose = () =>{
+        this.setState({
+            resourceButton:false
+        })
+    }
+
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
@@ -454,7 +467,7 @@ class EnhancedTable extends React.Component {
                                         />
                                     </TableCell>
                                     <TableCell style={{padding:'0px'}}>
-                                        {n._type===2?<Upload />:(n._type===1?'':<Resource />)}
+                                        {n._type===2?<Upload />:(n._type===1?'':<IconButton onClick={this.resourceClick}><i className={"iconfont icon-resource"}></i></IconButton>)}
                                     </TableCell>
                                     <TableCell style={{paddingLeft:0}}>
                                         <Input
@@ -487,7 +500,9 @@ class EnhancedTable extends React.Component {
                             );
                         })}
                     </TableBody>
+                    <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>
                 </Table>
+
             </Paper>
         );
     }

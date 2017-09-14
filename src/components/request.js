@@ -102,7 +102,8 @@ class ScrollableTabsButtonAuto extends React.Component {
     urlChange = (event) => {
         let params = this.getUrlParams(event.target.value)
         this.setState({
-            params: params
+            params: params,
+            urlValue:event.target.value
         })
     };
 
@@ -121,7 +122,6 @@ class ScrollableTabsButtonAuto extends React.Component {
             let url = new URL(this.defaultHost + this.state.urlValue);
             let urlPath = (url.pathname + '?' + ss.join('&'))
             this.requestUrlRef.value = urlPath
-            var $self = this
             if(!reset){
                 this.setState({
                     params: params
