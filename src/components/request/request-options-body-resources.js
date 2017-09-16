@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
-import {yellow,blue} from 'material-ui/colors'
+import {blue} from 'material-ui/colors';
 import Dialog from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import green from 'material-ui/colors/green';
@@ -12,14 +12,21 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Slide from 'material-ui/transitions/Slide';
-import { CircularProgress } from 'material-ui/Progress';
+import {CircularProgress} from 'material-ui/Progress';
+import FileItem from './select-file-item';
+import FileItemMore from './select-file-item-more';
+import config from '../../config.json';
+import Preview from './preview';
+import File from './file';
+import uuid4 from 'uuid/v4';
+import axios from 'axios';
 
-const styles = {
+const styles = theme => ({
     wrapper: {
         position: 'relative',
     },
     successButton: {
-        marginRight:10,
+        marginRight: 10,
         width: 30,
         height: 30,
         top: 2,
@@ -108,52 +115,86 @@ const styles = {
         top: 24,
         left: 12,
     }
-};
+});
 
 class Resource extends React.Component {
     state = {
+        fileItemMore:true,
         loading: false,
+        preview:false,
+        previewSrc:'',
+        previewAlt:'',
         success: false,
-        open: false,
+        open: this.props.resourceButton,
         navs: [
             {
                 fileName: '全部资源',
                 isLast: 'true',
-                id:'1',
+                uuid: uuid4(),
+                id: '0',
                 isRoot: 'true'
             },
         ],
-        data: [
-            {
-                fileName: '我是文件名',
-                foldCount: 10,
-                fileCount: 200,
-                id: 'uuid-1234adsf-asdf-asdf-qwer-1234',
-                fileType: 'fold'
-            },
-            {
-                fileName: '苍老师2017',
-                foldCount: 10,
-                fileCount: 200,
-                id: 'uuid-1234adsf-asdf-asdf-qwer-1233',
-                preview: 'http://www.easyicon.net/api/resizeApi.php?id=1176246&size=128',
-                size: '1024kb',
-                fileType: 'png'
-            },
-            {
-                fileName: '苍老师2017',
-                foldCount: 10,
-                fileCount: 200,
-                id: 'uuid-1234adsf-asdf-asdf-qwer-1232',
-                preview: 'http://www.easyicon.net/api/resizeApi.php?id=1176246&size=128',
-                size: '1024kb',
-                fileType: 'txt'
-            }
-        ]
+        selected: [],
+        data: []
     };
 
-    componentWillUnmount() {
-        clearTimeout(this.timer);
+    componentWillMount() {
+        axios.get(config.url + '/list')
+            .then((response) => {
+                this.setState({
+                    data: response.data
+                })
+            })
+    }
+
+    tileItemClick = (event, n) => {
+        var navs = this.state.navs
+        if (n.fileType === 'fold' && !navs.containKeyValue('id', n.id)) {
+            for (var a in navs) {
+                navs[a].isLast = 'false'
+            }
+            navs.push({
+                fileName: n.fileName,
+                isLast: 'true',
+                id: n.id,
+                uuid: uuid4()
+            })
+        }
+        if (n.fileType !== 'fold') {
+            if (!this.state.selected.containKeyValue('id', n.id)) {
+                this.state.selected.push({
+                    fileName: n.fileName,
+                    uuid: uuid4(),
+                    id: n.id,
+                    fileType: n.fileType,
+                    preview: n.preview
+                })
+            }
+        } else {
+            axios.get(config.url + `/files${n.id}`)
+                .then((response) => {
+                    this.setState({
+                        data: response.data
+                    })
+                })
+        }
+
+        this.setState({})
+    };
+
+    imgPreview = (event,src,alt) =>{
+        this.setState({
+            preview:true,
+            previewSrc:src,
+            previewAlt:alt
+        })
+    }
+
+    imgPreviewRequestClose = () =>{
+        this.setState({
+            preview:false,
+        })
     }
 
     handleButtonClick = () => {
@@ -185,11 +226,10 @@ class Resource extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.resourceButton){
+        if (nextProps.resourceButton) {
             this.setState({open: true});
         }
     };
-
 
     navClick = (event, n) => {
         var datas = this.state.navs
@@ -199,64 +239,51 @@ class Resource extends React.Component {
             for (var i = 1, len = datas.length; i < len; i++) {
                 datas.splice(i, 1)
             }
+            axios.get(config.url + `/list`)
+                .then((response) => {
+                    response.data.forEach(function (r) {
+                        r.uuid = uuid4()
+                    })
+                    this.setState({
+                        data: response.data
+                    })
+                })
         } else {
             var isFind = false
             for (var index = 1, sizeLen = datas.length; index < sizeLen; index++) {
                 if (!isFind && datas[index].id === n.id) {
                     isFind = true
                 }
-                if (isFind){
-                    datas.splice(i, 1)
+                if (isFind) {
+                    datas.splice(index, 1)
                 }
             }
+
         }
         this.setState({
             navs: datas
         })
     };
 
-    tileItemClick = (event, n) => {
-        var datas = this.state.navs
-        for (var a in datas) {
-            datas[a].isLast = 'false'
+    fileDeleteCallback = (id,close) =>{
+        if(close){
+            this.setState({
+                selected:id
+            })
+        }else{
+            this.state.selected.removeByKey('id', id)
+            this.setState({
+            })
         }
-        datas.push({
-            fileName: n.fileName,
-            isLast: 'true',
-            id: n.id
-        })
-        this.setState({})
-    };
-
-    getFileTypeInfo = (classes, n) => {
-        if (n.fileType === 'fold') {
-            return <li className={classes.fileTileTip}><i
-                className="iconfont icon-folder"/>:{n.foldCount}&nbsp;&nbsp;<i
-                className="iconfont icon-filetexto"/>:{n.fileCount}</li>
-        } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
-            return <li className={classes.fileTileTip}>
-                <i className="iconfont icon-size"/>:{n.size}&nbsp;&nbsp;
-                <i className="iconfont icon-format_wipe"/>:{n.fileType}
-            </li>
-        } else {
-            return <li className={classes.fileTileTip}>
-                <i className="iconfont icon-size"/>:{n.size}&nbsp;&nbsp;
-                <i className="iconfont icon-format_wipe"/>:{n.fileType}
-            </li>
-        }
-    };
-
-    imgLoadComplete = (event,n) =>{
-        n['_success'+n.id] = true
-        this.setState({});
-    };
+    }
 
     getFilePreview = (classes, n) => {
         if (n.fileType === 'fold') {
             return <i className={classes.fileTileIconSizeFold + " iconfont icon-fold"}/>
         } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
-            return <span><img onLoad={event => this.imgLoadComplete(event,n)} alt={n.fileName} className={classes.tilePreview} src={n.preview}/>
-                {n['_success'+n.id]===undefined && <CircularProgress size={36} className={classes.progress} />}
+            return <span><img onLoad={event => this.imgLoadComplete(event, n)} alt={n.fileName}
+                              className={classes.tilePreview} src={n.preview}/>
+                {n['_success' + n.id] === undefined && <CircularProgress size={36} className={classes.progress}/>}
             </span>
         } else {
             return <i className={classes.fileTileIconSize + " iconfont icon-file"}/>
@@ -270,7 +297,8 @@ class Resource extends React.Component {
         const classes = this.props.classes;
 
         return (
-            <div className={classes.wrapper}>
+            <div
+                className={classes.wrapper}>
                 <IconButton className={classes.successButton} onClick={this.handleOpen}>
                     <i className={"iconfont icon-resource"}></i>
                 </IconButton>
@@ -298,13 +326,13 @@ class Resource extends React.Component {
                             {
                                 navs.map(n => {
                                     return (
-                                        <span key={n.id}>
+                                        <span key={n.uuid}>
                                             {
-                                                n.isLast === 'true'?
+                                                n.isLast === 'true' ?
                                                     <Button color="primary" onClick={event => this.navClick(event, n)}
-                                                            disabled>{n.fileName}</Button>:
+                                                            disabled>{n.fileName}</Button> :
                                                     <Button color="primary" onClick={event => this.navClick(event, n)}
-                                                            >{n.fileName}</Button>
+                                                    >{n.fileName}</Button>
                                             }
                                             {n.isLast === 'true' ? '' : <span className={classes.nav}>/</span>}
                                         </span>
@@ -312,7 +340,9 @@ class Resource extends React.Component {
                                 })
                             }
                         </div>
-                        <div>
+                        <div style={{display: 'flex'}}>
+                            <FileItem fileDeleteCallback={this.fileDeleteCallback} selected={this.state.selected}/>
+                            {this.state.selected.length>2 && <FileItemMore fileDeleteCallback={this.fileDeleteCallback} open={this.state.fileItemMore} datas={this.state.selected} />}
                             <IconButton>
                                 <i className="iconfont icon-liebiao"></i>
                             </IconButton>
@@ -330,20 +360,10 @@ class Resource extends React.Component {
                     <div className={classes.fileTileBox}>
                         {data.map(n => {
                             return (
-                                <Button key={n.id} onClick={event => {
-                                    this.tileItemClick(event, n)
-                                }}
-                                        className={n.fileType==='fold'?classes.fileTileItemFold:classes.fileTileItem}>
-                                    <div className={classes.fileTileIcon}>
-                                        {this.getFilePreview(classes, n)}
-                                    </div>
-                                    <div className={classes.fileTileInfo}>
-                                        <li className={classes.fileTileName}><a title={n.fileName}>{n.fileName}</a></li>
-                                        {this.getFileTypeInfo(classes, n)}
-                                    </div>
-                                </Button>
+                                <File imgPreview={this.imgPreview} key={n.id} n={n} tileItemClick={this.tileItemClick} />
                             );
                         })}
+                        <Preview alt={this.state.previewAlt} previewSrc={this.state.previewSrc} preview={this.state.preview} imgPreviewRequestClose={this.imgPreviewRequestClose} />
                     </div>
                 </Dialog>
             </div>
@@ -353,6 +373,8 @@ class Resource extends React.Component {
 
 Resource.propTypes = {
     classes: PropTypes.object.isRequired,
+    resourceButton: PropTypes.bool.isRequired,
+    resourceClose: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Resource);

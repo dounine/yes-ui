@@ -13,7 +13,7 @@ import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Input from 'material-ui/Input';
-import {ResetIcon, InitIcon, ClearIcon} from './icons/Icons';
+import {ResetIcon, InitIcon, ClearIcon} from '../icons/Icons';
 
 let counterNew = 0;
 let counterOld = 0;

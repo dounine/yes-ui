@@ -1,0 +1,54 @@
+{
+  "list": [
+    {
+      "fileName": "公共资源",
+      "fileType": "fold",
+      "id": "1",
+      "foldCount": 10,
+      "fileCount": 200
+    },
+    {
+      "fileName": "我的资源",
+      "fileType": "fold",
+      "id": "2",
+      "foldCount": 10,
+      "fileCount": 30
+    },
+    {
+      "fileName": "黄焕来",
+      "fileType": "fold",
+      "id": "3",
+      "foldCount": 10,
+      "fileCount": 30
+    }
+  ],
+  "files1":[
+    {
+      "fileName": "test.xls",
+      "fileType": "file",
+      "id": "1-1",
+      "foldCount": 0,
+      "fileCount": 0
+    },{
+      "fileName": "txt.java",
+      "fileType": "file",
+      "id": "1-2",
+      "foldCount": 0,
+      "fileCount": 0
+    },{
+      "fileName": "F6597323753842531587.jpg",
+      "fileType": "jpg",
+      "preview":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505536695442&di=91b6ef30c1612288edd77b7698f63ffa&imgtype=0&src=http%3A%2F%2Fimg0.ph.126.net%2FIVHuo3sFWHuNDGFHfYkCfw%3D%3D%2F6597323753842531587.jpg",
+      "id": "1-3",
+      "foldCount": 0,
+      "fileCount": 0
+    },{
+      "fileName": "pritty.jpg",
+      "fileType": "jpg",
+      "preview":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505541463263&di=716c3c84b6c4943c911ae5ffb667985e&imgtype=0&src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F160813%2F3-160Q3104041.jpg",
+      "id": "1-4",
+      "foldCount": 0,
+      "fileCount": 0
+    }
+  ]
+}

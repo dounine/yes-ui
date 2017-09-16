@@ -17,7 +17,7 @@ import Input, {InputLabel} from 'material-ui/Input';
 import Upload from './request-options-body-file-upload';
 import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
-import {ResetIcon,InitIcon,ClearIcon} from './icons/Icons';
+import {ResetIcon,InitIcon,ClearIcon} from '../icons/Icons';
 
 let counter = 0;
 

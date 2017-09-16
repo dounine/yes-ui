@@ -8,7 +8,7 @@ import RequestMethod from './request-method';
 import RequestUrl from './request-url';
 import RequestOptions from './request-options';
 import RequestQuery from './request-options-request';
-import Response from './response';
+import Response from '../response';
 
 function TabContainer(props) {
     return <div style={{padding: 20}}>{props.children}</div>;

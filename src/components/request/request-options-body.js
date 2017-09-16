@@ -2,13 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import keycode from 'keycode';
-import Table, {
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    TableSortLabel,
-} from 'material-ui/Table';
+import Table, {TableBody, TableCell, TableHead, TableRow, TableSortLabel,} from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
@@ -17,18 +11,18 @@ import Input, {InputLabel} from 'material-ui/Input';
 import Upload from './request-options-body-file-upload';
 import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
-import {ResetIcon,InitIcon,ClearIcon} from './icons/Icons';
+import {ClearIcon, InitIcon, ResetIcon} from '../icons/Icons';
 
 let counter = 0;
 
-function createData(name, value, des,_type,_type_value) {
+function createData(name, value, des, _type, _type_value) {
     counter += 1;
     var _name = name
     var _value = value
     var _des = des
     _type = _type || 1
     _type_value = _type_value || 'text'
-    return {id: counter, name, value, des, _name,_type,_type_value, _value, _des};
+    return {id: counter, name, value, des, _name, _type, _type_value, _value, _des};
 }
 
 const columnData = [
@@ -60,7 +54,7 @@ class EnhancedTableHead extends React.Component {
         this.props.onClearAll();
     }
 
-    onInitAll = () =>{
+    onInitAll = () => {
         this.props.onInitAll();
     }
 
@@ -71,7 +65,7 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const {classes,onRestAll,onInitAll, onClearAll, onSelectAllClick, order, orderBy, numSelected, dataSize} = this.props;
+        const {classes, onRestAll, onInitAll, onClearAll, onSelectAllClick, order, orderBy, numSelected, dataSize} = this.props;
 
         return (
             <TableHead>
@@ -89,7 +83,7 @@ class EnhancedTableHead extends React.Component {
                             <TableCell
                                 key={column.id}
                                 numeric={column.numeric}
-                                style={{paddingLeft:0}}
+                                style={{paddingLeft: 0}}
                                 disablePadding={column.disablePadding}
                             >
                                 <TableSortLabel
@@ -124,8 +118,8 @@ const styles = theme => ({
         marginTop: 0,
         overflowX: 'auto',
     },
-    checkbox:{
-        color:theme.headerOptions.grey.checkbox
+    checkbox: {
+        color: theme.headerOptions.grey.checkbox
     },
     text: {
         width: '100%',
@@ -154,9 +148,9 @@ class EnhancedTable extends React.Component {
         order: 'asc',
         orderBy: 'calories',
         selected: [],
-        resourceButton:false,
+        resourceButton: true,//
         data: [
-            createData('FrozenYoghurt', 'value', 'des',3),
+            createData('FrozenYoghurt', 'value', 'des', 3),
             createData('Username', 'value', 'des'),
             createData('Eclair', 'value', 'des'),
             createData('Cupcake', 'value', 'des'),
@@ -198,7 +192,7 @@ class EnhancedTable extends React.Component {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
-            if (d.id === id && d['_'+name] !== event.target.value) {
+            if (d.id === id && d['_' + name] !== event.target.value) {
                 d[name] = event.target.value
                 if (d['_' + name] !== d[name]) {
                     d[name + 'Dirty'] = 'yes'
@@ -247,9 +241,9 @@ class EnhancedTable extends React.Component {
                     d.nameDirty = null
                     d.valueDirty = null
                     d.desDirty = null
-                    this.getInputEl('Name',id).value = d['_name']
-                    this.getInputEl('Value',id).value = d['_value']
-                    this.getInputEl('Des',id).value = d['_des']
+                    this.getInputEl('Name', id).value = d['_name']
+                    this.getInputEl('Value', id).value = d['_value']
+                    this.getInputEl('Des', id).value = d['_des']
                     d.name = d['_name']
                     d.value = d['_value']
                     d.des = d['_des']
@@ -269,15 +263,15 @@ class EnhancedTable extends React.Component {
             for (var index1 = 0, len1 = datas.length; index1 < len1; index1++) {
                 let d = datas[index1]
                 if (d && d.id === id) {
-                    if(d['_name']!==d.name){
+                    if (d['_name'] !== d.name) {
                         d.nameDirty = null
                         d['_name'] = d.name
                     }
-                    if(d['_value']!==d.value){
+                    if (d['_value'] !== d.value) {
                         d.valueDirty = null
-                        d['_value']=d.value
+                        d['_value'] = d.value
                     }
-                    if(d['_des'] !== d.des){
+                    if (d['_des'] !== d.des) {
                         d.desDirty = null
                         d['_des'] = d.des
                     }
@@ -288,19 +282,19 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
-    onInitAll = () =>{
+    onInitAll = () => {
         var datas = this.state.data
         for (var index2 = 0, len2 = datas.length; index2 < len2; index2++) {
             var d = datas[index2]
-            if(d['_name']!==d.name){
+            if (d['_name'] !== d.name) {
                 d.nameDirty = null
                 d['_name'] = d.name
             }
-            if(d['_value']!==d.value){
+            if (d['_value'] !== d.value) {
                 d.valueDirty = null
-                d['_value']=d.value
+                d['_value'] = d.value
             }
-            if(d['_des'] !== d.des){
+            if (d['_des'] !== d.des) {
                 d.desDirty = null
                 d['_des'] = d.des
             }
@@ -318,7 +312,7 @@ class EnhancedTable extends React.Component {
         })
         var $self = this
         setTimeout(function () {
-            $self.getInputEl('Name',obj.id).focus()
+            $self.getInputEl('Name', obj.id).focus()
         })
     };
 
@@ -330,9 +324,9 @@ class EnhancedTable extends React.Component {
                 d.nameDirty = null
                 d.valueDirty = null
                 d.desDirty = null
-                this.getInputEl('Name',d.id).value = d['_name']
-                this.getInputEl('Value',d.id).value = d['_value']
-                this.getInputEl('Des',d.id).value = d['_des']
+                this.getInputEl('Name', d.id).value = d['_name']
+                this.getInputEl('Value', d.id).value = d['_value']
+                this.getInputEl('Des', d.id).value = d['_des']
                 d.name = d['_name']
                 d.value = d['_value']
                 d.des = d['_des']
@@ -363,35 +357,35 @@ class EnhancedTable extends React.Component {
     };
 
 
-    getInputEl = (name,id) =>{
-        return this[this.inputElName + name+id]
+    getInputEl = (name, id) => {
+        return this[this.inputElName + name + id]
     }
 
-    typeHandleChange = (name,n) => event => {
+    typeHandleChange = (name, n) => event => {
         n._type = event.target.value
-        var input = this.getInputEl('Value',n.id)
+        var input = this.getInputEl('Value', n.id)
         input.value = ''
         n.value = n._value
         n.valueDirty = null
-        if(n._type===2){
+        if (n._type === 2) {
             n._type_value = 'file'
-            input.style.height='auto'
-        }else if(n._type===1||n._type===3){
+            input.style.height = 'auto'
+        } else if (n._type === 1 || n._type === 3) {
             n._type_value = 'string'
-            input.style.height='1em'
+            input.style.height = '1em'
         }
         this.setState({});
     };
 
-    resourceClick = () =>{
+    resourceClick = () => {
         this.setState({
-            resourceButton:true
+            resourceButton: true
         })
     };
 
-    resourceCallbackClose = () =>{
+    resourceCallbackClose = () => {
         this.setState({
-            resourceButton:false
+            resourceButton: false
         })
     }
 
@@ -402,108 +396,112 @@ class EnhancedTable extends React.Component {
         const {data, order, orderBy, selected} = this.state;
 
         return (
-            <Paper className={classes.paper}>
-                <Table>
-                    <EnhancedTableHead
-                        numSelected={selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        onClearAll={this.onClearAll}
-                        onInitAll={this.onInitAll}
-                        onRestAll={this.onResetAll}
-                        dataSize={this.dataSize}
-                        onSelectAllClick={this.handleSelectAllClick}
-                        onRequestSort={this.handleRequestSort}
-                        classes={classes}
-                    />
-                    <TableBody>
-                        {data.map(n => {
-                            const isSelected = this.isSelected(n.id);
-                            return (
-                                <TableRow
-                                    hover
-                                    role="checkbox"
-                                    aria-checked={!isSelected}
-                                    tabIndex="-1"
-                                    key={n.id}
-                                    selected={!isSelected}
-                                >
-                                    <TableCell checkbox>
-                                        <Checkbox
+            <div>
+                <Paper className={classes.paper}>
+                    <Table>
+                        <EnhancedTableHead
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onClearAll={this.onClearAll}
+                            onInitAll={this.onInitAll}
+                            onRestAll={this.onResetAll}
+                            dataSize={this.dataSize}
+                            onSelectAllClick={this.handleSelectAllClick}
+                            onRequestSort={this.handleRequestSort}
+                            classes={classes}
+                        />
+                        <TableBody>
+                            {data.map(n => {
+                                const isSelected = this.isSelected(n.id);
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        aria-checked={!isSelected}
+                                        tabIndex="-1"
+                                        key={n.id}
+                                        selected={!isSelected}
+                                    >
+                                        <TableCell checkbox>
+                                            <Checkbox
                                                 className={classes.checkbox}
-                                                    onKeyDown={event => this.handleKeyDown(event, n.id)}
-                                                  onClick={event => this.handleClick(event, n.id)}
-                                                  checked={isSelected}/>
-                                    </TableCell>
-                                    <TableCell style={{paddingLeft:0}}>
-                                        <Input
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'name')}
-                                            inputRef={input => this[this.inputElName+'Name'+n.id] = input}
-                                            defaultValue={n.name}
-                                            className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
-                                        />
-                                    </TableCell>
-                                    <TableCell style={{padding:'4px 0 0 0'}}>
-                                        <InputLabel htmlFor={"age-simple"+n.id}></InputLabel>
-                                        <Select
-                                            value={n._type}
-                                            onChange={this.typeHandleChange('type',n)}
-                                            input={<Input id={"age-simple"+n.id}/>}
-                                        >
-                                            <MenuItem value={1}>内容</MenuItem>
-                                            <MenuItem value={2}>文件</MenuItem>
-                                            <MenuItem value={3}>资源</MenuItem>
-                                        </Select>
-                                    </TableCell>
-                                    <TableCell style={{paddingLeft:0,paddingRight:0}}>
-                                        <Input
-                                            type={n._type_value}
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'value')}
-                                            inputRef={input => this[this.inputElName+'Value'+n.id] = input}
-                                            defaultValue={n.value}
-                                            className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
-                                        />
-                                    </TableCell>
-                                    <TableCell style={{padding:'0px'}}>
-                                        {n._type===2?<Upload />:(n._type===1?'':<IconButton onClick={this.resourceClick}><i className={"iconfont icon-resource"}></i></IconButton>)}
-                                    </TableCell>
-                                    <TableCell style={{paddingLeft:0}}>
-                                        <Input
-                                            disabled
-                                            onChange={event => this.addRow(event, n.id)}
-                                            onBlur={event => this.cellBlur(event, n.id, 'des')}
-                                            inputRef={input => this[this.inputElName+'Des'+n.id] = input}
-                                            defaultValue={n.des}
-                                            className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
-                                        />
-                                    </TableCell>
-                                    <TableCell style={{paddingLeft:0}}>
-                                        <div>
-                                            <IconButton
-                                                style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
-                                                onClick={event => this.dataOperator(event, n.id, 'init')}>
-                                                <InitIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
-                                                onClick={event => this.dataOperator(event, n.id, 'reset')}>
-                                                <ResetIcon />
-                                            </IconButton>
-                                            <IconButton onClick={event => this.dataOperator(event, n.id, 'clear')}>
-                                                <ClearIcon />
-                                            </IconButton>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                    <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>
-                </Table>
+                                                onKeyDown={event => this.handleKeyDown(event, n.id)}
+                                                onClick={event => this.handleClick(event, n.id)}
+                                                checked={isSelected}/>
+                                        </TableCell>
+                                        <TableCell style={{paddingLeft: 0}}>
+                                            <Input
+                                                onChange={event => this.addRow(event, n.id)}
+                                                onBlur={event => this.cellBlur(event, n.id, 'name')}
+                                                inputRef={input => this[this.inputElName + 'Name' + n.id] = input}
+                                                defaultValue={n.name}
+                                                className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
+                                            />
+                                        </TableCell>
+                                        <TableCell style={{padding: '4px 0 0 0'}}>
+                                            <InputLabel htmlFor={"age-simple" + n.id}></InputLabel>
+                                            <Select
+                                                value={n._type}
+                                                onChange={this.typeHandleChange('type', n)}
+                                                input={<Input id={"age-simple" + n.id}/>}
+                                            >
+                                                <MenuItem value={1}>内容</MenuItem>
+                                                <MenuItem value={2}>文件</MenuItem>
+                                                <MenuItem value={3}>资源</MenuItem>
+                                            </Select>
+                                        </TableCell>
+                                        <TableCell style={{paddingLeft: 0, paddingRight: 0}}>
+                                            <Input
+                                                type={n._type_value}
+                                                onChange={event => this.addRow(event, n.id)}
+                                                onBlur={event => this.cellBlur(event, n.id, 'value')}
+                                                inputRef={input => this[this.inputElName + 'Value' + n.id] = input}
+                                                defaultValue={n.value}
+                                                className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
+                                            />
+                                        </TableCell>
+                                        <TableCell style={{padding: '0px'}}>
+                                            {n._type === 2 ? <Upload/> : (n._type === 1 ? '' :
+                                                <IconButton onClick={this.resourceClick}><i
+                                                    className={"iconfont icon-resource"}></i></IconButton>)}
+                                        </TableCell>
+                                        <TableCell style={{paddingLeft: 0}}>
+                                            <Input
+                                                disabled
+                                                onChange={event => this.addRow(event, n.id)}
+                                                onBlur={event => this.cellBlur(event, n.id, 'des')}
+                                                inputRef={input => this[this.inputElName + 'Des' + n.id] = input}
+                                                defaultValue={n.des}
+                                                className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
+                                            />
+                                        </TableCell>
+                                        <TableCell style={{paddingLeft: 0}}>
+                                            <div>
+                                                <IconButton
+                                                    style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
+                                                    onClick={event => this.dataOperator(event, n.id, 'init')}>
+                                                    <InitIcon/>
+                                                </IconButton>
+                                                <IconButton
+                                                    style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
+                                                    onClick={event => this.dataOperator(event, n.id, 'reset')}>
+                                                    <ResetIcon/>
+                                                </IconButton>
+                                                <IconButton onClick={event => this.dataOperator(event, n.id, 'clear')}>
+                                                    <ClearIcon/>
+                                                </IconButton>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
 
-            </Paper>
+                    </Table>
+                </Paper>
+                <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>
+            </div>
         );
     }
 }

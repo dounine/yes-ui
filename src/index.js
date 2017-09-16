@@ -9,23 +9,13 @@ import Module from './pages/module';
 // import Header from './components/header';
 import {Switch, Redirect, Router, Route} from 'react-router-dom';
 import createHashHistory from 'history/createHashHistory';
-Array.prototype.removeByValue = function(val,fun) {
-    for(let i=0,len=this.length; i<len; i++) {
-        if(this[i] === val) {
-            this.splice(i, 1);
-            if(fun){
-                return fun(this[i])
-            }
-            break;
-        }
-    }
-}
+import './tools/Array';
 
 const history = createHashHistory()
 
 let router = <Router history={history}>
     <div>
-        <Route path="/module/:name" component={Module}/>
+        <Route component={Module}/>
         {/*<Route component={Header}/>*/}
         {/*<Route path="/list/:group/:size/:page" component={IndexList}/>*/}
         {/*<Switch>*/}

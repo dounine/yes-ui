@@ -13,7 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/Menu';
 import Search from '../components/search';
 import ModuleLeftTabs from '../components/module-slide';
-import Request from '../components/request';
+import Request from '../components/request/request';
 import SearchIcon from '../components/icons/SearchIcon';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import { mailFolderListItems, otherMailFolderListItems } from './tileData';
