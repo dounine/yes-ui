@@ -53,10 +53,6 @@ class Chips extends React.Component {
         this.props.fileDeleteCallback(id)
     }
 
-    handleClick = (event) => {
-
-    }
-
     getChip = (classes, n) => {
         if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
             return <Chip

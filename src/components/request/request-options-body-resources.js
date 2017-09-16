@@ -119,11 +119,11 @@ const styles = theme => ({
 
 class Resource extends React.Component {
     state = {
-        fileItemMore:true,
+        fileItemMore: true,
         loading: false,
-        preview:false,
-        previewSrc:'',
-        previewAlt:'',
+        preview: false,
+        previewSrc: '',
+        previewAlt: '',
         success: false,
         open: this.props.resourceButton,
         navs: [
@@ -170,6 +170,7 @@ class Resource extends React.Component {
                     fileType: n.fileType,
                     preview: n.preview
                 })
+                this.state.data.updateForKeyValue('id', n.id, 'check', true)
             }
         } else {
             axios.get(config.url + `/files${n.id}`)
@@ -183,17 +184,17 @@ class Resource extends React.Component {
         this.setState({})
     };
 
-    imgPreview = (event,src,alt) =>{
+    imgPreview = (event, src, alt) => {
         this.setState({
-            preview:true,
-            previewSrc:src,
-            previewAlt:alt
+            preview: true,
+            previewSrc: src,
+            previewAlt: alt
         })
     }
 
-    imgPreviewRequestClose = () =>{
+    imgPreviewRequestClose = () => {
         this.setState({
-            preview:false,
+            preview: false,
         })
     }
 
@@ -265,15 +266,15 @@ class Resource extends React.Component {
         })
     };
 
-    fileDeleteCallback = (id,close) =>{
-        if(close){
+    fileDeleteCallback = (id, close) => {
+        if (close) {
             this.setState({
-                selected:id
+                selected: id
             })
-        }else{
+        } else {
             this.state.selected.removeByKey('id', id)
-            this.setState({
-            })
+            this.state.data.updateForKeyValue('id', id, 'check', undefined)
+            this.setState({})
         }
     }
 
@@ -342,7 +343,9 @@ class Resource extends React.Component {
                         </div>
                         <div style={{display: 'flex'}}>
                             <FileItem fileDeleteCallback={this.fileDeleteCallback} selected={this.state.selected}/>
-                            {this.state.selected.length>2 && <FileItemMore fileDeleteCallback={this.fileDeleteCallback} open={this.state.fileItemMore} datas={this.state.selected} />}
+                            {this.state.selected.length > 2 &&
+                            <FileItemMore fileDeleteCallback={this.fileDeleteCallback} open={this.state.fileItemMore}
+                                          datas={this.state.selected}/>}
                             <IconButton>
                                 <i className="iconfont icon-liebiao"></i>
                             </IconButton>
@@ -360,10 +363,11 @@ class Resource extends React.Component {
                     <div className={classes.fileTileBox}>
                         {data.map(n => {
                             return (
-                                <File imgPreview={this.imgPreview} key={n.id} n={n} tileItemClick={this.tileItemClick} />
+                                <File imgPreview={this.imgPreview} key={n.id} n={n} tileItemClick={this.tileItemClick}/>
                             );
                         })}
-                        <Preview alt={this.state.previewAlt} previewSrc={this.state.previewSrc} preview={this.state.preview} imgPreviewRequestClose={this.imgPreviewRequestClose} />
+                        <Preview alt={this.state.previewAlt} previewSrc={this.state.previewSrc}
+                                 preview={this.state.preview} imgPreviewRequestClose={this.imgPreviewRequestClose}/>
                     </div>
                 </Dialog>
             </div>

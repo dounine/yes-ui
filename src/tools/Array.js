@@ -27,3 +27,13 @@ Array.prototype.containKeyValue = function(key,value) {
     }
     return isFind
 }
+Array.prototype.updateForKeyValue = function(key,value,key1,newValue) {
+    let isFind = 0
+    for(let i=0,len=this.length; i<len; i++) {
+        if(this[i][key] === value) {
+            this[i][key1] = newValue
+            isFind++
+        }
+    }
+    return isFind
+}

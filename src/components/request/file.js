@@ -1,6 +1,5 @@
 import React from 'react';
 import {withStyles} from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import {blue} from 'material-ui/colors';
 import {CircularProgress} from 'material-ui/Progress';
 
@@ -28,12 +27,12 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     fileTileIconSize: {
-        marginLeft:10,
+        marginLeft: 10,
         fontSize: 38,
         color: '#666666'
     },
     fileTileIconSizeFold: {
-        marginLeft:10,
+        marginLeft: 10,
         fontSize: 38,
         color: '#666666'
     },
@@ -43,11 +42,11 @@ const styles = theme => ({
     },
     fileTileName: {
         maxWidth: 126,
-        height:24,
-        lineHeight:'24px',
+        height: 24,
+        lineHeight: '24px',
         textAlign: 'left',
         listStyleType: 'none',
-        marginTop:14,
+        marginTop: 14,
         alignItems: 'center',
         overflow: 'hidden',
         'text-overflow': 'ellipsis',
@@ -67,23 +66,23 @@ const styles = theme => ({
     }
 });
 
-class File extends React.Component{
+class File extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.onClick = this.props.tileItemClick.bind(this)
         this.onMouseEnter = this.onMouseEnter.bind(this)
         this.onMouseLeave = this.onMouseLeave.bind(this)
     }
 
-    onMouseEnter = (event,type) =>{
-        event.currentTarget.style.background='#cccccc'
-        event.currentTarget.style.border='1px '+(type==='fold'?'solid':'dashed')+' #777777'
+    onMouseEnter = (event, type) => {
+        event.currentTarget.style.backgroundColor = '#cccccc'
+        event.currentTarget.style.border = '1px ' + (type === 'fold' ? 'solid' : 'dashed') + ' #777777'
     }
 
-    onMouseLeave = (event,type) =>{
-        event.currentTarget.style.background='white'
-        event.currentTarget.style.border='1px '+(type==='fold'?'solid':'dashed')+' #cccccc'
+    onMouseLeave = (event, type) => {
+        event.currentTarget.style.backgroundColor = 'white'
+        event.currentTarget.style.border = '1px ' + (type === 'fold' ? 'solid' : 'dashed') + ' #cccccc'
     }
 
     imgLoadComplete = (event, n) => {
@@ -113,7 +112,8 @@ class File extends React.Component{
         if (n.fileType === 'fold') {
             return <i className={classes.fileTileIconSizeFold + " iconfont icon-fold"}/>
         } else if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
-            return <span><img onClick={event => this.props.imgPreview(event,n.preview,n.fileName)} onLoad={event => this.imgLoadComplete(event, n)} title={n.fileName} alt={n.fileName}
+            return <span><img onClick={event => this.props.imgPreview(event, n.preview, n.fileName)}
+                              onLoad={event => this.imgLoadComplete(event, n)} title={n.fileName} alt={n.fileName}
                               className={classes.tilePreview} src={n.preview}/>
                 {n['_success' + n.id] === undefined && <CircularProgress size={36} className={classes.progress}/>}
             </span>
@@ -122,20 +122,26 @@ class File extends React.Component{
         }
     };
 
-    render(){
-        const {classes,n} = this.props;
+    render() {
+        const {classes, n} = this.props;
         return (
             <div key={n.id}
-                    onMouseEnter = {event => this.onMouseEnter(event,n.fileType)}
-                    onMouseLeave = {event => this.onMouseLeave(event,n.fileType)}
-                    className={n.fileType === 'fold' ? classes.fileTileItemFold : classes.fileTileItem}>
+                 onMouseEnter={event => this.onMouseEnter(event, n.fileType)}
+                 onMouseLeave={event => this.onMouseLeave(event, n.fileType)}
+                 className={n.fileType === 'fold' ? classes.fileTileItemFold : classes.fileTileItem}>
                 <div className={classes.fileTileIcon}>
                     {this.getFilePreview(classes, n)}
                 </div>
                 <div className={classes.fileTileInfo}>
-                    <li className={classes.fileTileName} onClick={event => {
-                        this.props.tileItemClick(event, n)
-                    }}><a title={n.fileName}>{n.fileName}</a></li>
+                    {
+                        n.check===true?
+                            <li style={{'color': 'blue'}} className={classes.fileTileName} onClick={event => {
+                                this.props.tileItemClick(event, n)
+                            }}><a title={n.fileName}>{n.fileName}</a></li> :
+                            <li className={classes.fileTileName} onClick={event => {
+                                this.props.tileItemClick(event, n)
+                            }}><a title={n.fileName}>{n.fileName}</a></li>
+                    }
                     {this.getFileTypeInfo(classes, n)}
                 </div>
             </div>
