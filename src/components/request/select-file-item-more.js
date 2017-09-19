@@ -21,6 +21,9 @@ const styles = theme => ({
         justifyContent: 'center',
         flexWrap: 'wrap',
     },
+    imgPreview:{
+        cursor:'pointer'
+    }
 });
 
 class AlertDialog extends React.Component {
@@ -39,21 +42,21 @@ class AlertDialog extends React.Component {
         this.setState({})
     }
 
+    imgHandleClick = (event,n) =>{
+        this.props.imgPreview(event, n.preview, n.fileName)
+    }
+
     clearAll = () =>{
         this.setState({
             datas:[]
         })
     }
 
-    handleClick = (event) => {
-
-    }
-
     getChip = (classes, n) => {
         if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
             return <Chip
                 key={n.uuid}
-                avatar={<Avatar src={n.preview}/>}
+                avatar={<Avatar className={classes.imgPreview} onClick={event => this.imgHandleClick(event,n)} src={n.preview}/>}
                 label={n.fileName}
                 onRequestDelete={event => this.handleRequestDelete(event, n.id)}
                 className={classes.chip}
@@ -67,7 +70,6 @@ class AlertDialog extends React.Component {
                     </Avatar>
                 }
                 label={n.fileName}
-                onClick={this.handleClick}
                 onRequestDelete={event => this.handleRequestDelete(event, n.id)}
                 className={classes.chip}
             />

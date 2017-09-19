@@ -23,9 +23,12 @@ const styles = {
     progress: {
         color: green[500],
         position: 'absolute',
-        top: 6,
-        left: 5,
+        top: 2,
+        left: 1,
     },
+    iconSize:{
+        fontSize:24
+    }
 };
 
 class CircularFab extends React.Component {
@@ -71,9 +74,9 @@ class CircularFab extends React.Component {
         return (
             <div className={classes.wrapper}>
                 <IconButton className={buttonClass} onClick={this.handleButtonClick}>
-                    {success ? <i style={{color:'white'}} className={"iconfont icon-success"}></i> : <i className={"iconfont icon-upload"}></i>}
+                    {success ? <i style={{color:'white'}} className={classes.iconSize+" iconfont icon-success"}></i> : <i className={classes.iconSize+" iconfont icon-upload"}></i>}
                 </IconButton>
-                {loading && <CircularProgress size={36} className={classes.progress} />}
+                {loading && <CircularProgress size={46} className={classes.progress} />}
             </div>
         );
     }

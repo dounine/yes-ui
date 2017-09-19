@@ -63,6 +63,9 @@ const styles = theme => ({
         height: 38,
         boxShadow: '4px 4px 3px #888888',
         cursor: 'pointer'
+    },
+    noneSelect:{
+        userSelect: 'none'
     }
 });
 
@@ -137,10 +140,10 @@ class File extends React.Component {
                         n.check===true?
                             <li style={{'color': 'blue'}} className={classes.fileTileName} onClick={event => {
                                 this.props.tileItemClick(event, n)
-                            }}><a title={n.fileName}>{n.fileName}</a></li> :
+                            }}><a className={classes.noneSelect} title={n.fileName}>{n.fileName}</a></li> :
                             <li className={classes.fileTileName} onClick={event => {
                                 this.props.tileItemClick(event, n)
-                            }}><a title={n.fileName}>{n.fileName}</a></li>
+                            }}><a className={classes.noneSelect} title={n.fileName}>{n.fileName}</a></li>
                     }
                     {this.getFileTypeInfo(classes, n)}
                 </div>

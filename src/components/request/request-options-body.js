@@ -7,11 +7,13 @@ import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import {MenuItem} from 'material-ui/Menu';
+import Badge from 'material-ui/Badge';
 import Input, {InputLabel} from 'material-ui/Input';
 import Upload from './request-options-body-file-upload';
 import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
-import {ClearIcon, InitIcon, ResetIcon} from '../icons/Icons';
+import {ClearIcon, InitIcon, ResetIcon,ResourceIcon} from '../icons/Icons';
+import CloseIcon from "../icons/CloseIcon";
 
 let counter = 0;
 
@@ -138,6 +140,13 @@ const styles = theme => ({
         width: '100%',
         fontSize: 16,
         backgroundColor: '#bff2ff'
+    },
+    badge: {
+        margin: `0 ${theme.spacing.unit * 2}px`,
+        cursor:'pointer',
+    },
+    iconSize:{
+        fontSize:24
     }
 });
 
@@ -148,7 +157,7 @@ class EnhancedTable extends React.Component {
         order: 'asc',
         orderBy: 'calories',
         selected: [],
-        resourceButton: true,//
+        resourceButton: false,//
         data: [
             createData('FrozenYoghurt', 'value', 'des', 3),
             createData('Username', 'value', 'des'),
@@ -377,16 +386,27 @@ class EnhancedTable extends React.Component {
         this.setState({});
     };
 
-    resourceClick = () => {
+    resourceClick = (id) => {
         this.setState({
-            resourceButton: true
+            resourceButton: true,
+            resourceId:id
         })
     };
 
-    resourceCallbackClose = () => {
+    resourceCallbackClose = (selected,confirm) => {
         this.setState({
             resourceButton: false
         })
+        if(confirm){//确定/!取消
+            let value = []
+            selected.forEach(function (s) {
+                value.push(s.fileName)
+            })
+            this.state.data.updateForKeyValue('id',this.state.resourceId,'value',value.join(','))
+            this.getInputEl('Value',this.state.resourceId).value = value.join(',')
+            let event = {target:{value:value.join(',')}}
+            this.cellBlur(event,this.state.resourceId,'value')
+        }
     }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -463,8 +483,8 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                         <TableCell style={{padding: '0px'}}>
                                             {n._type === 2 ? <Upload/> : (n._type === 1 ? '' :
-                                                <IconButton onClick={this.resourceClick}><i
-                                                    className={"iconfont icon-resource"}></i></IconButton>)}
+                                                <Badge onClick={() => this.resourceClick(n.id)} className={classes.badge} badgeContent={4}><i
+                                                    className={classes.iconSize+" iconfont icon-resource"}></i></Badge>)}
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
@@ -500,7 +520,7 @@ class EnhancedTable extends React.Component {
 
                     </Table>
                 </Paper>
-                <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>
+                {this.state.resourceButton && <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>}
             </div>
         );
     }

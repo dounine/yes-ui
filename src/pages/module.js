@@ -1,7 +1,7 @@
 import React from 'react';
 import withRoot from '../components/withRoot';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -15,8 +15,12 @@ import Search from '../components/search';
 import ModuleLeftTabs from '../components/module-slide';
 import Request from '../components/request/request';
 import SearchIcon from '../components/icons/SearchIcon';
+import ErrorTip from '../components/error-tip';
+import config from '../config.json';
+import axios from 'axios';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+
 
 const drawerWidth = 340;
 
@@ -102,22 +106,42 @@ const styles = theme => ({
 
 class PersistentDrawer extends React.Component {
     state = {
-        open: true,
+        open: false,
+        errorTip: false,
+        errorMsg:''
     };
 
+    componentWillMount = () => {
+        var $self = this
+        axios.defaults.baseURL = config.url;
+        axios.interceptors.response.use(function (response) {
+            $self.setState({
+                errorTip: false
+            })
+            return response;
+        }, function (error) {
+            $self.setState({
+                errorTip: true,
+                errorMsg: error.toString()
+            })
+            return Promise.reject(error);
+        });
+    }
+
     handleDrawerOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
             <div className={classes.root}>
+                <ErrorTip errorMsg={this.state.errorMsg} errorTip={this.state.errorTip}/>
                 <div className={classes.appFrame}>
                     <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
                         <Toolbar disableGutters={!this.state.open}>
@@ -127,7 +151,7 @@ class PersistentDrawer extends React.Component {
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton, this.state.open && classes.hide)}
                             >
-                                <MenuIcon />
+                                <MenuIcon/>
                                 <i className="iconfont icon-slidedot"/>
                             </IconButton>
                             <Typography type="title" color="inherit" noWrap>
@@ -144,24 +168,24 @@ class PersistentDrawer extends React.Component {
                     >
                         <div className={classes.drawerInner}>
                             <div className={classes.drawerHeader}>
-                                <Search />
+                                <Search/>
                                 <IconButton>
-                                    <SearchIcon />
+                                    <SearchIcon/>
                                 </IconButton>
                                 <IconButton onClick={this.handleDrawerClose}>
                                     <i className="iconfont icon-left"/>
                                 </IconButton>
                             </div>
-                            <Divider />
-                            <ModuleLeftTabs />
+                            <Divider/>
+                            <ModuleLeftTabs/>
 
                             <List className={classes.list}>11111</List>
-                            <Divider />
+                            <Divider/>
                             <List className={classes.list}>22222</List>
                         </div>
                     </Drawer>
                     <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
-                        <Request />
+                        <Request/>
                     </main>
                 </div>
             </div>

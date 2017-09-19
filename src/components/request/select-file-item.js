@@ -18,6 +18,9 @@ const styles = theme => ({
         justifyContent: 'center',
         flexWrap: 'wrap',
     },
+    imgPreview:{
+        cursor:'pointer'
+    }
 });
 const selectFilesMoreCount = 2
 
@@ -53,11 +56,15 @@ class Chips extends React.Component {
         this.props.fileDeleteCallback(id)
     }
 
+    imgHandleClick = (event,n) =>{
+        this.props.imgPreview(event, n.preview, n.fileName)
+    }
+
     getChip = (classes, n) => {
         if (n.fileType === 'png' || n.fileType === 'gif' || n.fileType === 'jpg') {
             return <Chip
                 key={n.uuid}
-                avatar={<Avatar src={n.preview}/>}
+                avatar={<Avatar className={classes.imgPreview} onClick={event => this.imgHandleClick(event,n)} src={n.preview}/>}
                 label={n.fileName}
                 onRequestDelete={event => this.handleRequestDelete(event, n.id)}
                 className={classes.chip}
@@ -71,7 +78,6 @@ class Chips extends React.Component {
                     </Avatar>
                 }
                 label={n.fileName}
-                onClick={this.handleClick}
                 onRequestDelete={event => this.handleRequestDelete(event, n.id)}
                 className={classes.chip}
             />

@@ -13,6 +13,7 @@ import './tools/Array';
 
 const history = createHashHistory()
 
+
 let router = <Router history={history}>
     <div>
         <Route component={Module}/>

@@ -140,7 +140,7 @@ class Resource extends React.Component {
     };
 
     componentWillMount() {
-        axios.get(config.url + '/list')
+        axios.get('/list')
             .then((response) => {
                 this.setState({
                     data: response.data
@@ -163,6 +163,7 @@ class Resource extends React.Component {
         }
         if (n.fileType !== 'fold') {
             if (!this.state.selected.containKeyValue('id', n.id)) {
+                n.check = true
                 this.state.selected.push({
                     fileName: n.fileName,
                     uuid: uuid4(),
@@ -170,15 +171,19 @@ class Resource extends React.Component {
                     fileType: n.fileType,
                     preview: n.preview
                 })
-                this.state.data.updateForKeyValue('id', n.id, 'check', true)
             }
         } else {
-            axios.get(config.url + `/files${n.id}`)
-                .then((response) => {
-                    this.setState({
-                        data: response.data
+            if(!n.click){
+                n.click = true //禁止双击
+                this.setState({})
+                axios.get(config.url + `/files${n.id}`)
+                    .then((response) => {
+                        this.setState({
+                            data: response.data
+                        })
                     })
-                })
+            }
+
         }
 
         this.setState({})
@@ -218,7 +223,12 @@ class Resource extends React.Component {
     };
 
     handleRequestClose = () => {
-        this.props.resourceClose()
+        this.props.resourceClose(null)
+        this.setState({open: false});
+    };
+
+    handleRequestConfirm = () => {
+        this.props.resourceClose(this.state.selected,true)
         this.setState({open: false});
     };
 
@@ -268,6 +278,9 @@ class Resource extends React.Component {
 
     fileDeleteCallback = (id, close) => {
         if (close) {
+            for(let o of this.state.data){
+                o['check'] = undefined
+            }
             this.setState({
                 selected: id
             })
@@ -300,9 +313,9 @@ class Resource extends React.Component {
         return (
             <div
                 className={classes.wrapper}>
-                <IconButton className={classes.successButton} onClick={this.handleOpen}>
-                    <i className={"iconfont icon-resource"}></i>
-                </IconButton>
+                {/*<IconButton className={classes.successButton} onClick={this.handleOpen}>*/}
+                    {/*<i className={"iconfont icon-resource"}></i>*/}
+                {/*</IconButton>*/}
                 <Dialog
                     fullScreen
                     open={this.state.open}
@@ -317,7 +330,7 @@ class Resource extends React.Component {
                             <Typography type="title" color="inherit" className={classes.flex}>
                                 资源
                             </Typography>
-                            <Button color="contrast" onClick={this.handleRequestClose}>
+                            <Button color="contrast" onClick={this.handleRequestConfirm}>
                                 确定
                             </Button>
                         </Toolbar>
@@ -342,9 +355,9 @@ class Resource extends React.Component {
                             }
                         </div>
                         <div style={{display: 'flex'}}>
-                            <FileItem fileDeleteCallback={this.fileDeleteCallback} selected={this.state.selected}/>
+                            <FileItem imgPreview={this.imgPreview} fileDeleteCallback={this.fileDeleteCallback} selected={this.state.selected}/>
                             {this.state.selected.length > 2 &&
-                            <FileItemMore fileDeleteCallback={this.fileDeleteCallback} open={this.state.fileItemMore}
+                            <FileItemMore  imgPreview={this.imgPreview} fileDeleteCallback={this.fileDeleteCallback} open={this.state.fileItemMore}
                                           datas={this.state.selected}/>}
                             <IconButton>
                                 <i className="iconfont icon-liebiao"></i>
