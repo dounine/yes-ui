@@ -24,7 +24,8 @@ function createData(name, value, des, _type, _type_value) {
     var _des = des
     _type = _type || 1
     _type_value = _type_value || 'text'
-    return {id: counter, name, value, des, _name, _type, _type_value, _value, _des};
+    var resources = []
+    return {id: counter, name, value, des, _name, _type, _type_value, _value, _des,resources};
 }
 
 const columnData = [
@@ -386,10 +387,11 @@ class EnhancedTable extends React.Component {
         this.setState({});
     };
 
-    resourceClick = (id) => {
+    resourceClick = (n) => {
         this.setState({
             resourceButton: true,
-            resourceId:id
+            resourceId:n.id,
+            resourceData:n.resources
         })
     };
 
@@ -402,10 +404,11 @@ class EnhancedTable extends React.Component {
             selected.forEach(function (s) {
                 value.push(s.fileName)
             })
-            this.state.data.updateForKeyValue('id',this.state.resourceId,'value',value.join(','))
-            this.getInputEl('Value',this.state.resourceId).value = value.join(',')
-            let event = {target:{value:value.join(',')}}
-            this.cellBlur(event,this.state.resourceId,'value')
+            // this.state.data.updateForKeyValue('id',this.state.resourceId,'value',value.join(','))
+            this.state.data.updateForKeyValue('id',this.state.resourceId,'resources',selected)
+            // this.getInputEl('Value',this.state.resourceId).value = value.join(',')
+            // let event = {target:{value:value.join(',')}}
+            // this.cellBlur(event,this.state.resourceId,'value')
         }
     }
 
@@ -483,7 +486,7 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                         <TableCell style={{padding: '0px'}}>
                                             {n._type === 2 ? <Upload/> : (n._type === 1 ? '' :
-                                                <Badge onClick={() => this.resourceClick(n.id)} className={classes.badge} badgeContent={4}><i
+                                                <Badge onClick={() => this.resourceClick(n)} className={classes.badge} badgeContent={n.resources.length || ''}><i
                                                     className={classes.iconSize+" iconfont icon-resource"}></i></Badge>)}
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
@@ -520,7 +523,7 @@ class EnhancedTable extends React.Component {
 
                     </Table>
                 </Paper>
-                {this.state.resourceButton && <Resource resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>}
+                {this.state.resourceButton && <Resource resourceData={this.state.resourceData} resourceButton={this.state.resourceButton} resourceClose={this.resourceCallbackClose}/>}
             </div>
         );
     }

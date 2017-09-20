@@ -125,6 +125,7 @@ class Resource extends React.Component {
         previewSrc: '',
         previewAlt: '',
         success: false,
+        resourceData:this.props.resourceData,
         open: this.props.resourceButton,
         navs: [
             {
@@ -140,6 +141,18 @@ class Resource extends React.Component {
     };
 
     componentWillMount() {
+        if(this.state.resourceData.length>0){
+            for(let n of this.state.resourceData){
+                this.state.selected.push({
+                    fileName: n.fileName,
+                    uuid: uuid4(),
+                    id: n.id,
+                    fileType: n.fileType,
+                    preview: n.preview
+                })
+            }
+            this.setState({})
+        }
         axios.get('/list')
             .then((response) => {
                 this.setState({
@@ -178,6 +191,14 @@ class Resource extends React.Component {
                 this.setState({})
                 axios.get(config.url + `/files${n.id}`)
                     .then((response) => {
+                        for(let o of response.data){ //将选中的文件变色
+                            for(let oc of this.state.resourceData){
+                                if(o.id===oc.id){
+                                    o.check = true
+                                    break
+                                }
+                            }
+                        }
                         this.setState({
                             data: response.data
                         })
