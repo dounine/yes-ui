@@ -1,0 +1,28 @@
+{
+	"variables": [],
+	"info": {
+		"name": "163",
+		"_postman_id": "5d1d1afe-9ba5-230b-0b6b-697dd1e60e4a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://contacts.163.com/.well-known/carddav",
+			"request": {
+				"url": "http://contacts.163.com/.well-known/carddav",
+				"method": "PROPFIND",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic aHVhbmdodWFubGFpX2FqQDE2My5jb206YWJjMTIz",
+						"description": "Base64(account:password)"
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
