@@ -25,7 +25,8 @@ function createData(name, value, des, _type, _type_value) {
     _type = _type || 1
     _type_value = _type_value || 'text'
     var resources = []
-    return {id: counter, name, value, des, _name, _type, _type_value, _value, _des,resources};
+    var uploadDisabled = true
+    return {id: counter, name, value, des, _name, _type, _type_value, _value, _des,resources,uploadDisabled};
 }
 
 const columnData = [
@@ -252,7 +253,13 @@ class EnhancedTable extends React.Component {
                     d.valueDirty = null
                     d.desDirty = null
                     this.getInputEl('Name', id).value = d['_name']
-                    this.getInputEl('Value', id).value = d['_value']
+                    let valueEl = this.getInputEl('Value', id)
+                    if(valueEl.type==='file'){
+                        valueEl.outerHTML = valueEl.outerHTML
+                    }else{
+                        valueEl.value = d['_value']
+                    }
+                    d.uploadDisabled = true
                     this.getInputEl('Des', id).value = d['_des']
                     d.name = d['_name']
                     d.value = d['_value']
@@ -345,10 +352,21 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
-    addRow = (event, id) => {
+    fileInputOnchange = (event, n) =>{
+        if(event.target.files.length>0){
+            n.uploadDisabled = false
+
+            this.setState({})
+        }
+    }
+
+    inputOnchagne = (event, n) => {
+        if(event.target.type==='file'){
+            this.fileInputOnchange(event,n)
+        }
         var datas = this.state.data
         var lastIndex = datas.length - 1
-        if (id === datas[lastIndex].id) {
+        if (n.id === datas[lastIndex].id) {
             if (event.target.value.trim().length !== 0) {
                 var obj = createData('', '', '')
                 datas.push(obj)
@@ -455,7 +473,7 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
-                                                onChange={event => this.addRow(event, n.id)}
+                                                onChange={event => this.inputOnchagne(event, n)}
                                                 onBlur={event => this.cellBlur(event, n.id, 'name')}
                                                 inputRef={input => this[this.inputElName + 'Name' + n.id] = input}
                                                 defaultValue={n.name}
@@ -477,7 +495,7 @@ class EnhancedTable extends React.Component {
                                         <TableCell style={{paddingLeft: 0, paddingRight: 0}}>
                                             <Input
                                                 type={n._type_value}
-                                                onChange={event => this.addRow(event, n.id)}
+                                                onChange={event => this.inputOnchagne(event, n)}
                                                 onBlur={event => this.cellBlur(event, n.id, 'value')}
                                                 inputRef={input => this[this.inputElName + 'Value' + n.id] = input}
                                                 defaultValue={n.value}
@@ -485,14 +503,14 @@ class EnhancedTable extends React.Component {
                                             />
                                         </TableCell>
                                         <TableCell style={{padding: '0px'}}>
-                                            {n._type === 2 ? <Upload/> : (n._type === 1 ? '' :
+                                            {n._type === 2 ? <Upload uploadDisabled={n.uploadDisabled} fileEl={this[this.inputElName + 'Value' + n.id]}/> : (n._type === 1 ? '' :
                                                 <Badge onClick={() => this.resourceClick(n)} className={classes.badge} badgeContent={n.resources.length || ''}><i
                                                     className={classes.iconSize+" iconfont icon-resource"}></i></Badge>)}
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
                                                 disabled
-                                                onChange={event => this.addRow(event, n.id)}
+                                                onChange={event => this.inputOnchagne(event, n)}
                                                 onBlur={event => this.cellBlur(event, n.id, 'des')}
                                                 inputRef={input => this[this.inputElName + 'Des' + n.id] = input}
                                                 defaultValue={n.des}

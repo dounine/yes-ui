@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { CircularProgress } from 'material-ui/Progress';
+import {withStyles} from 'material-ui/styles';
+import {CircularProgress} from 'material-ui/Progress';
 import green from 'material-ui/colors/green';
+import axios from 'axios';
 import IconButton from 'material-ui/IconButton';
 
 const styles = {
@@ -10,11 +11,11 @@ const styles = {
         position: 'relative',
     },
     successButton: {
-        width:30,
-        height:30,
-        top:2,
-        left:9,
-        marginRight:18,
+        width: 30,
+        height: 30,
+        top: 2,
+        left: 9,
+        marginRight: 18,
         backgroundColor: green[500],
         '&:hover': {
             backgroundColor: green[700],
@@ -26,8 +27,8 @@ const styles = {
         top: 2,
         left: 1,
     },
-    iconSize:{
-        fontSize:24
+    iconSize: {
+        fontSize: 24
     }
 };
 
@@ -35,7 +36,10 @@ class CircularFab extends React.Component {
     state = {
         loading: false,
         success: false,
+        uploadError: false,
+        uploadDisabled:this.props.uploadDisabled
     };
+    fileEl = this.props.fileEl
 
     componentWillUnmount() {
         clearTimeout(this.timer);
@@ -43,27 +47,62 @@ class CircularFab extends React.Component {
 
     handleButtonClick = () => {
         if (!this.state.loading) {
-            this.setState(
-                {
+            var fd = new FormData();
+            var files = this.props.fileEl.files;
+            for (var i = 0; i < files.length; i++) {
+                var f = files[i];
+                fd.append('files', f);
+            }
+            this.setState({
+                success: false,
+                loading: true,
+                uploadError: false,
+                progress:0
+            });
+            var $self = this
+            axios.post('http://localhost:8081/result/file',fd ,{
+                headers: {'Content-Type': fd.type},
+                onUploadProgress:function (progressEvent) {
+                    let value = parseInt((progressEvent.loaded / progressEvent.total) * 100)
+                    $self.setState({
+                        progress: value
+                    })
+                }
+            }).then(function (response) {
+                if(response.data.code===0){
+                    $self.setState({
+                        loading: false,
+                        success: true,
+                        uploadError: false
+                    });
+                }else{
+                    $self.setState({
+                        loading: false,
+                        success: false,
+                        uploadError: true
+                    });
+                }
+
+            }).catch(function (error) {
+                $self.setState({
+                    loading: false,
                     success: false,
-                    loading: true,
-                },
-                () => {
-                    this.timer = setTimeout(() => {
-                        this.setState({
-                            loading: false,
-                            success: true,
-                        });
-                    }, 4e3);
-                },
-            );
+                    uploadError: true
+                });
+            })
         }
     };
 
-    timer = undefined;
+    componentWillReceiveProps = (props) =>{
+        if(!props.uploadDisabled){
+            this.setState({
+                uploadDisabled:false
+            })
+        }
+    }
 
     render() {
-        const { loading, success } = this.state;
+        const {loading, success} = this.state;
         const classes = this.props.classes;
         let buttonClass = '';
 
@@ -73,10 +112,13 @@ class CircularFab extends React.Component {
 
         return (
             <div className={classes.wrapper}>
-                <IconButton className={buttonClass} onClick={this.handleButtonClick}>
-                    {success ? <i style={{color:'white'}} className={classes.iconSize+" iconfont icon-success"}></i> : <i className={classes.iconSize+" iconfont icon-upload"}></i>}
+                <IconButton disabled={this.state.uploadDisabled} className={buttonClass} onClick={this.handleButtonClick}>
+                    {success ?
+                        <i style={{color: 'white'}} className={classes.iconSize + " iconfont icon-success"}></i> :
+                        (this.state.uploadError ? <i className={classes.iconSize + " iconfont icon-error"}></i> :
+                            <i className={classes.iconSize + " iconfont icon-upload"}></i>)}
                 </IconButton>
-                {loading && <CircularProgress size={46} className={classes.progress} />}
+                {loading && <CircularProgress min={0} max={100} value={this.state.progress} size={46} className={classes.progress}/>}
             </div>
         );
     }

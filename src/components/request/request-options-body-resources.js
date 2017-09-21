@@ -163,17 +163,7 @@ class Resource extends React.Component {
 
     tileItemClick = (event, n) => {
         var navs = this.state.navs
-        if (n.fileType === 'fold' && !navs.containKeyValue('id', n.id)) {
-            for (var a in navs) {
-                navs[a].isLast = 'false'
-            }
-            navs.push({
-                fileName: n.fileName,
-                isLast: 'true',
-                id: n.id,
-                uuid: uuid4()
-            })
-        }
+
         if (n.fileType !== 'fold') {
             if (!this.state.selected.containKeyValue('id', n.id)) {
                 n.check = true
@@ -189,10 +179,22 @@ class Resource extends React.Component {
             if(!n.click){
                 n.click = true //禁止双击
                 this.setState({})
-                axios.get(config.url + `/files${n.id}`)
+                axios.get(`/files${n.id}`)
                     .then((response) => {
+                        if (n.fileType === 'fold' && !navs.containKeyValue('id', n.id)) {
+                            for (var a in navs) {
+                                navs[a].isLast = 'false'
+                            }
+                            navs.push({
+                                fileName: n.fileName,
+                                isLast: 'true',
+                                id: n.id,
+                                uuid: uuid4()
+                            })
+                        }
+
                         for(let o of response.data){ //将选中的文件变色
-                            for(let oc of this.state.resourceData){
+                            for(let oc of this.state.selected){
                                 if(o.id===oc.id){
                                     o.check = true
                                     break
