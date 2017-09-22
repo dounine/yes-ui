@@ -21,7 +21,9 @@ const styles = theme => ({
 class Requests extends React.Component {
     state = {
         value: 0,
-        datas:[]
+        selectRequestId:'',
+        datas:[],
+        localStorageState : null
     };
 
     componentWillMount = () =>{
@@ -31,27 +33,57 @@ class Requests extends React.Component {
                 name:'用户注册'+i,
                 value:i,
                 uuid:uuid4(),
-                id:'12341234'+i
+                requestId:'12341234'+i
             })
         }
         this.setState({
-            datas:da
+            datas:da,
+            selectRequestId:da[0].requestId,
         })
     }
 
     handleChange = (event, value) => {
-        this.setState({value});
+        this.setState({
+            value:value,
+            requestType:'click',
+            localStorageState:localStorage[this.state.datas[value].requestId]
+        });
+    };
+
+    closeSingle = (event,returnState) =>{
+        let requestId = returnState.requestId
+        if(this.state.datas.length>1){
+            this.state.datas.removeByKey('requestId',requestId);
+            this.setState({
+                selectRequestId:this.state.datas[0].requestId,//取最新一个作为第一个元素
+                requestType:'close'
+            })
+        }
+    };
+
+    /**
+     *
+     * @param type [close,click]
+     * @param state
+     */
+    stateReturn = (type,state) =>{
+        if(type==='click'){
+            localStorage[state.requestId] = state
+        }
+    };
+
+    closeAll = () =>{
+
     };
 
     render() {
         const {classes} = this.props;
-        const {value} = this.state;
 
         return (
             <div className={classes.root}>
                 <AppBar position="static" color="inherit">
                     <Tabs
-                        value={value}
+                        value={this.state.value}
                         onChange={this.handleChange}
                         indicatorColor="primary"
                         textColor="primary"
@@ -65,13 +97,7 @@ class Requests extends React.Component {
                         }
                     </Tabs>
                 </AppBar>
-                {
-                    this.state.datas.map(n =>{
-                        if(value===n.value){
-                            return <Request key={n.uuid} requestId={n.id} />
-                        }
-                    })
-                }
+                <Request stateReturn={this.stateReturn} localStorageState={this.state.localStorageState} requestType={this.state.requestType} closeSingle={this.closeSingle} closeAll={this.closeAll} requestId={this.state.selectRequestId} />
             </div>
         );
     }

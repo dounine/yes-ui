@@ -25,7 +25,9 @@ class ComposedTextField extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
-
+        if(this.returnInputEl.value !== nextProps.value){
+            this.returnInputEl.value = nextProps.value
+        }
     }
 
     render() {

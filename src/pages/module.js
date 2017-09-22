@@ -189,7 +189,7 @@ class PersistentDrawer extends React.Component {
                         </div>
                     </Drawer>
                     <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
-                        <Requests/>
+                        <Requests />
                     </main>
                 </div>
             </div>

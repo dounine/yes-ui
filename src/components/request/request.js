@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
+import PropTypes from 'prop-types';
+import CloseAllBtn from '../icons/CloseAllBtn';
+import CloseAll from '../icons/CloseAll';
 import Button from 'material-ui/Button';
-import Tabs, {Tab} from 'material-ui/Tabs';
+import IconButton from 'material-ui/IconButton';
 import RequestMethod from './request-method';
 import RequestUrl from './request-url';
 import RequestOptions from './request-options';
@@ -19,8 +20,16 @@ TabContainer.propTypes = {
 };
 
 const styles = theme => ({
-    requestName: {
+    requestNameBox: {
+        display:'flex',
         height: 40,
+        lineHeight:'40px'
+    },
+    requestName: {
+        flex:1
+    },
+    requestClose: {
+        marginTop:-6
     },
     request: {
         display: 'flex'
@@ -44,14 +53,20 @@ const styles = theme => ({
 class Request extends React.Component {
     defaultHost = "http://yes-ui"
     params = []
-    state = {
-        urlErrorTipMsg: undefined,
-        value: 0,
-        requestId:this.props.requestId,
-        urlValue: '/user/login?username=lake&password=1234&a=b',
-        requestQuery: false,
-        params: []
-    };
+
+    initState = function () {
+        return {
+            urlErrorTipMsg: undefined,
+            value: 0,
+            requestId:this.props.requestId,
+            urlValue: '/user/login?username=lake&password=1234&a=b',
+            requestQuery: false,
+            params: []
+        }
+    }
+
+    state = this.initState();
+
 
     requestQueryClick = () => {
         this.setState({
@@ -125,14 +140,48 @@ class Request extends React.Component {
         }
     };
 
+    componentWillReceiveProps = (props) => {
+        if(props.requestType==='click'){
+            if(props.localStorageState===undefined){
+                this.setState(this.initState())
+            }else{
+                console.log(props.localStorageState)
+            }
+            // this.setState(props.localStorageState)
+        }else{
+
+        }
+
+
+        this.props.stateReturn(props.requestType,this.filterFun(this.state))
+    }
+
+    filterFun = (data) =>{
+        let obj = {}
+        for(let name in data){
+            if(typeof data[name]!=='fun'){
+                obj[name] = data[name]
+            }
+        }
+        return obj
+    }
+
     render() {
         const {classes} = this.props;
         const {value} = this.state;
 
         return (
             <TabContainer>
-                <div className={classes.requestName}>
-                    <span>用户登录操作{this.state.requestId}</span>
+                <div className={classes.requestNameBox}>
+                    <span className={classes.requestName}>用户登录操作{this.state.requestId}</span>
+                    <span className={classes.requestClose}>
+                        <IconButton onClick={event => this.props.closeSingle(event,this.state)}>
+                            <CloseAllBtn fontSize="28px" />
+                        </IconButton>
+                        <IconButton onClick={this.props.closeAll}>
+                            <CloseAll fontSize="28px" />
+                        </IconButton>
+                    </span>
                 </div>
                 <div className={classes.request}>
                     <div className={classes.requestMethod}>
