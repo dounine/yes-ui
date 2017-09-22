@@ -49,7 +49,7 @@ class Requests extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="flex" color="inherit">
+                <AppBar position="static" color="inherit">
                     <Tabs
                         value={value}
                         onChange={this.handleChange}

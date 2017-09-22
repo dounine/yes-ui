@@ -104,12 +104,22 @@ class TextFields extends React.Component {
         anchorEl: undefined,
         open: false,
     };
-
     handleChangeMultiline = event => {
         this.setState({
             multiline: event.target.value,
         });
     };
+
+    componentDidMount = () =>{
+        var editor_json = window.CodeMirror(document.getElementById('responseBodyDiv'), {
+            lineNumbers: true,
+            value:JSON.stringify(this.state.value, undefined, 2),
+            mode: "application/json",
+            readOnly:true,
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+        });
+    }
 
     componentWillMount = () => {
         this.setState({
@@ -121,43 +131,6 @@ class TextFields extends React.Component {
             }
         });
     }
-
-    syntaxHighlightLines = cc => {
-        var json = this.state.value
-        if (typeof json !== 'string') {
-            json = JSON.stringify(json, undefined, 2);
-        }
-        var objs = []
-        for (var i = 1, len = json.split('\n').length; i <= len; i++) {
-            objs.push('<span>' + i + '</span>');
-        }
-        return {__html: objs.join('\n')}
-    }
-
-    syntaxHighlight = cc => {
-        var json = this.state.value
-        if (typeof json !== 'string') {
-            json = JSON.stringify(json, undefined, 2);
-        }
-        json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
-
-        var body = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
-            var cls = cc.number;
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = cc.key;
-                } else {
-                    cls = cc.string;
-                }
-            } else if (/true|false/.test(match)) {
-                cls = cc.boolean;
-            } else if (/null/.test(match)) {
-                cls = cc.null;
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
-        return {__html: body}
-    };
 
     typeHandleClick = event => {
         this.setState({methodType: event.currentTarget.value});
@@ -209,8 +182,7 @@ class TextFields extends React.Component {
                     </div>
                 </div>
                 <div className={classes.body}>
-                    <pre className={classes.showLines} dangerouslySetInnerHTML={this.syntaxHighlightLines(classes)}/>
-                    <pre className={classes.pre} dangerouslySetInnerHTML={this.syntaxHighlight(classes)}/>
+                    <div id="responseBodyDiv"></div>
                 </div>
             </div>
         );
