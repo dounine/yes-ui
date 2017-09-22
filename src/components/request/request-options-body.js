@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-import keycode from 'keycode';
+import keycode from 'keycode';//用于event转换事件[enter,backspace,space]
 import Table, {TableBody, TableCell, TableHead, TableRow, TableSortLabel,} from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
@@ -12,11 +12,9 @@ import Input, {InputLabel} from 'material-ui/Input';
 import Upload from './request-options-body-file-upload';
 import Resource from './request-options-body-resources';
 import Select from 'material-ui/Select';
-import {ClearIcon, InitIcon, ResetIcon,ResourceIcon} from '../icons/Icons';
-import CloseIcon from "../icons/CloseIcon";
+import {ClearIcon, InitIcon, ResetIcon} from '../icons/Icons';
 
 let counter = 0;
-
 function createData(name, value, des, _type, _type_value) {
     counter += 1;
     var _name = name
@@ -49,18 +47,6 @@ class EnhancedTableHead extends React.Component {
         orderBy: PropTypes.string.isRequired,
         dataSize: PropTypes.func.isRequired,
     };
-
-    createRestAll = () => {
-        this.props.onRestAll();
-    };
-
-    createClearAll = () => {
-        this.props.onClearAll();
-    }
-
-    onInitAll = () => {
-        this.props.onInitAll();
-    }
 
     createSortHandler = property => event => {
         if (property !== 'operation') {
@@ -157,7 +143,7 @@ class EnhancedTable extends React.Component {
     state = {
         type: 1,
         order: 'asc',
-        orderBy: 'calories',
+        orderBy: 'name',
         selected: [],
         resourceButton: false,//
         data: [
@@ -172,6 +158,11 @@ class EnhancedTable extends React.Component {
 
     inputElName = 'bodyInputRefs';
 
+    /**
+     * 列排序
+     * @param event 事件对象
+     * @param property 列字段名称
+     */
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -187,6 +178,9 @@ class EnhancedTable extends React.Component {
         this.setState({data, order, orderBy});
     };
 
+    /**
+     * 选中所有行
+     */
     handleSelectAllClick = (event, checked) => {
         if (checked) {
             this.setState({selected: this.state.data.map(n => n.id)});
@@ -195,11 +189,20 @@ class EnhancedTable extends React.Component {
         this.setState({selected: []});
     };
 
-    componentWillMount = () => {
+    /**
+     * 组件初始化完毕，默认选择全部
+     */
+    componentDidMount = () => {
         this.handleSelectAllClick(null, true)
     }
 
-    cellBlur = (event, id, name) => {
+    /**
+     * Input 输入框焦点失去事件
+     * @param event 事件对象
+     * @param id 行id
+     * @param name [name,value,des]
+     */
+    inputOnBlur = (event, id, name) => {
         var datas = this.state.data
         for (var i = 0, len = datas.length; i < len; i++) {
             var d = datas[i]
@@ -216,13 +219,23 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
+    /**
+     * 行多选框键盘事件
+     * @param event 事件对象
+     * @param id 行id
+     */
     handleKeyDown = (event, id) => {
         if (keycode(event) === 'space') {
-            this.handleClick(event, id);
+            this.checkboxHandleClick(event, id);
         }
     };
 
-    handleClick = (event, id) => {
+    /**
+     * 行多选框选中事件
+     * @param event 事件对象
+     * @param id 行id
+     */
+    checkboxHandleClick = (event, id) => {
         const {selected} = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
@@ -243,10 +256,17 @@ class EnhancedTable extends React.Component {
         this.setState({selected: newSelected});
     };
 
-    dataOperator = (event, id, type) => {
+    /**
+     * 行数据操作
+     * @param event 事件对象
+     * @param n 对象数据
+     * @param type 操作类型[reset,clear,init]
+     */
+    rowOperatorHandler = (event, n, type) => {
         let datas = this.state.data
+        let id = n.id
         if (type === 'reset') {
-            for (var i = 0, le = datas.length; i < le; i++) {
+            for (let i = 0, le = datas.length; i < le; i++) {
                 let d = datas[i]
                 if (d && d.id === id) {
                     d.nameDirty = null
@@ -268,17 +288,17 @@ class EnhancedTable extends React.Component {
                 }
             }
         } else if (type === 'clear') {
-            for (var index = 0, len = datas.length; index < len; index++) {
-                let d = datas[index]
+            for (let i = 0, len = datas.length; i < len; i++) {
+                let d = datas[i]
                 if (d && d.id === id) {
-                    datas.splice(index, 1)
+                    datas.splice(i, 1)
                     this.state.selected.removeByValue(d.id)
                     break
                 }
             }
         } else if (type === 'init') {
-            for (var index1 = 0, len1 = datas.length; index1 < len1; index1++) {
-                let d = datas[index1]
+            for (let i = 0, len1 = datas.length; i < len1; i++) {
+                let d = datas[i]
                 if (d && d.id === id) {
                     if (d['_name'] !== d.name) {
                         d.nameDirty = null
@@ -299,10 +319,13 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
+    /**
+     * 初始化全部数据
+     */
     onInitAll = () => {
-        var datas = this.state.data
-        for (var index2 = 0, len2 = datas.length; index2 < len2; index2++) {
-            var d = datas[index2]
+        let datas = this.state.data
+        for (let i = 0, len = datas.length; i < len; i++) {
+            var d = datas[i]
             if (d['_name'] !== d.name) {
                 d.nameDirty = null
                 d['_name'] = d.name
@@ -319,24 +342,30 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
+    /**
+     * 清除全部数据
+     */
     onClearAll = () => {
-        var obj = createData('', '', '')
+        let obj = createData('', '', '')
         this.setState({
             data: [
                 obj
             ],
             selected: [obj.id]
         })
-        var $self = this
+        let $self = this
         setTimeout(function () {
             $self.getInputEl('Name', obj.id).focus()
         })
     };
 
+    /**
+     * 重置全部数据
+     */
     onResetAll = () => {
-        var datas = this.state.data
-        for (var i = 0, len = datas.length; i < len; i++) {
-            var d = datas[i]
+        let datas = this.state.data
+        for (let i = 0, len = datas.length; i < len; i++) {
+            let d = datas[i]
             if (d) {
                 d.nameDirty = null
                 d.valueDirty = null
@@ -352,6 +381,11 @@ class EnhancedTable extends React.Component {
         this.setState({})
     };
 
+    /**
+     * inputOnchagne 过滤出来的Input类型为file修改事件
+     * @param event 修改事件
+     * @param n 数据对象
+     */
     fileInputOnchange = (event, n) =>{
         if(event.target.files.length>0){
             n.uploadDisabled = false
@@ -360,17 +394,22 @@ class EnhancedTable extends React.Component {
         }
     }
 
+    /**
+     * Input 侦听值的修改
+     * @param event 事件对象
+     * @param n 数据对象
+     */
     inputOnchagne = (event, n) => {
         if(event.target.type==='file'){
             this.fileInputOnchange(event,n)
         }
-        var datas = this.state.data
-        var lastIndex = datas.length - 1
+        let datas = this.state.data
+        let lastIndex = datas.length - 1
         if (n.id === datas[lastIndex].id) {
             if (event.target.value.trim().length !== 0) {
-                var obj = createData('', '', '')
+                let obj = createData('', '', '')
                 datas.push(obj)
-                this.handleClick(null, obj.id)
+                this.checkboxHandleClick(null, obj.id)
             }
         }
         this.setState({})
@@ -380,15 +419,22 @@ class EnhancedTable extends React.Component {
         return this.state.data.length
     }
 
-    typeHandleClick = event => {
-        this.setState({open: true, anchorEl: event.currentTarget});
-    };
 
-
+    /**
+     * 获取material-ui对象Input原生对象
+     * @param name [Name,Value,Des]
+     * @param id 行id
+     * @returns {js原生dom对象}
+     */
     getInputEl = (name, id) => {
         return this[this.inputElName + name + id]
     }
 
+    /**
+     * 修改下拉框数据类型[内容，文件，资源]
+     * @param name 区分name与value与des
+     * @param n 遍历对象数据
+     */
     typeHandleChange = (name, n) => event => {
         n._type = event.target.value
         var input = this.getInputEl('Value', n.id)
@@ -405,7 +451,11 @@ class EnhancedTable extends React.Component {
         this.setState({});
     };
 
-    resourceClick = (n) => {
+    /**
+     * 资源按钮点击，弹出资源列表选择
+     * @param n 遍历数据对象
+     */
+    resourceButtonClick = (n) => {
         this.setState({
             resourceButton: true,
             resourceId:n.id,
@@ -413,6 +463,11 @@ class EnhancedTable extends React.Component {
         })
     };
 
+    /**
+     * 资源列表选择容器关闭回调
+     * @param selected 已选择的数据
+     * @param confirm 两种返回状态[关闭|确认]
+     */
     resourceCallbackClose = (selected,confirm) => {
         this.setState({
             resourceButton: false
@@ -426,10 +481,14 @@ class EnhancedTable extends React.Component {
             this.state.data.updateForKeyValue('id',this.state.resourceId,'resources',selected)
             // this.getInputEl('Value',this.state.resourceId).value = value.join(',')
             // let event = {target:{value:value.join(',')}}
-            // this.cellBlur(event,this.state.resourceId,'value')
+            // this.inputOnBlur(event,this.state.resourceId,'value')
         }
     }
 
+    /**
+     * 判断行数据是否选择中,用于表单可选提交
+     * @param id 行ID
+     */
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
@@ -468,13 +527,13 @@ class EnhancedTable extends React.Component {
                                             <Checkbox
                                                 className={classes.checkbox}
                                                 onKeyDown={event => this.handleKeyDown(event, n.id)}
-                                                onClick={event => this.handleClick(event, n.id)}
+                                                onClick={event => this.checkboxHandleClick(event, n.id)}
                                                 checked={isSelected}/>
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
                                                 onChange={event => this.inputOnchagne(event, n)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'name')}
+                                                onBlur={event => this.inputOnBlur(event, n.id, 'name')}
                                                 inputRef={input => this[this.inputElName + 'Name' + n.id] = input}
                                                 defaultValue={n.name}
                                                 className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -496,7 +555,7 @@ class EnhancedTable extends React.Component {
                                             <Input
                                                 type={n._type_value}
                                                 onChange={event => this.inputOnchagne(event, n)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'value')}
+                                                onBlur={event => this.inputOnBlur(event, n.id, 'value')}
                                                 inputRef={input => this[this.inputElName + 'Value' + n.id] = input}
                                                 defaultValue={n.value}
                                                 className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -504,14 +563,14 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                         <TableCell style={{padding: '0px'}}>
                                             {n._type === 2 ? <Upload uploadDisabled={n.uploadDisabled} fileEl={this[this.inputElName + 'Value' + n.id]}/> : (n._type === 1 ? '' :
-                                                <Badge onClick={() => this.resourceClick(n)} className={classes.badge} badgeContent={n.resources.length || ''}><i
+                                                <Badge onClick={() => this.resourceButtonClick(n)} className={classes.badge} badgeContent={n.resources.length || ''}><i
                                                     className={classes.iconSize+" iconfont icon-resource"}></i></Badge>)}
                                         </TableCell>
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
                                                 disabled
                                                 onChange={event => this.inputOnchagne(event, n)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'des')}
+                                                onBlur={event => this.inputOnBlur(event, n.id, 'des')}
                                                 inputRef={input => this[this.inputElName + 'Des' + n.id] = input}
                                                 defaultValue={n.des}
                                                 className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -521,15 +580,15 @@ class EnhancedTable extends React.Component {
                                             <div>
                                                 <IconButton
                                                     style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
-                                                    onClick={event => this.dataOperator(event, n.id, 'init')}>
+                                                    onClick={event => this.rowOperatorHandler(event, n, 'init')}>
                                                     <InitIcon/>
                                                 </IconButton>
                                                 <IconButton
                                                     style={{visibility: ((n.nameDirty === 'yes' || n.valueDirty === 'yes' || n.desDirty === 'yes') ? 'visible' : 'hidden')}}
-                                                    onClick={event => this.dataOperator(event, n.id, 'reset')}>
+                                                    onClick={event => this.rowOperatorHandler(event, n, 'reset')}>
                                                     <ResetIcon/>
                                                 </IconButton>
-                                                <IconButton onClick={event => this.dataOperator(event, n.id, 'clear')}>
+                                                <IconButton onClick={event => this.rowOperatorHandler(event, n, 'clear')}>
                                                     <ClearIcon/>
                                                 </IconButton>
                                             </div>

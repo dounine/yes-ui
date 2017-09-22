@@ -11,7 +11,7 @@ import RequestQuery from './request-options-request';
 import Response from '../response';
 
 function TabContainer(props) {
-    return <div style={{padding: 20}}>{props.children}</div>;
+    return <div style={{padding:6,paddingTop: 20}}>{props.children}</div>;
 }
 
 TabContainer.propTypes = {
@@ -19,12 +19,6 @@ TabContainer.propTypes = {
 };
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        // backgroundColor: theme.palette.background.paper,
-    },
     requestName: {
         height: 40,
     },
@@ -47,19 +41,16 @@ const styles = theme => ({
     response: {}
 });
 
-class ScrollableTabsButtonAuto extends React.Component {
+class Request extends React.Component {
     defaultHost = "http://yes-ui"
     params = []
     state = {
         urlErrorTipMsg: undefined,
         value: 0,
+        requestId:this.props.requestId,
         urlValue: '/user/login?username=lake&password=1234&a=b',
         requestQuery: false,
         params: []
-    };
-
-    handleChange = (event, value) => {
-        this.setState({value});
     };
 
     requestQueryClick = () => {
@@ -139,75 +130,50 @@ class ScrollableTabsButtonAuto extends React.Component {
         const {value} = this.state;
 
         return (
-            <div className={classes.root}>
-                <AppBar position="static" color="inherit">
-                    <Tabs
-                        value={value}
-                        onChange={this.handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        scrollable
-                        scrollButtons="auto"
-                    >
-                        <Tab label="用户登录操作"/>
-                        <Tab label="Item Two"/>
-                        <Tab label="Item Three"/>
-                        <Tab label="Item Four"/>
-                        <Tab label="Item Five"/>
-                        <Tab label="Item Six"/>
-                        <Tab label="Item Seven"/>
-                    </Tabs>
-                </AppBar>
-                {value === 0 && <TabContainer>
-                    <div className={classes.requestName}>
-                        <span>用户登录操作</span>
+            <TabContainer>
+                <div className={classes.requestName}>
+                    <span>用户登录操作{this.state.requestId}</span>
+                </div>
+                <div className={classes.request}>
+                    <div className={classes.requestMethod}>
+                        <RequestMethod/>
                     </div>
-                    <div className={classes.request}>
-                        <div className={classes.requestMethod}>
-                            <RequestMethod/>
-                        </div>
-                        <div className={classes.requestUrl}>
-                            <RequestUrl returnInputEl={this.returnInputEl} value={this.state.urlValue}
-                                        tipMsg={this.state.urlErrorTipMsg} onChange={this.urlChange}/>
-                        </div>
-                        <div className={classes.requestOption}>
-                            <Button color={this.state.requestQuery ? "contrast" : "default"}
-                                    onClick={this.requestQueryClick} raised className={classes.button}>
-                                参数
-                            </Button>
-                            <Button raised color="primary" className={classes.button}>
-                                发送
-                            </Button>
-                        </div>
-                    </div>
-                    <div>
-                        {
-                            this.state.requestQuery ?
-                                <RequestQuery childQueryChange={this.childQueryChange} params={this.state.params}/> :
-                                <RequestQuery hidden="hidden" childQueryChange={this.childQueryChange}
-                                              params={this.state.params}/>
-                        }
+                    <div className={classes.requestUrl}>
+                        <RequestUrl returnInputEl={this.returnInputEl} value={this.state.urlValue}
+                                    tipMsg={this.state.urlErrorTipMsg} onChange={this.urlChange}/>
                     </div>
                     <div className={classes.requestOption}>
-                        <RequestOptions/>
+                        <Button color={this.state.requestQuery ? "contrast" : "default"}
+                                onClick={this.requestQueryClick} raised className={classes.button}>
+                            参数
+                        </Button>
+                        <Button raised color="primary" className={classes.button}>
+                            发送
+                        </Button>
                     </div>
-                    <div className={classes.response}>
-                        <Response/>
-                    </div>
-                </TabContainer>}
-                {value === 1 && <TabContainer>{'Item Two'}</TabContainer>}
-                {value === 2 && <TabContainer>{'Item Three'}</TabContainer>}
-                {value === 3 && <TabContainer>{'Item Four'}</TabContainer>}
-                {value === 4 && <TabContainer>{'Item Five'}</TabContainer>}
-                {value === 5 && <TabContainer>{'Item Six'}</TabContainer>}
-                {value === 6 && <TabContainer>{'Item Seven'}</TabContainer>}
-            </div>
+                </div>
+                <div>
+                    {
+                        this.state.requestQuery ?
+                            <RequestQuery childQueryChange={this.childQueryChange} params={this.state.params}/> :
+                            <RequestQuery hidden="hidden" childQueryChange={this.childQueryChange}
+                                          params={this.state.params}/>
+                    }
+                </div>
+                <div className={classes.requestOption}>
+                    <RequestOptions/>
+                </div>
+                <div className={classes.response}>
+                    <Response/>
+                </div>
+            </TabContainer>
         );
     }
 }
 
-ScrollableTabsButtonAuto.propTypes = {
+Request.propTypes = {
     classes: PropTypes.object.isRequired,
+    requestId:PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(ScrollableTabsButtonAuto);
+export default withStyles(styles)(Request);

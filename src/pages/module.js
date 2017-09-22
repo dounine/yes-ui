@@ -13,7 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/Menu';
 import Search from '../components/search';
 import ModuleLeftTabs from '../components/module-slide';
-import Request from '../components/request/request';
+import Requests from '../components/request/requests';
 import SearchIcon from '../components/icons/SearchIcon';
 import ErrorTip from '../components/error-tip';
 import config from '../config.json';
@@ -61,11 +61,14 @@ const styles = theme => ({
     hide: {
         display: 'none',
     },
-    drawerPaper: {
-        position: 'relative',
-        height: 'auto',
-        width: drawerWidth,
-    },
+    // drawerInner:{
+    //     height: 'auto',
+    //     overflowX:'hidden',
+    // },
+    // drawerPaper: {
+    //     height: 'calc(100% - 10px)',
+    //     width: drawerWidth,
+    // },
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
@@ -81,13 +84,13 @@ const styles = theme => ({
         marginLeft: -drawerWidth,
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing.unit * 3,
+        // padding: theme.spacing.unit * 3,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
         height: 'calc(100% - 56px)',
-        marginTop: 40,
+        marginTop: 60,
         [theme.breakpoints.up('sm')]: {
             content: {
                 height: 'calc(100% - 64px)',
@@ -178,14 +181,10 @@ class PersistentDrawer extends React.Component {
                             </div>
                             <Divider/>
                             <ModuleLeftTabs/>
-
-                            <List className={classes.list}>11111</List>
-                            <Divider/>
-                            <List className={classes.list}>22222</List>
                         </div>
                     </Drawer>
                     <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
-                        <Request/>
+                        <Requests/>
                     </main>
                 </div>
             </div>

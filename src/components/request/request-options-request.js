@@ -154,7 +154,7 @@ class EnhancedTable extends React.Component {
     state = {
         type: 1,
         order: 'asc',
-        orderBy: 'calories',
+        orderBy: 'name',
         selected: [],
         data: [
             createData('', '', '', true),
@@ -186,14 +186,15 @@ class EnhancedTable extends React.Component {
         this.setState({selected: []});
     };
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         this.handleSelectAllClick(null, true)
     }
 
-    cellBlur = (event, id, name) => {
-        var datas = this.state.data
-        for (var i = 0, len = datas.length; i < len; i++) {
-            var d = datas[i]
+    inputOnBlur = (event, n, name) => {
+        let datas = this.state.data
+        let id = n.id
+        for (let i = 0, len = datas.length; i < len; i++) {
+            let d = datas[i]
             if (d.id === id && d['_' + name] !== event.target.value) {
                 d[name] = event.target.value
                 if (d['_' + name] !== d[name]) {
@@ -209,7 +210,7 @@ class EnhancedTable extends React.Component {
 
     handleKeyDown = (event, id) => {
         if (keycode(event) === 'space') {
-            this.handleClick(event, id);
+            this.handleClick(event, id)
         }
     };
 
@@ -219,21 +220,18 @@ class EnhancedTable extends React.Component {
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
+            newSelected = newSelected.concat(selected, id)
         } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
+            newSelected = newSelected.concat(selected.slice(1))
         } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
+            newSelected = newSelected.concat(selected.slice(0, -1))
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
                 selected.slice(selectedIndex + 1),
             );
         }
-
-        this.setState({selected: newSelected});
-
-
+        this.setState({selected: newSelected})
     };
 
     dataOperator = (event, id, type) => {
@@ -256,7 +254,7 @@ class EnhancedTable extends React.Component {
             }
             this.props.childQueryChange(datas)
         } else if (type === 'clear') {
-            for (var index = 0, len = datas.length; index < len; index++) {
+            for (let index = 0, len = datas.length; index < len; index++) {
                 let d = datas[index]
                 if (d && d.id === id) {
                     datas.splice(index, 1)
@@ -266,8 +264,8 @@ class EnhancedTable extends React.Component {
             }
             this.props.childQueryChange(datas)
         } else if (type === 'init') {
-            for (var index1 = 0, len1 = datas.length; index1 < len1; index1++) {
-                let d = datas[index1]
+            for (let index = 0, len1 = datas.length; index < len1; index++) {
+                let d = datas[index]
                 if (d && d.id === id) {
                     if (d['_name'] !== d.name) {
                         d.nameDirty = null
@@ -289,11 +287,11 @@ class EnhancedTable extends React.Component {
     };
 
     onInitAll = () => {
-        var datas = this.state.data
-        var oldData = this.state.oldData
-        for (var index2 = 0, len2 = datas.length; index2 < len2; index2++) {
-            var d = datas[index2]
-            var old = oldData[index2]
+        let datas = this.state.data
+        let oldData = this.state.oldData
+        for (let index = 0, len = datas.length; index < len; index++) {
+            let d = datas[index]
+            let old = oldData[index]
             if (d['_name'] !== d.name) {
                 d.nameDirty = null
                 d['_name'] = d.name
@@ -318,7 +316,7 @@ class EnhancedTable extends React.Component {
     };
 
     onClearAll = () => {
-        var $self = this
+        let $self = this
         counterOld = 0//特殊原因必需清0
         let obj = createData('', '', '', true)
         $self.props.childQueryChange([])
@@ -345,7 +343,7 @@ class EnhancedTable extends React.Component {
     };
 
     onResetAll = () => {
-        var datas = this.state.oldData
+        let datas = this.state.oldData
         for (let i = 0, len = datas.length; i < len; i++) {
             let d = datas[i]
             if (d) {
@@ -378,8 +376,8 @@ class EnhancedTable extends React.Component {
     };
 
     inputOnChange = (event, type, id) => {
-        var datas = this.state.data
-        var lastIndex = datas.length - 1
+        let datas = this.state.data
+        let lastIndex = datas.length - 1
         if (id === datas[lastIndex].id) {
             if (event.target.value.trim().length !== 0) {
                 let obj = createData('', '', '', true)
@@ -425,8 +423,8 @@ class EnhancedTable extends React.Component {
 
     componentWillMount = () => {
         if (this.props.params.length > 0) {
-            var ds = []
-            var selected = []
+            let ds = []
+            let selected = []
             counterOld = 0
             for (let o of this.props.params) {
                 var obj = createData(o.name, o.value, '', true)
@@ -444,8 +442,7 @@ class EnhancedTable extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let ds = []
-        let selected = []
+        let ds = [],selected = [],$self = this
         let oldData = this.state.oldData
         if (nextProps.params) {
             counterNew = 0
@@ -460,7 +457,6 @@ class EnhancedTable extends React.Component {
                 let obj = createData('', '', '', false)
                 ds.push(obj)
                 selected.push(obj.id)
-                var $self = this
                 $self.setState({
                     data: [],
                     selected: []
@@ -517,7 +513,7 @@ class EnhancedTable extends React.Component {
     }
 
     dataIsDirty = () => {
-        var oldData = this.state.data
+        let oldData = this.state.data
         for (let o of oldData) {
             if (o.name !== o._name || o.value !== o._value || o.des !== o._des) {
                 return true
@@ -571,7 +567,7 @@ class EnhancedTable extends React.Component {
                                         <TableCell style={{paddingLeft: 0}}>
                                             <Input
                                                 onChange={event => this.inputOnChange(event, 'Name', n.id)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'name')}
+                                                onBlur={event => this.inputOnBlur(event, n, 'name')}
                                                 inputRef={input => this[this.inputElName + 'Name' + n.id] = input}
                                                 defaultValue={n.name}
                                                 className={n.nameDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -581,7 +577,7 @@ class EnhancedTable extends React.Component {
                                             <Input
                                                 type={n._type_value}
                                                 onChange={event => this.inputOnChange(event, 'Value', n.id)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'value')}
+                                                onBlur={event => this.inputOnBlur(event, n, 'value')}
                                                 inputRef={input => this[this.inputElName + 'Value' + n.id] = input}
                                                 defaultValue={n.value}
                                                 className={n.valueDirty === 'yes' ? classes.inputDirty : classes.input}
@@ -591,7 +587,7 @@ class EnhancedTable extends React.Component {
                                             <Input
                                                 disabled
                                                 onChange={event => this.inputOnChange(event, 'Des', n.id)}
-                                                onBlur={event => this.cellBlur(event, n.id, 'des')}
+                                                onBlur={event => this.inputOnBlur(event, n, 'des')}
                                                 inputRef={input => this[this.inputElName + 'Des' + n.id] = input}
                                                 defaultValue={n.des}
                                                 className={n.desDirty === 'yes' ? classes.inputDirty : classes.input}
