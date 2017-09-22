@@ -27,7 +27,7 @@ const drawerWidth = 340;
 const styles = theme => ({
     root: {
         width: '100%',
-        height: '100%',
+        // height: '100%',//selected会引起header左边标题移动
         // marginTop: theme.spacing.unit * 3,
         marginTop: 0,
         zIndex: 1,
@@ -61,23 +61,20 @@ const styles = theme => ({
     hide: {
         display: 'none',
     },
-    // drawerInner:{
-    //     height: 'auto',
-    //     overflowX:'hidden',
-    // },
-    // drawerPaper: {
-    //     height: 'calc(100% - 10px)',
-    //     width: drawerWidth,
-    // },
+    drawerInner:{
+        height: 'auto',
+        overflowX:'hidden',
+    },
+    drawerPaper: {
+        height: 'calc(100% - 10px)',
+        width: drawerWidth,
+    },
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: '0 16px',
-        height: 56,
-        [theme.breakpoints.up('sm')]: {
-            height: 64,
-        },
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
     },
     content: {
         width: '100%',
@@ -89,12 +86,12 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        height: 'calc(100% - 56px)',
+        height: 'calc(100% - 60px)',
         marginTop: 60,
         [theme.breakpoints.up('sm')]: {
             content: {
                 height: 'calc(100% - 64px)',
-                marginTop: 40,
+                marginTop: 64,
             },
         },
     },
@@ -111,8 +108,18 @@ class PersistentDrawer extends React.Component {
     state = {
         open: false,
         errorTip: false,
+        rootHeight:document.documentElement.clientHeight,
         errorMsg:''
     };
+
+    componentDidMount = () =>{
+        let $self = this
+        window.onresize = function () {//改变浏览器大小有性能影响,不要会有样式错乱影响
+            $self.setState({
+                rootHeight:document.documentElement.clientHeight
+            })
+        }
+    }
 
     componentWillMount = () => {
         var $self = this
@@ -129,7 +136,7 @@ class PersistentDrawer extends React.Component {
             })
             return Promise.reject(error);
         });
-    }
+    };
 
     handleDrawerOpen = () => {
         this.setState({open: true});
@@ -141,12 +148,11 @@ class PersistentDrawer extends React.Component {
 
     render() {
         const {classes} = this.props;
-
         return (
-            <div className={classes.root}>
+            <div className={classes.root} style={{height:this.state.rootHeight,overflowY:'auto'}}>
                 <ErrorTip errorMsg={this.state.errorMsg} errorTip={this.state.errorTip}/>
                 <div className={classes.appFrame}>
-                    <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
+                    <AppBar id={"header"} className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
                         <Toolbar disableGutters={!this.state.open}>
                             <IconButton
                                 color="contrast"
@@ -154,7 +160,6 @@ class PersistentDrawer extends React.Component {
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton, this.state.open && classes.hide)}
                             >
-                                <MenuIcon/>
                                 <i className="iconfont icon-slidedot"/>
                             </IconButton>
                             <Typography type="title" color="inherit" noWrap>

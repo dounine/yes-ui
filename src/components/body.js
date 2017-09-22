@@ -16,12 +16,6 @@ const styles = theme => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: '100%',
-        height: 500
-    },
     operator: {
         border: '1px solid #ccc',
         borderBottom: '0px solid #ccc',
@@ -29,18 +23,12 @@ const styles = theme => ({
         display: 'flex'
     },
     format: {
-        // display:'inline-flex',
-        // padding:'0 10px',
-        // border: '1px solid #ccc',
-        // borderBottom:'0px solid #ccc',
-        // background:'#f0f0f0'
         display: 'flex',
         flex: 1
     },
     formatOutline: {
         display: 'inline-flex',
         padding: '0 10px',
-        // outline: '1px solid #ccc',
     },
     format_left: {
         height: 48,
@@ -60,31 +48,6 @@ const styles = theme => ({
         fontWeight: 400,
         fontSize: 16,
     },
-    pre: {
-        padding: 5,
-        margin: 5,
-        flex: 1
-    },
-    showLines: {
-        padding: 5,
-        margin: 5,
-        background: '#cccccc'
-    },
-    string: {
-        color: 'green',
-    },
-    number: {
-        color: 'darkorange'
-    },
-    boolean: {
-        color: 'blue'
-    },
-    null: {
-        color: 'magenta'
-    },
-    key: {
-        color: 'red',
-    },
     orangeAvatar: {
         margin: 10,
         color: '#fff',
@@ -94,16 +57,19 @@ const styles = theme => ({
         display: 'flex',
     }
 });
-
+const methodTypes = [
+    "json","text","xml","html"
+]
 class TextFields extends React.Component {
     state = {
         name: 'Cat in the Hat',
-        methodType: 1,
+        methodType: 0,
         multiline: 'Controlled',
         value: 'nihao',
         anchorEl: undefined,
         open: false,
     };
+
     handleChangeMultiline = event => {
         this.setState({
             multiline: event.target.value,
@@ -133,6 +99,15 @@ class TextFields extends React.Component {
     }
 
     typeHandleClick = event => {
+        document.getElementById('responseBodyDiv').innerHTML= ''
+        window.CodeMirror(document.getElementById('responseBodyDiv'), {
+            lineNumbers: true,
+            value:JSON.stringify(this.state.value, undefined, 2),
+            mode: "application/"+methodTypes[event.currentTarget.value|0],
+            readOnly:true,
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+        });
         this.setState({methodType: event.currentTarget.value});
     };
 
@@ -165,10 +140,10 @@ class TextFields extends React.Component {
                                 onChange={this.typeHandleClick}
                                 input={<Input id="age-simple"/>}
                             >
-                                <MenuItem value={1}>JSON</MenuItem>
-                                <MenuItem value={2}>TEXT</MenuItem>
-                                <MenuItem value={3}>XML</MenuItem>
-                                <MenuItem value={4}>HTML</MenuItem>
+                                <MenuItem value={0}>&nbsp;json</MenuItem>
+                                <MenuItem value={1}>&nbsp;text</MenuItem>
+                                <MenuItem value={2}>&nbsp;xml</MenuItem>
+                                <MenuItem value={3}>&nbsp;html</MenuItem>
                             </Select>
                         </div>
                     </div>

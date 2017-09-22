@@ -26,7 +26,6 @@ const selectFilesMoreCount = 2
 
 class Chips extends React.Component {
 
-
     state = {
         selected: [],
     }
