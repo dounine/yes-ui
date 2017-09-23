@@ -22,7 +22,7 @@ import axios from 'axios';
 // import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 
-const drawerWidth = 340;
+const drawerWidth = 360;
 
 const styles = theme => ({
     root: {
@@ -106,7 +106,7 @@ const styles = theme => ({
 
 class PersistentDrawer extends React.Component {
     state = {
-        open: false,
+        open: true,
         errorTip: false,
         rootHeight:document.documentElement.clientHeight,
         errorMsg:''
@@ -149,7 +149,7 @@ class PersistentDrawer extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <div className={classes.root} style={{height:this.state.rootHeight,overflowY:'auto'}}>
+            <div id="module-height" className={classes.root} style={{height:this.state.rootHeight,overflowY:'auto'}}>
                 <ErrorTip errorMsg={this.state.errorMsg} errorTip={this.state.errorTip}/>
                 <div className={classes.appFrame}>
                     <AppBar id={"header"} className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>

@@ -10,6 +10,7 @@ import RequestUrl from './request-url';
 import RequestOptions from './request-options';
 import RequestQuery from './request-options-request';
 import Response from '../response';
+import axios from 'axios';
 
 function TabContainer(props) {
     return <div style={{padding:6,paddingTop: 20}}>{props.children}</div>;
@@ -142,14 +143,24 @@ class Request extends React.Component {
 
     componentWillReceiveProps = (props) => {
         if(props.requestType==='click'){
-            if(props.localStorageState===undefined){
+            if(!props.localStorageState){
                 this.setState(this.initState())
             }else{
-                console.log(props.localStorageState)
+                this.setState(JSON.parse(props.localStorageState))
             }
             // this.setState(props.localStorageState)
         }else{
-
+            if(!props.localStorageState){
+                // axios.get('http://localhost:3001/result/'+this.state.requestId)
+                //     .then(function (response) {
+                //         console.log(response.data)
+                //     }).catch(function (error) {
+                //     console.log(error.toString())
+                // })
+                this.setState(this.initState())
+            }else{
+                this.setState(JSON.parse(props.localStorageState))
+            }
         }
 
 

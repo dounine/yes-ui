@@ -7,6 +7,7 @@ import Divider from 'material-ui/Divider';
 
 const styles = theme => ({
     root: {
+        paddingTop:0,
         width: '100%',
         maxWidth: 360,
         // background: theme.palette.background.paper,
@@ -59,17 +60,17 @@ class NestedList extends React.Component {
                 <Divider/>
                 <ListItem className={classes.group} button>
                     <i className="iconfont icon-module"/>
-                    <ListItemText primary="用户模块"/>
+                    <ListItemText primary="用户模块" secondary="80th requests" />
                 </ListItem>
                 <Divider/>
                 <ListItem className={classes.group} button>
                     <i className="iconfont icon-module"/>
-                    <ListItemText primary="Drafts"/>
+                    <ListItemText primary="Drafts" secondary="20th requests" />
                 </ListItem>
                 <Divider/>
                 <ListItem className={classes.group} button onClick={() => this.handleClick('1')}>
                     <i className="iconfont icon-module"/>
-                    <ListItemText primary="Inbox"/>
+                    <ListItemText primary="Inbox" secondary="33th requests" />
                     {this.state.open1 ? <i className={classes.blueIcon + " iconfont icon-down"}/> : <i className={classes.blueIcon + " iconfont icon-up"}/>}
                 </ListItem>
                 <Collapse in={this.state.open1} transitionDuration="auto" unmountOnExit>
@@ -116,6 +117,7 @@ class NestedList extends React.Component {
                             <ListItemText className={classes.requestUrl}
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
+                        <Divider/>
                         <ListItem button>
                             <span>DE</span>
                             <ListItemText className={classes.requestUrl}
@@ -127,6 +129,7 @@ class NestedList extends React.Component {
                             <ListItemText className={classes.requestUrl}
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
+                        <Divider/>
                         <ListItem button>
                             <span>DE</span>
                             <ListItemText className={classes.requestUrl}
@@ -138,6 +141,7 @@ class NestedList extends React.Component {
                             <ListItemText className={classes.requestUrl}
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
+                        <Divider/>
                         <ListItem button>
                             <span>DE</span>
                             <ListItemText className={classes.requestUrl}
@@ -149,6 +153,7 @@ class NestedList extends React.Component {
                             <ListItemText className={classes.requestUrl}
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
+                        <Divider/>
                         <ListItem button>
                             <span>DE</span>
                             <ListItemText className={classes.requestUrl}
@@ -160,6 +165,7 @@ class NestedList extends React.Component {
                             <ListItemText className={classes.requestUrl}
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
+                        <Divider/>
                         <ListItem button>
                             <span>DE</span>
                             <ListItemText className={classes.requestUrl}
@@ -172,7 +178,19 @@ class NestedList extends React.Component {
                                           primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
                         </ListItem>
                     </Collapse>
+                    <Divider/>
+                    <ListItem button>
+                        <span>GE</span>
+                        <ListItemText className={classes.requestUrl}
+                                      primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                    </ListItem>
                 </Collapse>
+                <Divider/>
+                <ListItem button>
+                    <span>GE</span>
+                    <ListItemText className={classes.requestUrl}
+                                  primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
+                </ListItem>
             </List>
         );
     }

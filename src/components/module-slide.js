@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Divider from 'material-ui/Divider';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import HistoryRequest from './module-history';
+import Tabs, {Tab} from 'material-ui/Tabs';
+import ModuleRequest from './module-request';
 
 function TabContainer(props) {
-    return <div style={{ padding: 0 }}>{props.children}</div>;
+    return <div style={{padding: 0}}>{props.children}</div>;
 }
 
 TabContainer.propTypes = {
@@ -20,32 +20,32 @@ const styles = theme => ({
     root: {
         backgroundColor: theme.palette.background.paper,
     },
-    filterIcon:{
-        fontSize: 24
+    filterIcon: {
+        fontSize: 20
     },
-    filterIconGroup:{
-        marginTop:12
+    filterIconGroup: {
+        marginTop: 0
     }
 });
 
 class FullWidthTabs extends React.Component {
     state = {
-        value: 0,
+        value: 1,
     };
 
     handleChange = (event, value) => {
-        this.setState({ value });
+        this.setState({value});
     };
 
     handleChangeIndex = index => {
-        this.setState({ value: index });
+        this.setState({value: index});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
-            <div className={classes.root} style={{ width: 340 }}>
+            <div className={classes.root}>
                 <AppBar position="static" color="inherit">
                     <Tabs
                         value={this.state.value}
@@ -54,27 +54,30 @@ class FullWidthTabs extends React.Component {
                         textColor="primary"
                         fullWidth
                     >
-                        <Tab label="测试历史" />
-                        <Tab label="请求列表" />
+                        <Tab label="测试历史"/>
+                        <Tab label="请求列表"/>
                     </Tabs>
                 </AppBar>
                 <SwipeableViews index={this.state.value} onChangeIndex={this.handleChangeIndex}>
                     <TabContainer>
+                        {'Item One'}
+                    </TabContainer>
+                    <TabContainer>
                         <div className={classes.filterIconGroup}>
                             <IconButton onClick={() => this.groupClick('all')}>
-                                <i className={classes.filterIcon+" iconfont icon-all"}/>
+                                <a title="全部" ><i className={classes.filterIcon + " iconfont icon-all"}/></a>
                             </IconButton>
+
                             <IconButton onClick={() => this.groupClick('team')}>
-                                <i className={classes.filterIcon+" iconfont icon-team"}/>
+                                <a title="项目组" ><i className={classes.filterIcon + " iconfont icon-team"}/></a>
                             </IconButton>
                             <IconButton onClick={() => this.groupClick('mine')}>
-                                <i className={classes.filterIcon+" iconfont icon-mine"}/>
+                                <a title="个人" ><i className={classes.filterIcon + " iconfont icon-mine"}/></a>
                             </IconButton>
                         </div>
-                        <HistoryRequest />
-                        <Divider />
+                        <ModuleRequest/>
+                        <Divider/>
                     </TabContainer>
-                    <TabContainer>{'Item Two'}</TabContainer>
                 </SwipeableViews>
             </div>
         );

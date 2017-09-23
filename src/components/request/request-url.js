@@ -18,22 +18,21 @@ const styles = theme => ({
 class ComposedTextField extends React.Component {
     state = {
         name: 'Composed TextField',
-    };
-
-    handleChange = event => {
-        this.setState({ name: event.target.value });
+        value:this.props.value
     };
 
     componentWillReceiveProps(nextProps) {
-        if(this.returnInputEl.value !== nextProps.value){
+        if(this.state.value !== nextProps.value){
             this.returnInputEl.value = nextProps.value
+            this.setState({
+                value:nextProps.value
+            })
         }
     }
 
     render() {
         const classes = this.props.classes;
         const onChange = this.props.onChange
-        const urlValue = this.props.value
         const defaultTip = "可结合全局相对地扯使用"
         const returnInputEl = this.props.returnInputEl
         const tipMsg = this.props.tipMsg || defaultTip
@@ -45,7 +44,7 @@ class ComposedTextField extends React.Component {
                         tipMsg!==defaultTip?<Input
                             error
                             placeholder="request url"
-                            defaultValue={urlValue}
+                            defaultValue={this.state.value}
                             inputRef={el => {this.returnInputEl = el;returnInputEl(this.returnInputEl)}}
                             onChange={event=>onChange(event)}
                             inputProps={{
@@ -54,7 +53,7 @@ class ComposedTextField extends React.Component {
                         />:
                             <Input
                                 placeholder="request url"
-                                defaultValue={urlValue}
+                                defaultValue={this.state.value}
                                 inputRef={el => {this.returnInputEl = el;returnInputEl(this.returnInputEl)}}
                                 onChange={event=>onChange(event)}
                                 inputProps={{

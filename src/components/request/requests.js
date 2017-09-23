@@ -6,12 +6,12 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import Request from './request';
 import uuid4 from 'uuid/v4';
 
-
+const drawerWidth = 360;
 const styles = theme => ({
     root: {
         padding: theme.spacing.unit * 3,
         flexGrow: 1,
-        marginLeft:340,
+        marginLeft:drawerWidth,
         // width: '100%',
         // marginTop: theme.spacing.unit * 3,
         // backgroundColor: theme.palette.background.paper,
@@ -46,6 +46,7 @@ class Requests extends React.Component {
         this.setState({
             value:value,
             requestType:'click',
+            selectRequestId:this.state.datas[value].requestId,
             localStorageState:localStorage[this.state.datas[value].requestId]
         });
     };
@@ -55,6 +56,7 @@ class Requests extends React.Component {
         if(this.state.datas.length>1){
             this.state.datas.removeByKey('requestId',requestId);
             this.setState({
+                value:0,
                 selectRequestId:this.state.datas[0].requestId,//取最新一个作为第一个元素
                 requestType:'close'
             })
@@ -66,9 +68,18 @@ class Requests extends React.Component {
      * @param type [close,click]
      * @param state
      */
-    stateReturn = (type,state) =>{
+    stateReturn = (type,state) =>{//返回点击前一tab数据
         if(type==='click'){
-            localStorage[state.requestId] = state
+            localStorage[state.requestId] = JSON.stringify(state)
+        }else if(type==='close'){
+            localStorage.removeItem(state.requestId)
+            let sd = localStorage[this.state.datas[0].requestId]
+            if(sd){
+                this.setState({
+                    localStorageState:localStorage[this.state.datas[0].requestId]
+                })
+            }
+
         }
     };
 
