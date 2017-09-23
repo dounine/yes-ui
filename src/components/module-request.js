@@ -58,7 +58,7 @@ class NestedList extends React.Component {
             o.open = undefined
         }
         let $self = this
-        axios.get('http://localhost:3001/requestGroupFolds' + o.id)
+        axios.get('/requestGroupFolds' + o.id)
             .then(function (response) {
                 o.folds = response.data
                 $self.setState({})
@@ -67,7 +67,7 @@ class NestedList extends React.Component {
 
     componentWillMount = () => {
         let $self = this
-        axios.get('http://localhost:3001/requestGroups').then(function (response) {
+        axios.get('/requestGroups').then(function (response) {
             $self.setState({
                 requestGroups: response.data
             })
