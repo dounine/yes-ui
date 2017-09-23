@@ -57,34 +57,61 @@
   "requestGroups":[
     {
       "id":"1",
-      "name":"用户模块",
+      "name":"11111111111",
       "info":"30th requests",
+      "type":"groups",
       "icon":"http://img2.imgtn.bdimg.com/it/u=3468391273,3060712781&fm=11&gp=0.jpg"
     },
     {
       "id":"2",
-      "name":"通讯模块",
+      "name":"1111111111_",
       "info":"33th requests",
+      "type":"groups",
       "icon":"http://new-img1.ol-img.com/120/242/liYv5oUqtzEdc.jpg"
     }
   ],
   "requestGroupFolds1":[
     {
       "id":"1-1",
-      "name":"用户模块child",
+      "name":"22222222",
+      "type":"folds",
       "icon":"http://img2.imgtn.bdimg.com/it/u=3468391273,3060712781&fm=11&gp=0.jpg"
     },
     {
       "id":"1-2",
-      "name":"通讯模块child",
+      "name":"222222222_",
+      "type":"folds",
       "icon":"http://new-img1.ol-img.com/120/242/liYv5oUqtzEdc.jpg"
+    },
+    {
+      "id":"1-3",
+      "name":"2222222222__",
+      "methodType":"GE",
+      "type":"request",
+      "url":"/2222222222__"
     }
   ],
   "requestGroupFolds1-1":[
     {
       "id":"1-1-1",
-      "type":"GE",
+      "methodType":"GE",
+      "name":"333333333",
+      "type":"folds",
       "url":"/img2.imgtn.bdimg.com/it/u=3468391273,3060712781&fm=11&gp=0.jpg"
+    },
+    {
+      "id":"1-1-2",
+      "methodType":"PUT",
+      "type":"request",
+      "url":"/333333333_"
+    }
+  ],
+  "requestGroupFolds1-1-1":[
+    {
+      "id":"1-1-1-1",
+      "methodType":"POST",
+      "type":"request",
+      "url":"/444444444444"
     }
   ],
   "123": {

@@ -26,7 +26,7 @@ const styles = theme => ({
         fontSize: 24,
     },
     requestGroup: {
-        textIndent: 20,
+        // textIndent: 20,
         color: 'rgba(0, 0, 0, 0.54)'
     },
     requestUrl: {
@@ -36,6 +36,8 @@ const styles = theme => ({
     }
 });
 
+const levelTextIndent = 16;
+
 class NestedList extends React.Component {
     state = {
         open1: true,
@@ -43,12 +45,13 @@ class NestedList extends React.Component {
         requestGroups: []
     };
 
+
     constructor(props) {
         super(props);
 
     }
 
-    handleClick = (o,type) => {
+    handleClick = (o, type) => {
         if (!o.open) {
             o.open = true
         } else {
@@ -57,11 +60,7 @@ class NestedList extends React.Component {
         let $self = this
         axios.get('http://localhost:3001/requestGroupFolds' + o.id)
             .then(function (response) {
-                if(type==='group'){
-                    o.folds = response.data
-                }else if(type==='folds'){
-                    o.requests = response.data
-                }
+                o.folds = response.data
                 $self.setState({})
             })
     };
@@ -75,8 +74,65 @@ class NestedList extends React.Component {
         })
     }
 
-    moduleClick = () => {
+    renderGroup = (group, classes) => {
+        return <div key={group.id}>
+            <Divider/>
+            <ListItem className={classes.group} onClick={() => this.handleClick(group)} button>
+                <i className="iconfont icon-module"/>
+                <ListItemText primary={group.name} secondary={group.info}/>
+                {group.open ? <i className={classes.blueIcon + " iconfont icon-down"}/> :
+                    <i className={classes.blueIcon + " iconfont icon-up"}/>}
+            </ListItem>
+        </div>
+    }
 
+    renderFold = (fold, classes) => {
+        let level = fold.level
+        return <div key={fold.id}>
+            <Divider/>
+            <ListItem className={classes.nested} onClick={() => this.handleClick(fold)} button>
+                <i style={{textIndent: levelTextIndent * level - (level>1?level*3:0)}}
+                   className={classes.requestGroup + ' ' + classes.fontSize + " iconfont icon-Requestforquotation"}/>
+                <ListItemText primary={fold.name}/>
+                {fold.open ?
+                    <i className={classes.blueIcon + " iconfont icon-down"}/> :
+                    <i className={classes.blueIcon + " iconfont icon-up"}/>}
+            </ListItem>
+        </div>
+    }
+
+    renderFoldRecursion = (o, classes, level) => {
+        return <Collapse in={o.open} transitionDuration="auto" unmountOnExit>
+            {
+                o.folds.map(fold => {
+                    fold.level = level
+                    return <div key={fold.id}>
+                        {
+                            fold.type === 'request' ? this.renderRequest(fold, classes) : this.renderFold(fold, classes)
+                        }
+                        {
+                            fold.open && fold.type === 'folds' && fold.folds && this.renderFoldRecursion(fold, classes, fold.level + 1)
+                        }
+                    </div>
+                })
+            }
+        </Collapse>
+
+    }
+
+    renderRequest = (request, classes) => {
+        let level = request.level
+        return <div key={request.id}>
+            <Divider/>
+            <ListItem button>
+                <span style={{paddingLeft:10,textIndent: levelTextIndent * (level-1)-(level>1?level*3:0)}}>{request.methodType}</span>
+                <ListItemText className={classes.requestUrl}
+                              primary={request.url}/>
+            </ListItem>
+        </div>
+    }
+
+    moduleClick = () => {
     };
 
     render() {
@@ -86,97 +142,15 @@ class NestedList extends React.Component {
                 {
                     this.state.requestGroups.map(group => {
                         return <div key={group.id}>
-                            <Divider/>
-                            <ListItem className={classes.group} onClick={() => this.handleClick(group,'group')} button>
-                                <i className="iconfont icon-module"/>
-                                <ListItemText primary={group.name} secondary={group.info}/>
-                                {group.open ? <i className={classes.blueIcon + " iconfont icon-down"}/> :
-                                    <i className={classes.blueIcon + " iconfont icon-up"}/>}
-                            </ListItem>
-                            {group.open && group.folds &&
-                            group.folds.map(fold => {
-                                return <Collapse key={fold.id} in={true} transitionDuration="auto" unmountOnExit>
-                                    <Divider/>
-                                    <ListItem button className={classes.nested} onClick={() => this.handleClick(fold,'folds')}>
-                                        <i className={classes.requestGroup + ' ' + classes.fontSize + " iconfont icon-Requestforquotation"}/>
-                                        <ListItemText inset primary={fold.name}/>
-                                        {fold.open ? <i className={classes.blueIcon + " iconfont icon-down"}/> :
-                                            <i className={classes.blueIcon + " iconfont icon-up"}/>}
-                                    </ListItem>
-                                    {
-                                        fold.open && fold.requests &&
-                                        <Collapse in={fold.open} transitionDuration="auto" unmountOnExit>
-                                            {fold.requests.map(request => {
-                                                return <div key={request.id}>
-                                                    <Divider/>
-                                                    <ListItem button>
-                                                        <span>{request.type}</span>
-                                                        <ListItemText className={classes.requestUrl}
-                                                                      primary={request.url}/>
-                                                    </ListItem>
-                                                </div>
-                                            })
-                                            }
-                                        </Collapse>
-                                    }
-                                </Collapse>
-                            })
+                            {
+                                group.type === 'groups' && this.renderGroup(group, classes)
+                            }
+                            {
+                                group.open && group.folds && this.renderFoldRecursion(group, classes, 1)
                             }
                         </div>
                     })
                 }
-                {/*<Divider/>*/}
-                {/*<ListItem className={classes.group} button>*/}
-                {/*<i className="iconfont icon-module"/>*/}
-                {/*<ListItemText primary="用户模块" secondary="80th requests"/>*/}
-                {/*</ListItem>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem className={classes.group} button>*/}
-                {/*<i className="iconfont icon-module"/>*/}
-                {/*<ListItemText primary="Drafts" secondary="20th requests"/>*/}
-                {/*</ListItem>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem className={classes.group} button onClick={() => this.handleClick('1')}>*/}
-                {/*<i className="iconfont icon-module"/>*/}
-                {/*<ListItemText primary="Inbox" secondary="33th requests"/>*/}
-                {/*{this.state.open1 ? <i className={classes.blueIcon + " iconfont icon-down"}/> :*/}
-                {/*<i className={classes.blueIcon + " iconfont icon-up"}/>}*/}
-                {/*</ListItem>*/}
-                {/*<Collapse in={this.state.open1} transitionDuration="auto" unmountOnExit>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem button className={classes.nested} onClick={() => this.handleClick('2')}>*/}
-                {/*<i className={classes.requestGroup + ' ' + classes.fontSize + " iconfont icon-Requestforquotation"}/>*/}
-                {/*<ListItemText inset primary="请求分组"/>*/}
-                {/*{this.state.open2 ? <i className={classes.blueIcon + " iconfont icon-down"}/> :*/}
-                {/*<i className={classes.blueIcon + " iconfont icon-up"}/>}*/}
-                {/*</ListItem>*/}
-                {/*<Collapse in={this.state.open2} transitionDuration="auto" unmountOnExit>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem button>*/}
-                {/*<span>GE</span>*/}
-                {/*<ListItemText className={classes.requestUrl}*/}
-                {/*primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>*/}
-                {/*</ListItem>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem button>*/}
-                {/*<span>PO</span>*/}
-                {/*<ListItemText className={classes.requestUrl}*/}
-                {/*primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>*/}
-                {/*</ListItem>*/}
-                {/*</Collapse>*/}
-                {/*<Divider/>*/}
-                {/*<ListItem button>*/}
-                {/*<span>GE</span>*/}
-                {/*<ListItemText className={classes.requestUrl}*/}
-                {/*primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>*/}
-                {/*</ListItem>*/}
-                {/*</Collapse>*/}
-                <Divider/>
-                <ListItem button>
-                    <span>GE</span>
-                    <ListItemText className={classes.requestUrl}
-                                  primary="/user/asdfdf/asdffdkfd/asdfadsf?name=lake&uuc=asdf"/>
-                </ListItem>
             </List>
         );
     }
